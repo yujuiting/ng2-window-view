@@ -1,0 +1,30 @@
+.window-container,
+.window-background {
+  position: fixed;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.window-background {
+  background-color: rgba(0,0,0,0.6);
+  z-index: -1;
+}
+
+.panel {
+  min-width: 20%;
+  margin: 4% auto;
+}
+
+.panel.size-relative-large { max-width: 80%; }
+.panel.size-relative-middle { max-width: 60%; }
+.panel.size-relative-small { max-width: 40%; }
+.panel.size-large { max-width: 1080px; }
+.panel.size-middle { max-width: 720px; }
+.panel.size-small { max-width: 360px; }
+
+.panel-heading {
+  text-align: center;
+}
