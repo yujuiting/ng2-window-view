@@ -3,8 +3,8 @@ import { WindowViewService } from '../window-view.service';
 
 @Component({
   selector: 'window-view-container',
-  templateUrl: 'window-container.component.html',
-  styleUrls: ['window-container.component.css']
+  templateUrl: 'window-view-container/window-view-container.component.html',
+  styleUrls: ['window-view-container/window-view-container.component.css']
 })
 export class WindowViewContainerComponent {
 

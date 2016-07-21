@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/999a097f98b4d6806a36e185ea36fffefb35b56c/prismjs/prism.d.ts",
+    "raw": "registry:dt/prism#1.4.4+20160321233308",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/999a097f98b4d6806a36e185ea36fffefb35b56c/prismjs/prism.d.ts"
+  }
+}

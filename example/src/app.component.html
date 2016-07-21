@@ -1,0 +1,21 @@
+<div class="row">
+  <header class="col-md-12">
+    <h1>{{title}}</h1>
+  </header>
+
+  <div class="col-md-12">
+    <h2>Usage</h2>
+    <section class="col-md-8">
+      <h3>app.component.ts</h3>
+      <pre [innerHTML]="appComponentTS"></pre>
+      
+      <h3>my-window.component.ts</h3>
+      <pre [innerHTML]="myWindowComponentTS"></pre>
+    </section>
+
+    <section class="col-md-4">
+      <button (click)="openWindow()">Open Window</button>
+    </section>
+  </div>
+</div>
+<window-view-outlet></window-view-outlet>

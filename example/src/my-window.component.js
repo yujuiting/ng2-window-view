@@ -9,23 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var window_view_service_1 = require('../window-view.service');
-var WindowViewOutletComponent = (function () {
-    function WindowViewOutletComponent(viewContainerRef, windowView) {
-        this.viewContainerRef = viewContainerRef;
-        this.windowView = windowView;
+var dist_1 = require('../../dist');
+var MyWindowComponent = (function () {
+    function MyWindowComponent() {
+        this.title = 'My Window';
     }
-    WindowViewOutletComponent.prototype.ngAfterViewInit = function () {
-        this.windowView.setOutlet(this.viewContainerRef);
-    };
-    WindowViewOutletComponent = __decorate([
+    MyWindowComponent = __decorate([
         core_1.Component({
-            selector: 'window-view-outlet',
-            template: ''
+            template: "\n    <window-view-container [heading]=\"title\" size=\"s\">\n      It's a window!!\n    </window-view-container>\n  ",
+            directives: [
+                dist_1.WindowViewContainerComponent
+            ]
         }), 
-        __metadata('design:paramtypes', [core_1.ViewContainerRef, window_view_service_1.WindowViewService])
-    ], WindowViewOutletComponent);
-    return WindowViewOutletComponent;
+        __metadata('design:paramtypes', [])
+    ], MyWindowComponent);
+    return MyWindowComponent;
 }());
-exports.WindowViewOutletComponent = WindowViewOutletComponent;
-//# sourceMappingURL=/window-view-outlet/window-view-outlet.component.js.map
+exports.MyWindowComponent = MyWindowComponent;
+//# sourceMappingURL=/example/src/my-window.component.js.map

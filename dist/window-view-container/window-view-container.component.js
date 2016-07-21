@@ -62,8 +62,52 @@ var WindowViewContainerComponent = (function () {
     WindowViewContainerComponent = __decorate([
         core_1.Component({
             selector: 'window-view-container',
-            templateUrl: 'window-container.component.html',
-            styleUrls: ['window-container.component.css']
+            template: `
+              <div class="window-container">
+                <div class="window-background" (click)="clickBackground($event)"></div>
+                <div class="panel panel-default {{ sizeClass }}">
+                  <div class="panel-heading">
+                    {{ heading }}
+                    <span class="btn-icon glyphicon glyphicon-remove pull-right" (click)="close()"></span>
+                  </div>
+                  <div class="panel-body">
+                    <ng-content></ng-content>
+                  </div>
+                </div>
+              </div>
+            `,
+            styles: [`
+              .window-container,
+              .window-background {
+                position: fixed;
+                overflow: auto;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+              }
+
+              .window-background {
+                background-color: rgba(0,0,0,0.6);
+                z-index: -1;
+              }
+
+              .panel {
+                min-width: 20%;
+                margin: 4% auto;
+              }
+
+              .panel.size-relative-large { max-width: 80%; }
+              .panel.size-relative-middle { max-width: 60%; }
+              .panel.size-relative-small { max-width: 40%; }
+              .panel.size-large { max-width: 1080px; }
+              .panel.size-middle { max-width: 720px; }
+              .panel.size-small { max-width: 360px; }
+
+              .panel-heading {
+                text-align: center;
+              }
+            `]
         }), 
         __metadata('design:paramtypes', [window_view_service_1.WindowViewService])
     ], WindowViewContainerComponent);

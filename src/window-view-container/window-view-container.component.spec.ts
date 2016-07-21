@@ -9,25 +9,25 @@ import {
 import { ComponentFixture, TestComponentBuilder } from '@angular/compiler/testing';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { WindowContainerComponent } from './window-container.component';
+import { WindowViewContainerComponent } from './window-view-container.component';
 
 describe('Component: WindowContainer', () => {
   let builder: TestComponentBuilder;
 
-  beforeEachProviders(() => [WindowContainerComponent]);
+  beforeEachProviders(() => [WindowViewContainerComponent]);
   beforeEach(inject([TestComponentBuilder], function (tcb: TestComponentBuilder) {
     builder = tcb;
   }));
 
-  it('should inject the component', inject([WindowContainerComponent],
-      (component: WindowContainerComponent) => {
+  it('should inject the component', inject([WindowViewContainerComponent],
+      (component: WindowViewContainerComponent) => {
     expect(component).toBeTruthy();
   }));
 
   it('should create the component', inject([], () => {
     return builder.createAsync(WindowContainerComponentTestController)
       .then((fixture: ComponentFixture<any>) => {
-        let query = fixture.debugElement.query(By.directive(WindowContainerComponent));
+        let query = fixture.debugElement.query(By.directive(WindowViewContainerComponent));
         expect(query).toBeTruthy();
         expect(query.componentInstance).toBeTruthy();
       });
@@ -39,7 +39,7 @@ describe('Component: WindowContainer', () => {
   template: `
     <app-window-container></app-window-container>
   `,
-  directives: [WindowContainerComponent]
+  directives: [WindowViewContainerComponent]
 })
 class WindowContainerComponentTestController {
 }

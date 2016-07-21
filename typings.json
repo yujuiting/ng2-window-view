@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
-    "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504"
+    "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504",
+    "prism": "registry:dt/prism#1.4.4+20160321233308"
   }
 }

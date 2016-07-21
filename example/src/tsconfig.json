@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "declaration": true,
+    "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "mapRoot": "/",
@@ -9,15 +9,14 @@
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noImplicitAny": false,
-    "outDir": "../dist/",
-    "rootDir": ".",
+    "rootDir": "../..",
     "sourceMap": true,
     "target": "es5",
     "inlineSources": true
   },
 
   "files": [
-    "index.ts",
+    "main.ts",
     "typings.d.ts"
   ]
 }
