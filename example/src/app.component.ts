@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Subscription } from 'rxjs/Subscription';
-import { WindowViewService, WindowViewOutletComponent } from '../../dist';
+import { WindowViewService, WindowViewOutletComponent } from '../../';
 import { MyWindowComponent } from './my-window.component';
 
 @Component({

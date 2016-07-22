@@ -1,10 +1,10 @@
 {
   "name": "ng2-window-view",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "-----------------",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
-    "build": "tsc -p ./src/tsconfig.json && build:inline-template",
+    "build": "tsc -p ./src/tsconfig.json && gulp build:inline-template",
     "example:tsc": "tsc -p ./example/src/tsconfig.json",
     "example:browserify": "browserify ./example/src/main.js > ./example/bundle.js",
     "build:example": "gulp build:example && npm run example:tsc && gulp build:example:inline-template && npm run example:browserify",
@@ -12,14 +12,20 @@
   },
   "author": "yujuiting",
   "license": "ISC",
-  "dependencies": {
+  "peerDependencies": {
     "@angular/core": "^2.0.0-rc.4",
     "bootstrap": "^3.3.6",
     "es6-shim": "^0.35.1",
     "rxjs": "^5.0.0-beta.10"
   },
   "devDependencies": {
+    "@angular/common": "^2.0.0-rc.4",
+    "@angular/compiler": "^2.0.0-rc.4",
+    "@angular/core": "^2.0.0-rc.4",
     "@angular/http": "^2.0.0-rc.4",
+    "@angular/platform-browser": "^2.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "^2.0.0-rc.4",
+    "bootstrap": "^3.3.6",
     "browserify": "^13.0.1",
     "del": "^2.2.1",
     "es6-shim": "^0.35.1",
@@ -29,8 +35,10 @@
     "prismjs": "^1.5.1",
     "reflect-metadata": "^0.1.3",
     "run-sequence": "^1.2.2",
+    "rxjs": "^5.0.0-beta.10",
     "typescript": "^1.8.10",
-    "typings": "^1.3.2"
+    "typings": "^1.3.2",
+    "zone.js": "^0.6.12"
   },
   "directories": {
     "example": "example"
@@ -42,5 +50,6 @@
   "bugs": {
     "url": "https://github.com/yujuiting/ng2-window-view/issues"
   },
-  "homepage": "https://github.com/yujuiting/ng2-window-view#readme"
+  "homepage": "https://github.com/yujuiting/ng2-window-view#readme",
+  "typings": "index.d.ts"
 }
