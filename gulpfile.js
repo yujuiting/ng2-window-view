@@ -2,7 +2,6 @@ const gulp = require('gulp');
 const run = require('run-sequence');
 const del = require('del');
 const inlineNg2Template = require('gulp-inline-ng2-template');
-const ts = require('gulp-tsc');
 const fs = require('fs');
 
 const vendor = [
@@ -37,7 +36,7 @@ gulp.task('build:example:inline-template', () => {
 });
 
 gulp.task('build:inline-template', () => {
-  gulp.src('./dist/**/*.js', { base: './dist' })
-    .pipe(inlineNg2Template({ base: './src' }))
-    .pipe(gulp.dest('./dist'));
+  gulp.src('./lib/**/*.js', { base: './lib' })
+    .pipe(inlineNg2Template({ base: './src/lib' }))
+    .pipe(gulp.dest('./lib'));
 });

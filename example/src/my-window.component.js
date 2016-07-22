@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var dist_1 = require('../../dist');
+var _1 = require('../../');
 var MyWindowComponent = (function () {
     function MyWindowComponent() {
         this.title = 'My Window';
@@ -18,7 +18,7 @@ var MyWindowComponent = (function () {
         core_1.Component({
             template: "\n    <window-view-container [heading]=\"title\" size=\"s\">\n      It's a window!!\n    </window-view-container>\n  ",
             directives: [
-                dist_1.WindowViewContainerComponent
+                _1.WindowViewContainerComponent
             ]
         }), 
         __metadata('design:paramtypes', [])

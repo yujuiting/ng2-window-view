@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WindowViewContainerComponent } from '../../dist';
+import { WindowViewContainerComponent } from '../../';
 
 @Component({
   template:`

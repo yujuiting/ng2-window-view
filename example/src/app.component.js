@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var dist_1 = require('../../dist');
+var _1 = require('../../');
 var my_window_component_1 = require('./my-window.component');
 var AppComponent = (function () {
     function AppComponent(windowView, http) {
@@ -50,13 +50,13 @@ var AppComponent = (function () {
               <window-view-outlet></window-view-outlet>
             `,
             directives: [
-                dist_1.WindowViewOutletComponent
+                _1.WindowViewOutletComponent
             ],
             providers: [
-                dist_1.WindowViewService
+                _1.WindowViewService
             ]
         }), 
-        __metadata('design:paramtypes', [dist_1.WindowViewService, http_1.Http])
+        __metadata('design:paramtypes', [_1.WindowViewService, http_1.Http])
     ], AppComponent);
     return AppComponent;
 }());
