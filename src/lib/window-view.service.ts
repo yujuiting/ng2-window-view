@@ -41,6 +41,9 @@ export class WindowViewService {
   }
 
   popWindow(): boolean {
+    if (this.stack.length === 0) {
+      return false;
+    }
     let componentRef: ComponentRef<any> = this.stack.pop();
     if (!this.canCloseWindowView(componentRef)) {
       this.stack.push(componentRef);
