@@ -56,7 +56,7 @@ export class AppComponent {
 
   loadFile(group: string, dir: string, filename: string) {
     this.files[group] = this.files[group] || {};
-    let language: string = 'javascript';
+    let language: string = 'typescript';
     if (!!/html$/.test(filename)) {
       language = 'html';
     }

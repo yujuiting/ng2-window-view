@@ -1,11 +1,13 @@
 # ng2-window-view
------------------
-
-[example](https://yujuiting.github.io/ng2-window-view/)
-
+[Documentation & Example Here!](https://yujuiting.github.io/ng2-window-view/)
 
 ## Usage
------------------
+```
+$ npm install --save ng2-window-view
+```
+
+## Quick Start
+
 1. Create your window component.
 
 ```typescript
@@ -42,11 +44,9 @@ import { MyWindowComponent } from './my-window';
 })
 export class AppComponent {
   constructor(private windowView: WindowViewService) {}
+  
   openWindow() {
-    this.windowView.pushWindow(MyWindowComponent).then((componentRef: ComponentRef) => {
-      let component: MyWindowComponent = componentRef.instance;
-      // catch window result here.
-    });
+    this.windowView.pushWindow(MyWindowComponent);
   }
 }
 ```

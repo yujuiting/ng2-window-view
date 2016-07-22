@@ -44,7 +44,7 @@ var AppComponent = (function () {
     AppComponent.prototype.loadFile = function (group, dir, filename) {
         var _this = this;
         this.files[group] = this.files[group] || {};
-        var language = 'javascript';
+        var language = 'typescript';
         if (!!/html$/.test(filename)) {
             language = 'html';
         }
