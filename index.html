@@ -5,10 +5,30 @@
     <link rel="stylesheet" type="text/css" href="example/vendor/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="example/vendor/prismjs/themes/prism.css">
     <link rel="stylesheet" type="text/css" href="example/vendor/prismjs/themes/prism-solarizedlight.css">
+    <style>
+      .animation-rotate-repeatly {
+        animation: animaterotate .7s infinite linear;
+      }
+
+      @keyframes animaterotate {
+        from { transform: scale(1) rotate(0deg);}
+        to { transform: scale(1) rotate(360deg);}
+      }
+
+      #loading-icon {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -0.5em;
+        margin-left: -0.5em;
+      }
+    </style>
   </head>
   <body>
 
-    <app></app>
+    <app>
+      <span id="loading-icon" class="glyphicon glyphicon-refresh animation-rotate-repeatly"></span>
+    </app>
     
     <script src="example/vendor/prismjs/prism.js"></script>
     <script src="example/vendor/es6-shim/es6-shim.js"></script>
@@ -23,7 +43,7 @@
           'rxjs': 'example/vendor/rxjs',
           'symbol-observable': 'example/vendor/symbol-observable',
           'main': 'example/dist/main.js',
-          '../../': './'
+          'ng2-window-view': './'
         },
         packages: {
           '@angular/core': { main: 'index' },
@@ -34,7 +54,7 @@
           '@angular/platform-browser': { main: 'index' },
           '@angular/platform-browser-dynamic': { main: 'index' },
           'symbol-observable': { main: 'index' },
-          '../../': { main: 'index' },
+          'ng2-window-view': { main: 'index' },
           './lib/window-view-outlet': { main: 'index' },
           './lib/window-view-container': { main: 'index' }
         }
