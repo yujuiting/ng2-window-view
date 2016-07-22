@@ -36,3 +36,7 @@
 .panel-heading {
   text-align: center;
 }
+
+.window-container.floating .panel-heading {
+  cursor: move;
+}

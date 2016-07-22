@@ -4,12 +4,12 @@
   <div class="window-background" (click)="clickBackground($event)" *ngIf="showBackground"></div>
   <div class="panel {{ panelClass }} {{ sizeClass }}"
        [style.top]="top"
-       [style.left]="left"
-       (mousedown)="onMouseDown($event)"
-       (mouseup)="onMouseUp($event)"
-       (mouseleave)="onMouseUp($event)"
-       (mousemove)="onMouseMove($event)">
-    <div class="panel-heading">
+       [style.left]="left">
+    <div class="panel-heading"
+         (mousedown)="onMouseDown($event)"
+         (mouseup)="onMouseUp($event)"
+         (mouseleave)="onMouseUp($event)"
+         (mousemove)="onMouseMove($event)">
       {{ heading }}
       <span class="btn-icon glyphicon glyphicon-remove pull-right" (click)="close()"></span>
     </div>
