@@ -1,5 +1,5 @@
 <div class="window-container">
-  <div class="window-background" (click)="clickBackground($event)"></div>
+  <div class="window-background" (click)="clickBackground($event)" *ngIf="showBackground"></div>
   <div class="panel panel-default {{ sizeClass }}">
     <div class="panel-heading">
       {{ heading }}

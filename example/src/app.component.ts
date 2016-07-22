@@ -1,60 +1,72 @@
 import { Component, ComponentRef } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Subscription } from 'rxjs/Subscription';
-import { WindowViewService, WindowViewOutletComponent } from '../../';
-import { MyWindowComponent } from './my-window.component';
+
+import { SimpleUsageComponent } from './simple-usage/simple-usage.component';
+import { WindowControlComponent } from './window-control/window-control.component';
+import { AccessFlowComponent } from './access-flow/access-flow.component';
 
 @Component({
+  moduleId: module.id,
   selector: 'app',
   templateUrl: 'app.component.html',
+  styleUrls: ['app.component.css'],
   directives: [
-    WindowViewOutletComponent
-  ],
-  providers: [
-    WindowViewService
+    SimpleUsageComponent,
+    WindowControlComponent,
+    AccessFlowComponent
   ]
 })
 export class AppComponent {
-  constructor(private windowView: WindowViewService,
-              http: Http) {
-    let loadAppComponentTS: Subscription = http.get('example/app.component.ts').subscribe(
-      (response: Response) => this.appComponentTS = Prism.highlight(response.text(), Prism.languages['javascript']),
-      (error: any) => console.warn(error),
-      () => loadAppComponentTS.unsubscribe());
+  constructor(private http: Http) {
+    this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-usage.component.ts');
+    this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-usage.component.html');
+    this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-window.component.ts');
+    this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-window.component.html');
+    this.simpleUsageFilename = 'simple-usage.component.ts';
 
-    let loadMyWindowComponentTS: Subscription = http.get('example/my-window.component.ts').subscribe(
-      (response: Response) => this.myWindowComponentTS = Prism.highlight(response.text(), Prism.languages['javascript']),
-      (error: any) => console.warn(error),
-      () => loadMyWindowComponentTS.unsubscribe());
-      
-    let loadWindowViewServiceAPI: Subscription = http.get('lib/window-view.service.d.ts').subscribe(
-      (response: Response) => this.windowViewServiceAPI = Prism.highlight(response.text(), Prism.languages['javascript']),
-      (error: any) => console.warn(error),
-      () => loadWindowViewServiceAPI.unsubscribe());
-      
-    let loadWindowViewContainerComponentAPI: Subscription = http.get('lib/window-view-container/window-view-container.component.d.ts').subscribe(
-      (response: Response) => this.windowViewContainerComponentAPI = Prism.highlight(response.text(), Prism.languages['javascript']),
-      (error: any) => console.warn(error),
-      () => loadWindowViewContainerComponentAPI.unsubscribe());
+    this.loadFile('window-control', 'example/src/window-control', 'window-control.component.ts');
+    this.loadFile('window-control', 'example/src/window-control', 'window-control.component.html');
+    this.loadFile('window-control', 'example/src/window-control', 'controled-window.component.ts');
+    this.loadFile('window-control', 'example/src/window-control', 'controled-window.component.html');
+    this.windowControlFilename = 'window-control.component.ts';
 
+    this.loadFile('access-flow', 'example/src/access-flow', 'access-flow.component.ts');
+    this.loadFile('access-flow', 'example/src/access-flow', 'access-flow.component.html');
+    this.loadFile('access-flow', 'example/src/access-flow', 'checked-window.component.ts');
+    this.loadFile('access-flow', 'example/src/access-flow', 'checked-window.component.html');
+    this.accessFlowFilename = 'access-flow.component.ts';
+
+    this.loadFile('API', 'lib', 'window-view.service.d.ts');
+    this.loadFile('API', 'lib', 'window-view-can-close.d.ts');
+    this.loadFile('API', 'lib/window-view-container', 'window-view-container.component.d.ts');
   }
 
+  files: { [group: string]: { [filename: string]: string } } = {};
+
+  // ui status
   title: string = 'ng2-window-view example';
+  simpleUsageFilename: string;
+  windowControlFilename: string;
+  accessFlowFilename: string;
 
-  appComponentTS: string;
-  myWindowComponentTS: string;
+  fileList(group: string) {
+    return Object.keys(this.files[group]);
+  }
 
-  windowViewServiceAPI: string;
-  windowViewContainerComponentAPI: string;
-
-  openWindow() {
-    this.windowView.pushWindow(MyWindowComponent).then((componentRef: ComponentRef<MyWindowComponent>) => {
-      let component: MyWindowComponent = componentRef.instance;
-      let waitResult: Subscription = component.result$.subscribe(
-        (result: boolean) => alert('result => ' + result),
-        null,
-        () => waitResult.unsubscribe()
+  loadFile(group: string, dir: string, filename: string) {
+    this.files[group] = this.files[group] || {};
+    let language: string = 'javascript';
+    if (!!/html$/.test(filename)) {
+      language = 'html';
+    }
+    let loadFile: Subscription = this.http.get(`${dir}/${filename}`)
+      .subscribe(
+        (response: Response) => {
+          this.files[group][filename] = Prism.highlight(response.text(), Prism.languages[language]);
+        },
+        (error: any) => console.warn(error),
+        () => loadFile.unsubscribe()
       );
-    });
   }
 }

@@ -5,6 +5,7 @@ export declare class WindowViewContainerComponent {
     heading: string;
     size: string;
     canClose: () => void;
+    showBackground: boolean;
     sizeClass: string;
     clickBackground($event: MouseEvent): void;
     close(): void;

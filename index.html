@@ -14,6 +14,33 @@
     <script src="example/vendor/es6-shim/es6-shim.js"></script>
     <script src="example/vendor/reflect-metadata/Reflect.js"></script>
     <script src="example/vendor/zone.js/dist/zone.js"></script>
-    <script src="example/bundle.js"></script>
+    <script src="example/vendor/systemjs/dist/system.js"></script>
+    <script>
+      System.config({
+        defaultJSExtensions: true,
+        map: {
+          '@angular': 'example/vendor/@angular',
+          'rxjs': 'example/vendor/rxjs',
+          'symbol-observable': 'example/vendor/symbol-observable',
+          'main': 'example/dist/main.js',
+          '../../': './'
+        },
+        packages: {
+          '@angular/core': { main: 'index' },
+          '@angular/common': { main: 'index' },
+          '@angular/compiler': { main: 'index' },
+          '@angular/http': { main: 'index' },
+          '@angular/router': { main: 'index' },
+          '@angular/platform-browser': { main: 'index' },
+          '@angular/platform-browser-dynamic': { main: 'index' },
+          'symbol-observable': { main: 'index' },
+          '../../': { main: 'index' },
+          './lib/window-view-outlet': { main: 'index' },
+          './lib/window-view-container': { main: 'index' }
+        }
+      });
+
+      System.import('main');
+    </script>
   </body>
 </html>

@@ -1,3 +1,6 @@
+.window-container {
+  z-index: 99;
+}
 .window-container,
 .window-background {
   position: fixed;

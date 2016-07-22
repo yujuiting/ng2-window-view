@@ -1,1 +1,1 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["file:///D:/projects/ng2-window-view/src/lib/window-view-outlet/index.ts"],"names":[],"mappings":";;;;AAAA,iBAAc,gCAAgC,CAAC,EAAA","sourcesContent":["export * from './window-view-outlet.component';\r\n"]}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../Users/yujuiting/projects/github-projects/ng2-window-view/src/lib/window-view-outlet/index.ts"],"names":[],"mappings":";;;;AAAA,iBAAc,gCAAgC,CAAC,EAAA","sourcesContent":["export * from './window-view-outlet.component';\n"]}

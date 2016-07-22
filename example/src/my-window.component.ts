@@ -3,6 +3,7 @@ import { WindowViewContainerComponent } from '../../';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
+  moduleId: module.id,
   template:`
     <window-view-container [heading]="title" size="s">
       It's a window!!

@@ -19,6 +19,9 @@ export class WindowViewContainerComponent {
   @Input()
   canClose: () => void = () => { return true; };
 
+  @Input()
+  showBackground: boolean = true;
+
   get sizeClass(): string {
     switch (this.size.toLowerCase()) {
       case 's':
