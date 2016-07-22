@@ -18,10 +18,19 @@ export class WindowViewService {
 
   private _onClose$: Subject<ComponentRef<any>> = new Subject<ComponentRef<any>>();
 
+  /**
+   * Current window's count.
+   */
   get length$(): Observable<number> { return this._length$.asObservable(); }
 
+  /**
+   * Emit after window open.
+   */
   get onOpen$(): Observable<ComponentRef<any>> { return this._onOpen$.asObservable(); }
 
+  /**
+   * Emit before window close.
+   */
   get onClose$(): Observable<ComponentRef<any>> { return this._onClose$.asObservable(); }
 
   constructor(private dcl: DynamicComponentLoader) {}
@@ -30,6 +39,9 @@ export class WindowViewService {
     this.outlet = outlet;
   }
 
+  /**
+   * Add window to top.
+   */
   pushWindow(Component: Type, providers: ResolvedReflectiveProvider[] = []): Promise<ComponentRef<any>> {
     return this.dcl.loadNextToLocation(Component, this.outlet, providers)
       .then((componentRef: ComponentRef<any>) => {
@@ -40,6 +52,9 @@ export class WindowViewService {
       });
   }
 
+  /**
+   * Remove latest window.
+   */
   popWindow(): boolean {
     if (this.stack.length === 0) {
       return false;
@@ -55,7 +70,7 @@ export class WindowViewService {
     return true;
   }
 
-  canCloseWindowView(componentRef: ComponentRef<WindowViewCanClose>) {
+  private canCloseWindowView(componentRef: ComponentRef<WindowViewCanClose>) {
     if (typeof componentRef.instance.windowViewCanClose != 'function') {
       return true;
     }

@@ -1,6 +1,5 @@
 import { Type, DynamicComponentLoader, ViewContainerRef, ComponentRef, ResolvedReflectiveProvider } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { WindowViewCanClose } from './window-view-can-close';
 export declare class WindowViewService {
     private dcl;
     private stack;
@@ -8,12 +7,27 @@ export declare class WindowViewService {
     private _length$;
     private _onOpen$;
     private _onClose$;
+    /**
+     * Current window's count.
+     */
     length$: Observable<number>;
+    /**
+     * Emit after window open.
+     */
     onOpen$: Observable<ComponentRef<any>>;
+    /**
+     * Emit before window close.
+     */
     onClose$: Observable<ComponentRef<any>>;
     constructor(dcl: DynamicComponentLoader);
     setOutlet(outlet: ViewContainerRef): void;
+    /**
+     * Add window to top.
+     */
     pushWindow(Component: Type, providers?: ResolvedReflectiveProvider[]): Promise<ComponentRef<any>>;
+    /**
+     * Remove latest window.
+     */
     popWindow(): boolean;
-    canCloseWindowView(componentRef: ComponentRef<WindowViewCanClose>): boolean;
+    private canCloseWindowView(componentRef);
 }

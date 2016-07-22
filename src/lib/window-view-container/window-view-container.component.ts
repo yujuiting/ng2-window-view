@@ -10,31 +10,64 @@ export class WindowViewContainerComponent {
 
   constructor(@Optional() private windowView?: WindowViewService) {}
   
+  /**
+   * Window title.
+   * 
+   * Default: 'Untitled Window'
+   */
   @Input()
   heading: string = 'Untitled Window';
 
+  /**
+   * Possible option:
+   *  small, alias 's'
+   *  middle, alias 'm'
+   *  large, alias 'l'
+   *  relative-small, alias 'rs'
+   *  relative-middle, alias 'rm'
+   *  relative-large, alias 'rl'
+   * 
+   * Default: 'm'
+   */
   @Input()
   size: string = 'M';
 
+  /**
+   * Prevent display transparent background.
+   * 
+   * Default: true
+   */
   @Input()
   showBackground: boolean = true;
 
+  /**
+   * Floating window, can be drag.
+   * 
+   * Default: false
+   */
   @Input()
   floating: boolean = false;
 
+  /**
+   * Panel class.
+   * 
+   * Default: 'panel-default'
+   */
   @Input()
   panelClass: string = 'panel-default';
 
   @Output()
   close: EventEmitter<any> = new EventEmitter();
 
-  protected top: number = 0;
-  protected left: number = 0;
-  protected isDragging: boolean = false;
+  private top: number = 0;
+
+  private left: number = 0;
+
+  private isDragging: boolean = false;
 
   private draggingRelativeLocation: { x: number, y: number } = { x: 0, y: 0 };
 
-  get sizeClass(): string {
+  private get sizeClass(): string {
     switch (this.size.toLowerCase()) {
       case 's':
       case 'small': return 'size-small';
@@ -50,17 +83,17 @@ export class WindowViewContainerComponent {
       case 'relative-large': return 'size-relative-large';
     }
   }
-  
-  clickBackground($event: MouseEvent) {
-    if ($event.currentTarget == $event.target) {
-      this.closeWindow();
-    }
-  }
 
   closeWindow() {
     this.close.emit({ target: this });
     if (this.windowView) {
       this.windowView.popWindow();
+    }
+  }
+  
+  private clickBackground($event: MouseEvent) {
+    if ($event.currentTarget == $event.target) {
+      this.closeWindow();
     }
   }
 
