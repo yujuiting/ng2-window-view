@@ -32,6 +32,6 @@ export class CheckedWindowComponent implements WindowViewCanClose {
 
   submit() {
     delete this.alert;
-    this.windowViewContainer.close();
+    this.windowViewContainer.closeWindow();
   }
 }

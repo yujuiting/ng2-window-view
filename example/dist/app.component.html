@@ -8,6 +8,7 @@
       <nav>
         <ul class="nav nav-pills nav-stacked">
           <li role="presentation"><a href="#simple-usage">Simple Usage</a></li>
+          <li role="presentation"><a href="#without-service">Without Service</a></li>
           <li role="presentation"><a href="#window-control">Window Control</a></li>
           <li role="presentation"><a href="#access-flow">Access Flow</a></li>
           <li role="presentation"><a href="#api">API</a></li>
@@ -33,6 +34,24 @@
           </li>
         </ul>
         <pre [innerHTML]="files['simple-usage'][simpleUsageFilename]"></pre>
+      </section>
+
+      <section id="without-service" class="jumbotron">
+        <h2>Without Service</h2>
+
+        <h3>Example</h3>
+        <button class="btn btn-default" (click)="showIsolateWindow = true">Open Window</button>
+        <isolate-window *ngIf="showIsolateWindow" (close)="showIsolateWindow = false"></isolate-window>
+
+        <h3>Code</h3>
+        <ul class="nav nav-tabs">
+          <li role="presentation"
+              *ngFor="let filename of fileList('without-service')"
+              [class.active]="withoutServiceFilename === filename">
+            <a (click)="withoutServiceFilename = filename">{{ filename }}</a>
+          </li>
+        </ul>
+        <pre [innerHTML]="files['without-service'][withoutServiceFilename]"></pre>
       </section>
 
       <section id="window-control" class="jumbotron">

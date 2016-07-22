@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+var isolate_window_component_1 = require('./without-service/isolate-window.component');
 var simple_usage_component_1 = require('./simple-usage/simple-usage.component');
 var window_control_component_1 = require('./window-control/window-control.component');
 var access_flow_component_1 = require('./access-flow/access-flow.component');
@@ -19,6 +20,10 @@ var AppComponent = (function () {
         this.files = {};
         // ui status
         this.title = 'ng2-window-view example';
+        this.showIsolateWindow = false;
+        this.loadFile('without-service', 'example/src/without-service', 'isolate-window.component.ts');
+        this.loadFile('without-service', 'example/src/without-service', 'isolate-window.component.html');
+        this.withoutServiceFilename = 'isolate-window.component.ts';
         this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-usage.component.ts');
         this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-usage.component.html');
         this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-window.component.ts');
@@ -60,6 +65,7 @@ var AppComponent = (function () {
             templateUrl: 'app.component.html',
             styleUrls: ['app.component.css'],
             directives: [
+                isolate_window_component_1.IsolateWindowComponent,
                 simple_usage_component_1.SimpleUsageComponent,
                 window_control_component_1.WindowControlComponent,
                 access_flow_component_1.AccessFlowComponent

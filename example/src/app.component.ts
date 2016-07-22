@@ -2,6 +2,7 @@ import { Component, ComponentRef } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Subscription } from 'rxjs/Subscription';
 
+import { IsolateWindowComponent } from './without-service/isolate-window.component';
 import { SimpleUsageComponent } from './simple-usage/simple-usage.component';
 import { WindowControlComponent } from './window-control/window-control.component';
 import { AccessFlowComponent } from './access-flow/access-flow.component';
@@ -12,6 +13,7 @@ import { AccessFlowComponent } from './access-flow/access-flow.component';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.css'],
   directives: [
+    IsolateWindowComponent,
     SimpleUsageComponent,
     WindowControlComponent,
     AccessFlowComponent
@@ -19,6 +21,10 @@ import { AccessFlowComponent } from './access-flow/access-flow.component';
 })
 export class AppComponent {
   constructor(private http: Http) {
+    this.loadFile('without-service', 'example/src/without-service', 'isolate-window.component.ts');
+    this.loadFile('without-service', 'example/src/without-service', 'isolate-window.component.html');
+    this.withoutServiceFilename = 'isolate-window.component.ts';
+
     this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-usage.component.ts');
     this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-usage.component.html');
     this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-window.component.ts');
@@ -46,6 +52,8 @@ export class AppComponent {
 
   // ui status
   title: string = 'ng2-window-view example';
+  showIsolateWindow: boolean = false;
+  withoutServiceFilename: string;
   simpleUsageFilename: string;
   windowControlFilename: string;
   accessFlowFilename: string;

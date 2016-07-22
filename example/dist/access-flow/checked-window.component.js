@@ -33,7 +33,7 @@ var CheckedWindowComponent = (function () {
     };
     CheckedWindowComponent.prototype.submit = function () {
         delete this.alert;
-        this.windowViewContainer.close();
+        this.windowViewContainer.closeWindow();
     };
     __decorate([
         core_1.ViewChild(_1.WindowViewContainerComponent), 
