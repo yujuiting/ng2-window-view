@@ -14,7 +14,7 @@ export class SimpleWindowComponent {
   title: string = 'Simple Window';
   isFloatingWindow: boolean = false;
   showBackground: boolean = true;
-  windowSize: string = 's';
+  windowSize: string = 'small';
   panelClass: string = 'panel-default';
 
   openWindow() {

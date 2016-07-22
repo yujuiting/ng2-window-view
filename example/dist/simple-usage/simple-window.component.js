@@ -17,7 +17,7 @@ var SimpleWindowComponent = (function () {
         this.title = 'Simple Window';
         this.isFloatingWindow = false;
         this.showBackground = true;
-        this.windowSize = 's';
+        this.windowSize = 'small';
         this.panelClass = 'panel-default';
     }
     SimpleWindowComponent.prototype.openWindow = function () {
