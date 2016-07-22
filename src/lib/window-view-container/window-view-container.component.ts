@@ -78,8 +78,8 @@ export class WindowViewContainerComponent {
 
   private onMouseMove(e: MouseEvent) {
     if (this.isDragging) {
-      this.left = e.pageX - this.draggingRelativeLocation.x;
-      this.top = e.pageY - this.draggingRelativeLocation.y;
+      this.left = e.clientX - this.draggingRelativeLocation.x;
+      this.top = e.clientY - this.draggingRelativeLocation.y;
     }
   }
 
