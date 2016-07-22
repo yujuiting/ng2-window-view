@@ -11,7 +11,7 @@
          (mouseleave)="onMouseUp($event)"
          (mousemove)="onMouseMove($event)">
       {{ heading }}
-      <span class="btn-icon glyphicon glyphicon-remove pull-right" (click)="close()"></span>
+      <a class="btn-close" (click)="closeWindow()"><span class="glyphicon glyphicon-remove pull-right"></span></a>
     </div>
     <div class="panel-body">
       <ng-content></ng-content>

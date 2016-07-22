@@ -37,6 +37,10 @@
   text-align: center;
 }
 
+.btn-close {
+  cursor: auto;
+}
+
 .window-container.floating .panel-heading {
   cursor: move;
 }
