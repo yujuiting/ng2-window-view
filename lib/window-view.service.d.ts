@@ -1,5 +1,6 @@
 import { Type, DynamicComponentLoader, ViewContainerRef, ComponentRef, ResolvedReflectiveProvider } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { WindowViewCanClose } from './window-view-can-close';
 export declare class WindowViewService {
     private dcl;
     private stack;
@@ -13,5 +14,6 @@ export declare class WindowViewService {
     constructor(dcl: DynamicComponentLoader);
     setOutlet(outlet: ViewContainerRef): void;
     pushWindow(Component: Type, providers?: ResolvedReflectiveProvider[]): Promise<ComponentRef<any>>;
-    popWindow(): void;
+    popWindow(): boolean;
+    canCloseWindowView(componentRef: ComponentRef<WindowViewCanClose>): boolean;
 }

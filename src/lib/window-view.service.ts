@@ -3,17 +3,12 @@ import { Injectable, Type, Injector,
          ResolvedReflectiveProvider } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-
-
-interface WindowView {
-  Component: Type;
-  componentRef: ComponentRef<any>;
-}
+import { WindowViewCanClose } from './window-view-can-close';
 
 @Injectable()
 export class WindowViewService {
 
-  private stack: WindowView[] = [];
+  private stack: ComponentRef<any>[] = [];
 
   private outlet: ViewContainerRef;
 
@@ -38,19 +33,30 @@ export class WindowViewService {
   pushWindow(Component: Type, providers: ResolvedReflectiveProvider[] = []): Promise<ComponentRef<any>> {
     return this.dcl.loadNextToLocation(Component, this.outlet, providers)
       .then((componentRef: ComponentRef<any>) => {
-        let windowView: WindowView = { Component, componentRef };
-        this.stack.push(windowView);
+        this.stack.push(componentRef);
         this._onOpen$.next(componentRef);
         this._length$.next(this.stack.length);
         return componentRef;
       });
   }
 
-  popWindow() {
-    let windowView: WindowView = this.stack.pop();
-    this._onClose$.next(windowView.componentRef);
-    windowView.componentRef.destroy();
+  popWindow(): boolean {
+    let componentRef: ComponentRef<any> = this.stack.pop();
+    if (!this.canCloseWindowView(componentRef)) {
+      this.stack.push(componentRef);
+      return false;
+    }
+    this._onClose$.next(componentRef);
     this._length$.next(this.stack.length);
+    componentRef.destroy();
+    return true;
+  }
+
+  canCloseWindowView(componentRef: ComponentRef<WindowViewCanClose>) {
+    if (typeof componentRef.instance.windowViewCanClose != 'function') {
+      return true;
+    }
+    return componentRef.instance.windowViewCanClose();
   }
 
 }
