@@ -3,8 +3,8 @@
     <h1>{{title}}</h1>
   </header>
 
+  <h2>Usage</h2>
   <div class="col-md-12">
-    <h2>Usage</h2>
     <section class="col-md-8">
       <h3>app.component.ts</h3>
       <pre [innerHTML]="appComponentTS"></pre>
@@ -17,5 +17,18 @@
       <button (click)="openWindow()">Open Window</button>
     </section>
   </div>
+
+  
+  <h2>API</h2>
+  <div class="col-md-12">
+    <section>
+      <h3>WindowViewService</h3>
+      <pre [innerHTML]="windowViewServiceAPI"></pre>
+      
+      <h3>WindowViewContainerComponent</h3>
+      <pre [innerHTML]="windowViewContainerComponentAPI"></pre>
+    </section>
+  </div>
+
 </div>
 <window-view-outlet></window-view-outlet>

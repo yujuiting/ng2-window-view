@@ -19,9 +19,14 @@ var AppComponent = (function () {
         this.title = 'ng2-window-view example';
         var loadAppComponentTS = http.get('example/app.component.ts').subscribe(function (response) { return _this.appComponentTS = Prism.highlight(response.text(), Prism.languages['javascript']); }, function (error) { return console.warn(error); }, function () { return loadAppComponentTS.unsubscribe(); });
         var loadMyWindowComponentTS = http.get('example/my-window.component.ts').subscribe(function (response) { return _this.myWindowComponentTS = Prism.highlight(response.text(), Prism.languages['javascript']); }, function (error) { return console.warn(error); }, function () { return loadMyWindowComponentTS.unsubscribe(); });
+        var loadWindowViewServiceAPI = http.get('lib/window-view.service.d.ts').subscribe(function (response) { return _this.windowViewServiceAPI = Prism.highlight(response.text(), Prism.languages['javascript']); }, function (error) { return console.warn(error); }, function () { return loadWindowViewServiceAPI.unsubscribe(); });
+        var loadWindowViewContainerComponentAPI = http.get('lib/window-view-container/window-view-container.component.d.ts').subscribe(function (response) { return _this.windowViewContainerComponentAPI = Prism.highlight(response.text(), Prism.languages['javascript']); }, function (error) { return console.warn(error); }, function () { return loadWindowViewContainerComponentAPI.unsubscribe(); });
     }
     AppComponent.prototype.openWindow = function () {
-        this.windowView.pushWindow(my_window_component_1.MyWindowComponent);
+        this.windowView.pushWindow(my_window_component_1.MyWindowComponent).then(function (componentRef) {
+            var component = componentRef.instance;
+            var waitResult = component.result$.subscribe(function (result) { return alert('result => ' + result); }, null, function () { return waitResult.unsubscribe(); });
+        });
     };
     AppComponent = __decorate([
         core_1.Component({
@@ -32,8 +37,8 @@ var AppComponent = (function () {
                   <h1>{{title}}</h1>
                 </header>
 
+                <h2>Usage</h2>
                 <div class="col-md-12">
-                  <h2>Usage</h2>
                   <section class="col-md-8">
                     <h3>app.component.ts</h3>
                     <pre [innerHTML]="appComponentTS"></pre>
@@ -46,6 +51,19 @@ var AppComponent = (function () {
                     <button (click)="openWindow()">Open Window</button>
                   </section>
                 </div>
+
+  
+                <h2>API</h2>
+                <div class="col-md-12">
+                  <section>
+                    <h3>WindowViewService</h3>
+                    <pre [innerHTML]="windowViewServiceAPI"></pre>
+      
+                    <h3>WindowViewContainerComponent</h3>
+                    <pre [innerHTML]="windowViewContainerComponentAPI"></pre>
+                  </section>
+                </div>
+
               </div>
               <window-view-outlet></window-view-outlet>
             `,

@@ -10,13 +10,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var _1 = require('../../');
+var Subject_1 = require('rxjs/Subject');
 var MyWindowComponent = (function () {
     function MyWindowComponent() {
         this.title = 'My Window';
+        this.result$ = new Subject_1.Subject();
     }
+    MyWindowComponent.prototype.yes = function () {
+        this.result$.next(true);
+        this.close();
+    };
+    MyWindowComponent.prototype.no = function () {
+        this.result$.next(false);
+        this.close();
+    };
+    MyWindowComponent.prototype.close = function () {
+        this.windowViewContainer.close();
+    };
+    __decorate([
+        core_1.ViewChild(_1.WindowViewContainerComponent), 
+        __metadata('design:type', _1.WindowViewContainerComponent)
+    ], MyWindowComponent.prototype, "windowViewContainer", void 0);
     MyWindowComponent = __decorate([
         core_1.Component({
-            template: "\n    <window-view-container [heading]=\"title\" size=\"s\">\n      It's a window!!\n    </window-view-container>\n  ",
+            template: "\n    <window-view-container [heading]=\"title\" size=\"s\">\n      It's a window!!\n      <button (click)=\"yes()\">Yes</button>\n      <button (click)=\"no()\">No</button>\n    </window-view-container>\n  ",
             directives: [
                 _1.WindowViewContainerComponent
             ]

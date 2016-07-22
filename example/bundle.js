@@ -1,18 +1,157 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require('@angular/core');
+var http_1 = require('@angular/http');
+var _1 = require('../../');
+var my_window_component_1 = require('./my-window.component');
+var AppComponent = (function () {
+    function AppComponent(windowView, http) {
+        var _this = this;
+        this.windowView = windowView;
+        this.title = 'ng2-window-view example';
+        var loadAppComponentTS = http.get('example/app.component.ts').subscribe(function (response) { return _this.appComponentTS = Prism.highlight(response.text(), Prism.languages['javascript']); }, function (error) { return console.warn(error); }, function () { return loadAppComponentTS.unsubscribe(); });
+        var loadMyWindowComponentTS = http.get('example/my-window.component.ts').subscribe(function (response) { return _this.myWindowComponentTS = Prism.highlight(response.text(), Prism.languages['javascript']); }, function (error) { return console.warn(error); }, function () { return loadMyWindowComponentTS.unsubscribe(); });
+        var loadWindowViewServiceAPI = http.get('lib/window-view.service.d.ts').subscribe(function (response) { return _this.windowViewServiceAPI = Prism.highlight(response.text(), Prism.languages['javascript']); }, function (error) { return console.warn(error); }, function () { return loadWindowViewServiceAPI.unsubscribe(); });
+        var loadWindowViewContainerComponentAPI = http.get('lib/window-view-container/window-view-container.component.d.ts').subscribe(function (response) { return _this.windowViewContainerComponentAPI = Prism.highlight(response.text(), Prism.languages['javascript']); }, function (error) { return console.warn(error); }, function () { return loadWindowViewContainerComponentAPI.unsubscribe(); });
+    }
+    AppComponent.prototype.openWindow = function () {
+        this.windowView.pushWindow(my_window_component_1.MyWindowComponent).then(function (componentRef) {
+            var component = componentRef.instance;
+            var waitResult = component.result$.subscribe(function (result) { return alert('result => ' + result); }, null, function () { return waitResult.unsubscribe(); });
+        });
+    };
+    AppComponent = __decorate([
+        core_1.Component({
+            selector: 'app',
+            template: `
+              <div class="row">
+                <header class="col-md-12">
+                  <h1>{{title}}</h1>
+                </header>
+
+                <h2>Usage</h2>
+                <div class="col-md-12">
+                  <section class="col-md-8">
+                    <h3>app.component.ts</h3>
+                    <pre [innerHTML]="appComponentTS"></pre>
+      
+                    <h3>my-window.component.ts</h3>
+                    <pre [innerHTML]="myWindowComponentTS"></pre>
+                  </section>
+
+                  <section class="col-md-4">
+                    <button (click)="openWindow()">Open Window</button>
+                  </section>
+                </div>
+
+  
+                <h2>API</h2>
+                <div class="col-md-12">
+                  <section>
+                    <h3>WindowViewService</h3>
+                    <pre [innerHTML]="windowViewServiceAPI"></pre>
+      
+                    <h3>WindowViewContainerComponent</h3>
+                    <pre [innerHTML]="windowViewContainerComponentAPI"></pre>
+                  </section>
+                </div>
+
+              </div>
+              <window-view-outlet></window-view-outlet>
+            `,
+            directives: [
+                _1.WindowViewOutletComponent
+            ],
+            providers: [
+                _1.WindowViewService
+            ]
+        }), 
+        __metadata('design:paramtypes', [_1.WindowViewService, http_1.Http])
+    ], AppComponent);
+    return AppComponent;
+}());
+exports.AppComponent = AppComponent;
+
+},{"../../":4,"./my-window.component":3,"@angular/core":157,"@angular/http":247}],2:[function(require,module,exports){
+"use strict";
+var platform_browser_dynamic_1 = require('@angular/platform-browser-dynamic');
+var app_component_1 = require('./app.component');
+var http_1 = require('@angular/http');
+platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
+    http_1.HTTP_PROVIDERS
+]);
+
+},{"./app.component":1,"@angular/http":247,"@angular/platform-browser-dynamic":268}],3:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require('@angular/core');
+var _1 = require('../../');
+var Subject_1 = require('rxjs/Subject');
+var MyWindowComponent = (function () {
+    function MyWindowComponent() {
+        this.title = 'My Window';
+        this.result$ = new Subject_1.Subject();
+    }
+    MyWindowComponent.prototype.yes = function () {
+        this.result$.next(true);
+        this.close();
+    };
+    MyWindowComponent.prototype.no = function () {
+        this.result$.next(false);
+        this.close();
+    };
+    MyWindowComponent.prototype.close = function () {
+        this.windowViewContainer.close();
+    };
+    __decorate([
+        core_1.ViewChild(_1.WindowViewContainerComponent), 
+        __metadata('design:type', _1.WindowViewContainerComponent)
+    ], MyWindowComponent.prototype, "windowViewContainer", void 0);
+    MyWindowComponent = __decorate([
+        core_1.Component({
+            template: "\n    <window-view-container [heading]=\"title\" size=\"s\">\n      It's a window!!\n      <button (click)=\"yes()\">Yes</button>\n      <button (click)=\"no()\">No</button>\n    </window-view-container>\n  ",
+            directives: [
+                _1.WindowViewContainerComponent
+            ]
+        }), 
+        __metadata('design:paramtypes', [])
+    ], MyWindowComponent);
+    return MyWindowComponent;
+}());
+exports.MyWindowComponent = MyWindowComponent;
+
+},{"../../":4,"@angular/core":157,"rxjs/Subject":339}],4:[function(require,module,exports){
+"use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-__export(require('./window-view.service'));
-__export(require('./window-view-outlet'));
-__export(require('./window-view-container'));
+__export(require('./lib/window-view.service'));
+__export(require('./lib/window-view-outlet'));
+__export(require('./lib/window-view-container'));
 
-},{"./window-view-container":2,"./window-view-outlet":4,"./window-view.service":6}],2:[function(require,module,exports){
+},{"./lib/window-view-container":5,"./lib/window-view-outlet":7,"./lib/window-view.service":9}],5:[function(require,module,exports){
 "use strict";
 var window_view_container_component_1 = require('./window-view-container.component');
 exports.WindowViewContainerComponent = window_view_container_component_1.WindowViewContainerComponent;
 
-},{"./window-view-container.component":3}],3:[function(require,module,exports){
+},{"./window-view-container.component":6}],6:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -130,14 +269,14 @@ var WindowViewContainerComponent = (function () {
 }());
 exports.WindowViewContainerComponent = WindowViewContainerComponent;
 
-},{"../window-view.service":6,"@angular/core":157}],4:[function(require,module,exports){
+},{"../window-view.service":9,"@angular/core":157}],7:[function(require,module,exports){
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 __export(require('./window-view-outlet.component'));
 
-},{"./window-view-outlet.component":5}],5:[function(require,module,exports){
+},{"./window-view-outlet.component":8}],8:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -169,7 +308,7 @@ var WindowViewOutletComponent = (function () {
 }());
 exports.WindowViewOutletComponent = WindowViewOutletComponent;
 
-},{"../window-view.service":6,"@angular/core":157}],6:[function(require,module,exports){
+},{"../window-view.service":9,"@angular/core":157}],9:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -234,111 +373,7 @@ var WindowViewService = (function () {
 }());
 exports.WindowViewService = WindowViewService;
 
-},{"@angular/core":157,"rxjs/Subject":339}],7:[function(require,module,exports){
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
-var dist_1 = require('../../dist');
-var my_window_component_1 = require('./my-window.component');
-var AppComponent = (function () {
-    function AppComponent(windowView, http) {
-        var _this = this;
-        this.windowView = windowView;
-        this.title = 'ng2-window-view example';
-        var loadAppComponentTS = http.get('example/app.component.ts').subscribe(function (response) { return _this.appComponentTS = Prism.highlight(response.text(), Prism.languages['javascript']); }, function (error) { return console.warn(error); }, function () { return loadAppComponentTS.unsubscribe(); });
-        var loadMyWindowComponentTS = http.get('example/my-window.component.ts').subscribe(function (response) { return _this.myWindowComponentTS = Prism.highlight(response.text(), Prism.languages['javascript']); }, function (error) { return console.warn(error); }, function () { return loadMyWindowComponentTS.unsubscribe(); });
-    }
-    AppComponent.prototype.openWindow = function () {
-        this.windowView.pushWindow(my_window_component_1.MyWindowComponent);
-    };
-    AppComponent = __decorate([
-        core_1.Component({
-            selector: 'app',
-            template: `
-              <div class="row">
-                <header class="col-md-12">
-                  <h1>{{title}}</h1>
-                </header>
-
-                <div class="col-md-12">
-                  <h2>Usage</h2>
-                  <section class="col-md-8">
-                    <h3>app.component.ts</h3>
-                    <pre [innerHTML]="appComponentTS"></pre>
-      
-                    <h3>my-window.component.ts</h3>
-                    <pre [innerHTML]="myWindowComponentTS"></pre>
-                  </section>
-
-                  <section class="col-md-4">
-                    <button (click)="openWindow()">Open Window</button>
-                  </section>
-                </div>
-              </div>
-              <window-view-outlet></window-view-outlet>
-            `,
-            directives: [
-                dist_1.WindowViewOutletComponent
-            ],
-            providers: [
-                dist_1.WindowViewService
-            ]
-        }), 
-        __metadata('design:paramtypes', [dist_1.WindowViewService, http_1.Http])
-    ], AppComponent);
-    return AppComponent;
-}());
-exports.AppComponent = AppComponent;
-
-},{"../../dist":1,"./my-window.component":9,"@angular/core":157,"@angular/http":247}],8:[function(require,module,exports){
-"use strict";
-var platform_browser_dynamic_1 = require('@angular/platform-browser-dynamic');
-var app_component_1 = require('./app.component');
-var http_1 = require('@angular/http');
-platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
-    http_1.HTTP_PROVIDERS
-]);
-
-},{"./app.component":7,"@angular/http":247,"@angular/platform-browser-dynamic":268}],9:[function(require,module,exports){
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = require('@angular/core');
-var dist_1 = require('../../dist');
-var MyWindowComponent = (function () {
-    function MyWindowComponent() {
-        this.title = 'My Window';
-    }
-    MyWindowComponent = __decorate([
-        core_1.Component({
-            template: "\n    <window-view-container [heading]=\"title\" size=\"s\">\n      It's a window!!\n    </window-view-container>\n  ",
-            directives: [
-                dist_1.WindowViewContainerComponent
-            ]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], MyWindowComponent);
-    return MyWindowComponent;
-}());
-exports.MyWindowComponent = MyWindowComponent;
-
-},{"../../dist":1,"@angular/core":157}],10:[function(require,module,exports){
+},{"@angular/core":157,"rxjs/Subject":339}],10:[function(require,module,exports){
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -44717,4 +44752,4 @@ function symbolObservablePonyfill(root) {
 
 	return result;
 };
-},{}]},{},[8]);
+},{}]},{},[2]);
