@@ -1,73 +1,88 @@
-<header>
-  <h1>{{title}}</h1>
-</header>
-
 <div class="container">
+  <header>
+    <h1>{{title}}</h1>
+  </header>
 
-  <section class="jumbotron">
-    <h2>Simple Usage</h2>
+  <div class="row">
+    <div class="col-sm-3 .col-md-1">
+      <nav>
+        <ul class="nav nav-pills nav-stacked">
+          <li role="presentation"><a href="#simple-usage">Simple Usage</a></li>
+          <li role="presentation"><a href="#window-control">Window Control</a></li>
+          <li role="presentation"><a href="#access-flow">Access Flow</a></li>
+          <li role="presentation"><a href="#api">API</a></li>
+        </ul>
+      </nav>
+    </div>
 
-    <h3>Example</h3>
-    <simple-usage></simple-usage>
+    <div class="col-sm-9 .col-md-11">
 
-    <h3>Code</h3>
-    <ul class="nav nav-tabs">
-      <li role="presentation"
-          *ngFor="let filename of fileList('simple-usage')"
-          [class.active]="simpleUsageFilename === filename">
-        <a (click)="simpleUsageFilename = filename">{{ filename }}</a>
-      </li>
-    </ul>
-    <pre [innerHTML]="files['simple-usage'][simpleUsageFilename]"></pre>
-  </section>
+      <section id="simple-usage" class="jumbotron">
+        <h2>Simple Usage</h2>
 
-  <section  class="jumbotron">
-    <h2>Window Control</h2>
+        <h3>Example</h3>
+        <simple-usage></simple-usage>
 
-    <h3>Example</h3>
-    <window-control></window-control>
+        <h3>Code</h3>
+        <ul class="nav nav-tabs">
+          <li role="presentation"
+              *ngFor="let filename of fileList('simple-usage')"
+              [class.active]="simpleUsageFilename === filename">
+            <a (click)="simpleUsageFilename = filename">{{ filename }}</a>
+          </li>
+        </ul>
+        <pre [innerHTML]="files['simple-usage'][simpleUsageFilename]"></pre>
+      </section>
 
-    <h3>Code</h3>
-    <ul class="nav nav-tabs">
-      <li role="presentation"
-          *ngFor="let filename of fileList('window-control')"
-          [class.active]="windowControlFilename === filename">
-        <a (click)="windowControlFilename = filename">{{ filename }}</a>
-      </li>
-    </ul>
-    <pre [innerHTML]="files['window-control'][windowControlFilename]"></pre>
-  </section>
+      <section id="window-control" class="jumbotron">
+        <h2>Window Control</h2>
 
-  <section  class="jumbotron">
-    <h2>Access Flow</h2>
+        <h3>Example</h3>
+        <window-control></window-control>
 
-    <h3>Example</h3>
-    <access-flow></access-flow>
+        <h3>Code</h3>
+        <ul class="nav nav-tabs">
+          <li role="presentation"
+              *ngFor="let filename of fileList('window-control')"
+              [class.active]="windowControlFilename === filename">
+            <a (click)="windowControlFilename = filename">{{ filename }}</a>
+          </li>
+        </ul>
+        <pre [innerHTML]="files['window-control'][windowControlFilename]"></pre>
+      </section>
 
-    <h3>Code</h3>
-    <ul class="nav nav-tabs">
-      <li role="presentation"
-          *ngFor="let filename of fileList('access-flow')"
-          [class.active]="accessFlowFilename === filename">
-        <a (click)="accessFlowFilename = filename">{{ filename }}</a>
-      </li>
-    </ul>
-    <pre [innerHTML]="files['access-flow'][accessFlowFilename]"></pre>
-  </section>
+      <section id="access-flow" class="jumbotron">
+        <h2>Access Flow</h2>
 
-  <section  class="jumbotron">
-    <h2>API</h2>
+        <h3>Example</h3>
+        <access-flow></access-flow>
 
-    <h3>WindowViewService</h3>
-    <pre [innerHTML]="files['API']['window-view.service.d.ts']"></pre>
+        <h3>Code</h3>
+        <ul class="nav nav-tabs">
+          <li role="presentation"
+              *ngFor="let filename of fileList('access-flow')"
+              [class.active]="accessFlowFilename === filename">
+            <a (click)="accessFlowFilename = filename">{{ filename }}</a>
+          </li>
+        </ul>
+        <pre [innerHTML]="files['access-flow'][accessFlowFilename]"></pre>
+      </section>
 
-    <h3>WindowViewCanClose</h3>
-    <pre [innerHTML]="files['API']['window-view-can-close.d.ts']"></pre>
+      <section id="api" class="jumbotron">
+        <h2>API</h2>
 
-    <h3>WindowViewContainer</h3>
-    <pre [innerHTML]="files['API']['window-view-container.component.d.ts']"></pre>
+        <h3>WindowViewService</h3>
+        <pre [innerHTML]="files['API']['window-view.service.d.ts']"></pre>
 
-  </section>
+        <h3>WindowViewCanClose</h3>
+        <pre [innerHTML]="files['API']['window-view-can-close.d.ts']"></pre>
+
+        <h3>WindowViewContainer</h3>
+        <pre [innerHTML]="files['API']['window-view-container.component.d.ts']"></pre>
+
+      </section>
+    </div>
+  </div>
 
 </div>
 <window-view-outlet></window-view-outlet>

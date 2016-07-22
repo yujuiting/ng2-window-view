@@ -14,9 +14,22 @@ var simple_window_component_1 = require('./simple-window.component');
 var SimpleUsageComponent = (function () {
     function SimpleUsageComponent(windowView) {
         this.windowView = windowView;
+        this.title = 'Simple Window';
+        this.isFloatingWindow = false;
+        this.showBackground = true;
+        this.windowSize = 'small';
+        this.panelClass = 'panel-default';
     }
     SimpleUsageComponent.prototype.openWindow = function () {
-        this.windowView.pushWindow(simple_window_component_1.SimpleWindowComponent);
+        var _this = this;
+        this.windowView.pushWindow(simple_window_component_1.SimpleWindowComponent).then(function (componentRef) {
+            var simpleWindow = componentRef.instance;
+            simpleWindow.title = _this.title;
+            simpleWindow.isFloatingWindow = _this.isFloatingWindow;
+            simpleWindow.showBackground = _this.showBackground;
+            simpleWindow.windowSize = _this.windowSize;
+            simpleWindow.panelClass = _this.panelClass;
+        });
     };
     SimpleUsageComponent = __decorate([
         core_1.Component({

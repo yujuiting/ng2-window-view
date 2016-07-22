@@ -10,10 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var _1 = require('../../../');
+var _2 = require('../../../');
 var SimpleWindowComponent = (function () {
-    function SimpleWindowComponent() {
+    function SimpleWindowComponent(windowView) {
+        this.windowView = windowView;
         this.title = 'Simple Window';
+        this.isFloatingWindow = false;
+        this.showBackground = true;
+        this.windowSize = 's';
+        this.panelClass = 'panel-default';
     }
+    SimpleWindowComponent.prototype.openWindow = function () {
+        this.windowView.pushWindow(SimpleWindowComponent);
+    };
     SimpleWindowComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -21,7 +30,7 @@ var SimpleWindowComponent = (function () {
             templateUrl: 'simple-window.component.html',
             directives: [_1.WindowViewContainerComponent]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [_2.WindowViewService])
     ], SimpleWindowComponent);
     return SimpleWindowComponent;
 }());
