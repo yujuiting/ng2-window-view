@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Optional } from '@angular/core';
 import { WindowViewService } from '../window-view.service';
 
 @Component({
@@ -8,16 +8,13 @@ import { WindowViewService } from '../window-view.service';
 })
 export class WindowViewContainerComponent {
 
-  constructor(private windowView: WindowViewService) {}
+  constructor(@Optional() private windowView?: WindowViewService) {}
   
   @Input()
   heading: string = 'Untitled Window';
 
   @Input()
   size: string = 'M';
-
-  @Input()
-  canClose: () => void = () => { return true; };
 
   @Input()
   showBackground: boolean = true;
@@ -27,6 +24,9 @@ export class WindowViewContainerComponent {
 
   @Input()
   panelClass: string = 'panel-default';
+
+  @Output()
+  close: EventEmitter<any> = new EventEmitter();
 
   protected top: number = 0;
   protected left: number = 0;
@@ -53,12 +53,13 @@ export class WindowViewContainerComponent {
   
   clickBackground($event: MouseEvent) {
     if ($event.currentTarget == $event.target) {
-      this.close();
+      this.closeWindow();
     }
   }
 
-  close() {
-    if (this.canClose()) {
+  closeWindow() {
+    this.close.emit({ target: this });
+    if (this.windowView) {
       this.windowView.popWindow();
     }
   }
