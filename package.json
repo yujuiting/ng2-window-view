@@ -12,6 +12,15 @@
   },
   "author": "yujuiting",
   "license": "ISC",
+  "keywords": [
+    "window-view",
+    "modal",
+    "dialog",
+    "angular",
+    "angular2",
+    "ng2",
+    "bootstrap"
+  ],
   "peerDependencies": {
     "@angular/core": "^2.0.0-rc.4",
     "bootstrap": "^3.3.6",
