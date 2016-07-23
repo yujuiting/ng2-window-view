@@ -7,6 +7,9 @@
     <div class="col-sm-3 .col-md-1">
       <nav>
         <ul class="nav nav-pills nav-stacked">
+          <li>Components</li>
+          <li role="presentation"><a href="#confirm-dialog-usage">Confirm Dialog Usage</a></li>
+          <li>Basis</li>
           <li role="presentation"><a href="#simple-usage">Simple Usage</a></li>
           <li role="presentation"><a href="#without-service">Without Service</a></li>
           <li role="presentation"><a href="#window-control">Window Control</a></li>
@@ -18,6 +21,25 @@
     </div>
 
     <div class="col-sm-9 .col-md-11">
+
+      <section id="confirm-dialog-usage" class="jumbotron">
+        <h2>Confirm Dialog</h2>
+
+        <h3>Example</h3>
+        <confirm-dialog-usage></confirm-dialog-usage>
+
+        <h3>Code</h3>
+        <ul class="nav nav-tabs">
+          <li role="presentation"
+              *ngFor="let filename of fileList('confirm-dialog-usage')"
+              [class.active]="confirmDialogUsageFilename === filename">
+            <a (click)="confirmDialogUsageFilename = filename">{{ filename }}</a>
+          </li>
+        </ul>
+        <pre [innerHTML]="files['confirm-dialog-usage'][confirmDialogUsageFilename]"></pre>
+      </section>
+
+      <hr>
 
       <section id="simple-usage" class="jumbotron">
         <h2>Simple Usage</h2>

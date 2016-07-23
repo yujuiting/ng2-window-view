@@ -1,5 +1,6 @@
 import { Type, DynamicComponentLoader, ViewContainerRef, ComponentRef, ResolvedReflectiveProvider } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { WindowViewHasResult } from './window-view-has-result';
 export declare class WindowViewService {
     private dcl;
     private stack;
@@ -25,6 +26,10 @@ export declare class WindowViewService {
      * Add window to top.
      */
     pushWindow(Component: Type, providers?: ResolvedReflectiveProvider[]): Promise<ComponentRef<any>>;
+    /**
+     * Open window and wait for result.
+     */
+    pushWindowAndGetResult<T>(Component: WindowViewHasResult<T>, providers?: ResolvedReflectiveProvider[]): Promise<Observable<T>>;
     /**
      * Remove latest window.
      */

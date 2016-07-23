@@ -18,6 +18,7 @@
 
   "files": [
     "index.ts",
+    "components.ts",
     "typings.d.ts"
   ]
 }

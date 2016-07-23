@@ -46,8 +46,21 @@ gulp.task('watch:example-files', () => {
   gulp.watch('./example/src/**/*.{html,css}', ['build:example-files'])
 });
 
-gulp.task('build:inline-template', () => {
+gulp.task('build:lib:inline-template', () => {
   gulp.src('./lib/**/*.js', { base: './lib' })
     .pipe(inlineNg2Template({ base: './src/lib' }))
     .pipe(gulp.dest('./lib'));
+});
+
+gulp.task('build:components:inline-template', () => {
+  gulp.src('./components/**/*.js', { base: './components' })
+    .pipe(inlineNg2Template({ base: './src/components' }))
+    .pipe(gulp.dest('./components'));
+});
+
+gulp.task('build:inline-template', () => {
+  return run([
+    'build:lib:inline-template',
+    'build:components:inline-template'
+  ])
 });

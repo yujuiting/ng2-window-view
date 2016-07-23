@@ -3,7 +3,9 @@ import { Injectable, Type, Injector,
          ResolvedReflectiveProvider } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { WindowViewCanClose } from './window-view-can-close';
+import { WindowViewHasResult } from './window-view-has-result';
 
 @Injectable()
 export class WindowViewService {
@@ -50,6 +52,22 @@ export class WindowViewService {
         this._length$.next(this.stack.length);
         return componentRef;
       });
+  }
+
+  /**
+   * Open window and wait for result.
+   */
+  pushWindowAndGetResult<T>(Component: WindowViewHasResult<T>, providers: ResolvedReflectiveProvider[] = []): Promise<Observable<T>> {
+    return this.pushWindow(Component as any, providers).then((componentRef: ComponentRef<WindowViewHasResult<T>>) => {
+      let component: WindowViewHasResult<T> = componentRef.instance;
+      if (!component.preventAutoCloseWindow) {
+        let waitForResult: Subscription = component.result$.subscribe(null, null, () => {
+          this.popWindow();
+          waitForResult.unsubscribe();
+        });
+      }
+      return component.result$;
+    });
   }
 
   /**

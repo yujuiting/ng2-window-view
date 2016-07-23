@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var isolate_window_component_1 = require('./without-service/isolate-window.component');
 var simple_usage_component_1 = require('./simple-usage/simple-usage.component');
+var confirm_dialog_usage_component_1 = require('./confirm-dialog/confirm-dialog-usage.component');
 var window_control_component_1 = require('./window-control/window-control.component');
 var access_flow_component_1 = require('./access-flow/access-flow.component');
 var AppComponent = (function () {
@@ -29,6 +30,8 @@ var AppComponent = (function () {
         this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-window.component.ts');
         this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-window.component.html');
         this.simpleUsageFilename = 'simple-usage.component.ts';
+        this.loadFile('confirm-dialog-usage', 'example/src/confirm-dialog', 'confirm-dialog-usage.component.ts');
+        this.confirmDialogUsageFilename = 'confirm-dialog-usage.component.ts';
         this.loadFile('window-control', 'example/src/window-control', 'window-control.component.ts');
         this.loadFile('window-control', 'example/src/window-control', 'window-control.component.html');
         this.loadFile('window-control', 'example/src/window-control', 'controled-window.component.ts');
@@ -44,7 +47,7 @@ var AppComponent = (function () {
         this.loadFile('API', 'lib/window-view-container', 'window-view-container.component.d.ts');
     }
     AppComponent.prototype.fileList = function (group) {
-        return Object.keys(this.files[group]);
+        return Object.keys(this.files[group] || {});
     };
     AppComponent.prototype.loadFile = function (group, dir, filename) {
         var _this = this;
@@ -67,6 +70,7 @@ var AppComponent = (function () {
             directives: [
                 isolate_window_component_1.IsolateWindowComponent,
                 simple_usage_component_1.SimpleUsageComponent,
+                confirm_dialog_usage_component_1.ConfirmDialogUsageComponent,
                 window_control_component_1.WindowControlComponent,
                 access_flow_component_1.AccessFlowComponent
             ]

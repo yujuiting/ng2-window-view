@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { IsolateWindowComponent } from './without-service/isolate-window.component';
 import { SimpleUsageComponent } from './simple-usage/simple-usage.component';
+import { ConfirmDialogUsageComponent } from './confirm-dialog/confirm-dialog-usage.component';
 import { WindowControlComponent } from './window-control/window-control.component';
 import { AccessFlowComponent } from './access-flow/access-flow.component';
 
@@ -15,6 +16,7 @@ import { AccessFlowComponent } from './access-flow/access-flow.component';
   directives: [
     IsolateWindowComponent,
     SimpleUsageComponent,
+    ConfirmDialogUsageComponent,
     WindowControlComponent,
     AccessFlowComponent
   ]
@@ -30,6 +32,9 @@ export class AppComponent {
     this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-window.component.ts');
     this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-window.component.html');
     this.simpleUsageFilename = 'simple-usage.component.ts';
+
+    this.loadFile('confirm-dialog-usage', 'example/src/confirm-dialog', 'confirm-dialog-usage.component.ts');
+    this.confirmDialogUsageFilename = 'confirm-dialog-usage.component.ts';
 
     this.loadFile('window-control', 'example/src/window-control', 'window-control.component.ts');
     this.loadFile('window-control', 'example/src/window-control', 'window-control.component.html');
@@ -55,11 +60,12 @@ export class AppComponent {
   showIsolateWindow: boolean = false;
   withoutServiceFilename: string;
   simpleUsageFilename: string;
+  confirmDialogUsageFilename: string;
   windowControlFilename: string;
   accessFlowFilename: string;
 
   fileList(group: string) {
-    return Object.keys(this.files[group]);
+    return Object.keys(this.files[group] || {});
   }
 
   loadFile(group: string, dir: string, filename: string) {
