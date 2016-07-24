@@ -1,5 +1,6 @@
 import { Component, ComponentRef } from '@angular/core';
-import { WindowViewOutletComponent, WindowViewService } from '../../../';
+import { WindowViewOutletComponent,
+         WindowViewService } from '../../../';
 import { SimpleWindowComponent } from './simple-window.component';
 
 @Component({

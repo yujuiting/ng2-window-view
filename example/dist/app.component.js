@@ -15,15 +15,19 @@ var simple_usage_component_1 = require('./simple-usage/simple-usage.component');
 var confirm_dialog_usage_component_1 = require('./confirm-dialog/confirm-dialog-usage.component');
 var window_control_component_1 = require('./window-control/window-control.component');
 var access_flow_component_1 = require('./access-flow/access-flow.component');
+var window_view_layer_usage_component_1 = require('./window-view-layer-usage/window-view-layer-usage.component');
 var AppComponent = (function () {
     function AppComponent(http) {
         this.http = http;
         this.files = {};
         // ui status
         this.title = 'ng2-window-view example';
+        this.totalLoadCount = 0;
+        this.loadedCount = 0;
         this.showIsolateWindow = false;
         this.loadFile('without-service', 'example/src/without-service', 'isolate-window.component.ts');
         this.loadFile('without-service', 'example/src/without-service', 'isolate-window.component.html');
+        this.loadFile('without-service', 'example/src/without-service', 'without-service-example.html');
         this.withoutServiceFilename = 'isolate-window.component.ts';
         this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-usage.component.ts');
         this.loadFile('simple-usage', 'example/src/simple-usage', 'simple-usage.component.html');
@@ -42,15 +46,29 @@ var AppComponent = (function () {
         this.loadFile('access-flow', 'example/src/access-flow', 'checked-window.component.ts');
         this.loadFile('access-flow', 'example/src/access-flow', 'checked-window.component.html');
         this.accessFlowFilename = 'access-flow.component.ts';
-        this.loadFile('API', 'lib', 'window-view.service.d.ts');
-        this.loadFile('API', 'lib', 'window-view-can-close.d.ts');
-        this.loadFile('API', 'lib/window-view-container', 'window-view-container.component.d.ts');
+        this.loadFile('window-view-layer-usage', 'example/src/window-view-layer-usage', 'window-view-layer-usage.component.ts');
+        this.loadFile('window-view-layer-usage', 'example/src/window-view-layer-usage', 'window-view-layer-usage.component.html');
+        this.loadFile('window-view-layer-usage', 'example/src/window-view-layer-usage', 'floating-window.component.ts');
+        this.loadFile('window-view-layer-usage', 'example/src/window-view-layer-usage', 'floating-window.component.html');
+        this.windowViewLayerUsageFilename = 'window-view-layer-usage.component.ts';
+        this.loadFile('basis-api', 'lib', 'window-view.service.d.ts');
+        this.loadFile('basis-api', 'lib', 'window-view-layer.service.d.ts');
+        this.loadFile('basis-api', 'lib', 'window-view-can-close.d.ts');
+        this.loadFile('basis-api', 'lib', 'window-view-has-result.d.ts');
+        this.loadFile('basis-api', 'lib/window-view-container', 'window-view-container.component.d.ts');
+        this.loadFile('component-api', 'components/confirm-dialog', 'confirm-dialog.component.d.ts');
     }
+    Object.defineProperty(AppComponent.prototype, "loadPercent", {
+        get: function () { return Math.floor(this.loadedCount / this.totalLoadCount * 100); },
+        enumerable: true,
+        configurable: true
+    });
     AppComponent.prototype.fileList = function (group) {
         return Object.keys(this.files[group] || {});
     };
     AppComponent.prototype.loadFile = function (group, dir, filename) {
         var _this = this;
+        this.totalLoadCount++;
         this.files[group] = this.files[group] || {};
         var language = 'typescript';
         if (!!/html$/.test(filename)) {
@@ -59,6 +77,7 @@ var AppComponent = (function () {
         var loadFile = this.http.get(dir + "/" + filename)
             .subscribe(function (response) {
             _this.files[group][filename] = Prism.highlight(response.text(), Prism.languages[language]);
+            _this.loadedCount++;
         }, function (error) { return console.warn(error); }, function () { return loadFile.unsubscribe(); });
     };
     AppComponent = __decorate([
@@ -72,7 +91,8 @@ var AppComponent = (function () {
                 simple_usage_component_1.SimpleUsageComponent,
                 confirm_dialog_usage_component_1.ConfirmDialogUsageComponent,
                 window_control_component_1.WindowControlComponent,
-                access_flow_component_1.AccessFlowComponent
+                access_flow_component_1.AccessFlowComponent,
+                window_view_layer_usage_component_1.WindowViewLayerUsageComponent
             ]
         }), 
         __metadata('design:paramtypes', [http_1.Http])

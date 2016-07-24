@@ -8,6 +8,7 @@ export declare class WindowViewService {
     private _length$;
     private _onOpen$;
     private _onClose$;
+    length: number;
     /**
      * Current window's count.
      */
@@ -22,6 +23,7 @@ export declare class WindowViewService {
     onClose$: Observable<ComponentRef<any>>;
     constructor(dcl: DynamicComponentLoader);
     setOutlet(outlet: ViewContainerRef): void;
+    getWindowInstanceAt(index: number): any;
     /**
      * Add window to top.
      */
@@ -34,5 +36,7 @@ export declare class WindowViewService {
      * Remove latest window.
      */
     popWindow(): boolean;
+    removeWindow(componentRef: ComponentRef<any>): boolean;
+    removeWindowByInstance(instance: any): boolean;
     private canCloseWindowView(componentRef);
 }

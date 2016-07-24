@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc -p ./src/tsconfig.json && gulp build:inline-template",
     "example:tsc": "tsc -p ./example/src/tsconfig.json",
-    "example:watch": "tsc -w -p ./example/src/tsconfig.json",
+    "example:tsc:watch": "tsc -w -p ./example/src/tsconfig.json",
+    "example:files:watch": "gulp watch:example-files",
     "build:example": "gulp build:example && npm run example:tsc",
     "start": "lite-server"
   },

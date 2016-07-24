@@ -79,12 +79,13 @@ var ConfirmDialogComponent = (function () {
               <window-view-container [heading]="title"
                                      [size]="size"
                                      (close)="onClose()">
+
                 <div class="confirm-dialog-content">
                   {{ content }}
                   <ng-content></ng-content>
                 </div>
 
-                <div class="container row confirm-dialog-button-set">
+                <div panel-footer class="container row confirm-dialog-button-set">
                   <button class="btn btn-primary" (click)="confirm()">
                     {{ confirmString }}
                   </button>
@@ -93,6 +94,7 @@ var ConfirmDialogComponent = (function () {
                     {{ denyString }}
                   </button>
                 </div>
+
               </window-view-container>
             `,
             styles: [`
