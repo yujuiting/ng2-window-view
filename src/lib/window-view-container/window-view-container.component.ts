@@ -1,14 +1,16 @@
-import { Component, Input, Output, EventEmitter, Optional } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Optional, OnInit, OnDestroy } from '@angular/core';
 import { WindowViewService } from '../window-view.service';
+import { WindowViewLayerService } from '../window-view-layer.service';
 
 @Component({
   selector: 'window-view-container',
   templateUrl: 'window-view-container/window-view-container.component.html',
   styleUrls: ['window-view-container/window-view-container.component.css']
 })
-export class WindowViewContainerComponent {
+export class WindowViewContainerComponent implements OnInit, OnDestroy {
 
-  constructor(@Optional() private windowView?: WindowViewService) {}
+  constructor(@Optional() private windowView: WindowViewService,
+              @Optional() private windowViewLayer: WindowViewLayerService) {}
   
   /**
    * Window title.
@@ -56,8 +58,18 @@ export class WindowViewContainerComponent {
   @Input()
   panelClass: string = 'panel-default';
 
+  hideContainer: boolean = false;
+
   @Output()
   close: EventEmitter<any> = new EventEmitter();
+
+  zIndex: number = 10;
+
+  get position(): { x: number, y: number } { return { x: this.left, y: this.top }; }
+  set position(value: { x: number, y: number }) {
+    this.top = value.y;
+    this.left = value.x;
+  }
 
   private top: number = 0;
 
@@ -84,14 +96,44 @@ export class WindowViewContainerComponent {
     }
   }
 
+  ngOnInit() {
+    if (typeof this.size !== 'string') {
+      throw new Error('[WindowViewContainerComponent] property `size` has to be string.')
+    }
+
+    if (this.windowViewLayer) {
+      this.windowViewLayer.add(this);
+    }
+    
+    this.hideContainer = this.floating && !!this.windowViewLayer;
+  }
+
+  ngOnDestroy() {
+    if (this.windowViewLayer) {
+      this.windowViewLayer.remove(this);
+    }
+  }
+
   closeWindow() {
     this.close.emit({ target: this });
+
+    if (this.floating && this.windowViewLayer) {
+      return;
+    }
+
     if (this.windowView) {
       this.windowView.popWindow();
+      return;
+    }
+  }
+
+  private onClickWindow() {
+    if (this.floating && this.windowViewLayer) {
+      this.windowViewLayer.bringToTop(this);
     }
   }
   
-  private clickBackground($event: MouseEvent) {
+  private onClickBackground($event: MouseEvent) {
     if ($event.currentTarget == $event.target) {
       this.closeWindow();
     }

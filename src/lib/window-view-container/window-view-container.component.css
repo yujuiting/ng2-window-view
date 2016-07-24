@@ -1,6 +1,3 @@
-.window-container {
-  z-index: 99;
-}
 .window-container,
 .window-background {
   position: fixed;
@@ -9,6 +6,11 @@
   height: 100%;
   top: 0;
   left: 0;
+}
+
+.window-container.hide-container {
+  width: 0;
+  height: 0;
 }
 
 .window-background {
@@ -23,7 +25,8 @@
 
 .window-container.floating .panel {
   min-width: 20%;
-  position: absolute;
+  position: fixed;
+  box-shadow: 0px 6px 24px grey;
 }
 
 .panel.size-relative-large { width: 80%; }

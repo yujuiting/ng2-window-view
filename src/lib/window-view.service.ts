@@ -20,6 +20,8 @@ export class WindowViewService {
 
   private _onClose$: Subject<ComponentRef<any>> = new Subject<ComponentRef<any>>();
 
+  get length(): number { return this.stack.length; }
+
   /**
    * Current window's count.
    */
@@ -41,10 +43,17 @@ export class WindowViewService {
     this.outlet = outlet;
   }
 
+  getWindowInstanceAt(index: number) {
+    return (this.stack[index]) ? this.stack[index].instance : null;
+  }
+
   /**
    * Add window to top.
    */
   pushWindow(Component: Type, providers: ResolvedReflectiveProvider[] = []): Promise<ComponentRef<any>> {
+    if (!this.outlet) {
+      throw new Error('[WindowViewService] pushWindow error. Not found window-view-outlet');
+    }
     return this.dcl.loadNextToLocation(Component, this.outlet, providers)
       .then((componentRef: ComponentRef<any>) => {
         this.stack.push(componentRef);
@@ -77,15 +86,26 @@ export class WindowViewService {
     if (this.stack.length === 0) {
       return false;
     }
-    let componentRef: ComponentRef<any> = this.stack.pop();
+    let componentRef: ComponentRef<any> = this.stack[this.stack.length - 1];
+    return this.removeWindow(componentRef);
+  }
+
+  removeWindow(componentRef: ComponentRef<any>): boolean {
     if (!this.canCloseWindowView(componentRef)) {
-      this.stack.push(componentRef);
       return false;
     }
+    let index: number = this.stack.indexOf(componentRef);
+    this.stack.splice(index, 1);
     this._onClose$.next(componentRef);
     this._length$.next(this.stack.length);
     componentRef.destroy();
     return true;
+  }
+
+  removeWindowByInstance(instance: any) {
+    let componentRef: ComponentRef<any> = this.stack.find((componentRef: ComponentRef<any>) =>
+      componentRef.instance == instance);
+    return this.removeWindow(componentRef);
   }
 
   private canCloseWindowView(componentRef: ComponentRef<WindowViewCanClose>) {
