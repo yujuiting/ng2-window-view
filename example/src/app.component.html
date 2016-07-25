@@ -22,7 +22,7 @@
     <header>
       <h1>{{title}}</h1>
       <div class="progress" *ngIf="loadedCount < totalLoadCount">
-        <div class="progress-bar" role="progressbar" style="width: {{ loadPercent }}%;">
+        <div class="progress-bar" role="progressbar" [style.width]="loadPercent + '%'">
           {{ loadPercent }}%
         </div>
       </div>
