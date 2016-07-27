@@ -9,9 +9,6 @@ import { WindowViewLayerService } from '../window-view-layer.service';
 })
 export class WindowViewContainerComponent implements OnInit, OnDestroy {
 
-  constructor(@Optional() private windowView: WindowViewService,
-              @Optional() private windowViewLayer: WindowViewLayerService) {}
-  
   /**
    * Window title.
    * 
@@ -64,6 +61,7 @@ export class WindowViewContainerComponent implements OnInit, OnDestroy {
   zIndex: number = 10;
 
   get position(): { x: number, y: number } { return { x: this.left, y: this.top }; }
+
   set position(value: { x: number, y: number }) {
     this.top = value.y;
     this.left = value.x;
@@ -96,9 +94,12 @@ export class WindowViewContainerComponent implements OnInit, OnDestroy {
     }
   }
 
+  constructor(@Optional() private windowView: WindowViewService,
+              @Optional() private windowViewLayer: WindowViewLayerService) {}
+
   ngOnInit() {
     if (typeof this.size !== 'string') {
-      throw new Error('[WindowViewContainerComponent] property `size` has to be string.')
+      throw new Error('[WindowViewContainerComponent] property `size` has to be string.');
     }
 
     if (this.windowViewLayer) {
@@ -130,9 +131,9 @@ export class WindowViewContainerComponent implements OnInit, OnDestroy {
       this.windowViewLayer.bringToTop(this);
     }
   }
-  
+
   private onClickBackground($event: MouseEvent) {
-    if ($event.currentTarget == $event.target) {
+    if ($event.currentTarget === $event.target) {
       this.closeWindow();
     }
   }

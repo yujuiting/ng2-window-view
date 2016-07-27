@@ -7,6 +7,6 @@ export interface WindowViewHasResult<T> {
    * Default: false
    */
   preventAutoCloseWindow?: boolean;
-  
+
   result$: Observable<T>;
 }

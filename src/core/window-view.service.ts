@@ -103,13 +103,13 @@ export class WindowViewService {
   }
 
   removeWindowByInstance(instance: any) {
-    let componentRef: ComponentRef<any> = this.stack.find((componentRef: ComponentRef<any>) =>
-      componentRef.instance == instance);
-    return this.removeWindow(componentRef);
+    let removedComponentRef: ComponentRef<any> = this.stack.find((componentRef: ComponentRef<any>) =>
+      componentRef.instance === instance);
+    return this.removeWindow(removedComponentRef);
   }
 
   private canCloseWindowView(componentRef: ComponentRef<WindowViewCanClose>) {
-    if (typeof componentRef.instance.windowViewCanClose != 'function') {
+    if (typeof componentRef.instance.windowViewCanClose !== 'function') {
       return true;
     }
     return componentRef.instance.windowViewCanClose();
