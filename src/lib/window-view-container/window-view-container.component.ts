@@ -58,8 +58,6 @@ export class WindowViewContainerComponent implements OnInit, OnDestroy {
   @Input()
   panelClass: string = 'panel-default';
 
-  hideContainer: boolean = false;
-
   @Output()
   close: EventEmitter<any> = new EventEmitter();
 
@@ -70,6 +68,8 @@ export class WindowViewContainerComponent implements OnInit, OnDestroy {
     this.top = value.y;
     this.left = value.x;
   }
+
+  get hideContainer(): boolean { return this.floating && !!this.windowViewLayer; }
 
   private top: number = 0;
 
@@ -104,8 +104,6 @@ export class WindowViewContainerComponent implements OnInit, OnDestroy {
     if (this.windowViewLayer) {
       this.windowViewLayer.add(this);
     }
-    
-    this.hideContainer = this.floating && !!this.windowViewLayer;
   }
 
   ngOnDestroy() {
