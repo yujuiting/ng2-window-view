@@ -9,7 +9,6 @@
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noImplicitAny": false,
-    "outDir": "../",
     "rootDir": ".",
     "sourceMap": true,
     "target": "es5",

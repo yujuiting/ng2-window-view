@@ -4,8 +4,8 @@ import { WindowViewLayerService } from '../window-view-layer.service';
 
 @Component({
   selector: 'window-view-container',
-  templateUrl: 'window-view-container/window-view-container.component.html',
-  styleUrls: ['window-view-container/window-view-container.component.css']
+  templateUrl: 'window-view-container.component.html',
+  styleUrls: ['window-view-container.component.css']
 })
 export class WindowViewContainerComponent implements OnInit, OnDestroy {
 
