@@ -5,8 +5,8 @@
      [style.z-index]="zIndex">
   <div class="window-background" (click)="onClickBackground($event)" *ngIf="showBackground"></div>
   <div class="panel {{ panelClass }} {{ sizeClass }}"
-       [style.top]="top"
-       [style.left]="left"
+       [style.top]="top + 'px'"
+       [style.left]="left + 'px'"
        (click)="onClickWindow()">
     <div class="panel-heading"
          (mousedown)="onMouseDown($event)"
