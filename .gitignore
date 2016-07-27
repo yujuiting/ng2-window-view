@@ -1,2 +1,8 @@
 /node_modules
 /typings
+
+#build output
+/components
+/core
+/index.*
+/components.*
