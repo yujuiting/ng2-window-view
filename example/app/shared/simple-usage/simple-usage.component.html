@@ -1,0 +1,45 @@
+<button class="btn btn-default" (click)="openWindow()">Open Window</button>
+
+<div class="form-group">
+  <label>Title</label>
+  <input class="form-control" [(ngModel)]="title" type="string">
+</div>
+
+<div class="checkbox">
+  <label>
+    <input type="checkbox" [(ngModel)]="isFloatingWindow">
+    Floating window
+  </label>
+</div>
+
+<div class="checkbox">
+  <label>
+    <input type="checkbox" [(ngModel)]="showBackground">
+    Show background
+  </label>
+</div>
+
+<div class="form-group">
+  <label>Window size</label>
+  <select class="form-control" [(ngModel)]="windowSize">
+    <option value="small">small</option>
+    <option value="middle">middle</option>
+    <option value="large">large</option>
+    <option value="relative-small">relative-small</option>
+    <option value="relative-middle">relative-middle</option>
+    <option value="relative-large">relative-large</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label>Panel class</label>
+  <select class="form-control" [(ngModel)]="panelClass">
+    <option value="panel-default">panel-default</option>
+    <option value="panel-primary">panel-primary</option>
+    <option value="panel-success">panel-success</option>
+    <option value="panel-info">panel-info</option>
+    <option value="panel-warning">panel-warning</option>
+    <option value="panel-danger">panel-danger</option>
+  </select>
+</div>
+<window-view-outlet></window-view-outlet>

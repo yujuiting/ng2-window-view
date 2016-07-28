@@ -1,0 +1,7 @@
+<button class="btn btn-default" (click)="showWindow = true">Open Window</button>
+
+<window-view-container *ngIf="showWindow"
+                       (close)="showWindow = false">
+  No Service!!
+
+</window-view-container>

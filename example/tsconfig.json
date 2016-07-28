@@ -1,13 +1,15 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "declaration": true,
+    "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "mapRoot": "/",
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noImplicitAny": false,
+    "outDir": "../dist/",
     "rootDir": ".",
     "sourceMap": true,
     "target": "es5",
@@ -16,7 +18,8 @@
 
   "files": [
     "index.ts",
-    "components.ts",
+    "vendor.ts",
+    "polyfills.ts",
     "typings.d.ts"
   ]
 }
