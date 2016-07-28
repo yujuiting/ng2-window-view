@@ -67,8 +67,8 @@ export class AppComponent {
 
     this.loadFile('multi-floating-window', 'examples/multi-floating-window', 'multi-floating-window.component.ts');
     this.loadFile('multi-floating-window', 'examples/multi-floating-window', 'multi-floating-window.component.html');
-    this.loadFile('multi-floating-window', 'examples/simple-window', 'simple-window.component.ts');
-    this.loadFile('multi-floating-window', 'examples/simple-window', 'simple-window.component.html');
+    this.loadFile('multi-floating-window', 'examples/floating-window', 'floating-window.component.ts');
+    this.loadFile('multi-floating-window', 'examples/floating-window', 'floating-window.component.html');
     this.MultiFloatingWindowFilename = 'multi-floating-window.component.ts';
 
     this.loadFile('confirm-dialog-usage', 'examples/confirm-dialog-usage', 'confirm-dialog-usage.component.ts');
@@ -97,7 +97,10 @@ export class AppComponent {
     let loadFile: Subscription = this.http.get(`${dir}/${filename}`)
       .subscribe(
         (response: Response) => {
-          let file: string = response.text().replace('../../../..', 'ng2-window-view');
+          let file: string = response.text()
+            .replace('../../../../components', 'ng2-window-view/components')
+            .replace('../../../../', 'ng2-window-view');
+
           this.files[group][filename] = {
             html: Prism.highlight(file, Prism.languages[language]),
             type: language
