@@ -1,1 +1,0 @@
-{"version":3,"file":"components.js","sourceRoot":"","sources":["file:///C:/Users/yujuiting/Documents/projects/ng2-window-view/src/components.ts"],"names":[],"mappings":";;;;AAAA,iBAAc,6BAA6B,CAAC,EAAA","sourcesContent":["export * from './components/confirm-dialog';"]}

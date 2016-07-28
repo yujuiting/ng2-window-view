@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["file:///C:/Users/yujuiting/Documents/projects/ng2-window-view/src/components/confirm-dialog/index.ts"],"names":[],"mappings":";;;;AAAA,iBAAc,4BAA4B,CAAC,EAAA","sourcesContent":["export * from './confirm-dialog.component';"]}

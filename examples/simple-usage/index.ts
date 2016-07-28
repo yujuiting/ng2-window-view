@@ -1,0 +1,1 @@
+export * from './simple-usage.component';

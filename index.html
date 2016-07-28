@@ -1,68 +1,21 @@
+<!doctype html>
 <html>
-  <head>
-    <title>ng2-window-view example</title>
+<head>
+  <meta charset="utf-8">
+  <title>Ng2WindowViewExample</title>
+  <base href="/">
 
-    <link rel="stylesheet" type="text/css" href="example/vendor/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="example/vendor/prismjs/themes/prism.css">
-    <link rel="stylesheet" type="text/css" href="example/vendor/prismjs/themes/prism-solarizedlight.css">
-    <style>
-      .animation-rotate-repeatly {
-        animation: animaterotate .7s infinite linear;
-      }
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-      @keyframes animaterotate {
-        from { transform: scale(1) rotate(0deg);}
-        to { transform: scale(1) rotate(360deg);}
-      }
-
-      #loading-icon {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        margin-top: -0.5em;
-        margin-left: -0.5em;
-      }
-    </style>
-  </head>
-  <body>
-
-    <app>
-      <span id="loading-icon" class="glyphicon glyphicon-refresh animation-rotate-repeatly"></span>
-    </app>
-    
-    <script src="example/vendor/prismjs/prism.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-typescript.min.js"></script>
-    <script src="example/vendor/es6-shim/es6-shim.js"></script>
-    <script src="example/vendor/reflect-metadata/Reflect.js"></script>
-    <script src="example/vendor/zone.js/dist/zone.js"></script>
-    <script src="example/vendor/systemjs/dist/system.js"></script>
-    <script>
-      System.config({
-        defaultJSExtensions: true,
-        map: {
-          '@angular': 'example/vendor/@angular',
-          'rxjs': 'example/vendor/rxjs',
-          'symbol-observable': 'example/vendor/symbol-observable',
-          'main': 'example/dist/main.js',
-          'ng2-window-view': './'
-        },
-        packages: {
-          '@angular/core': { main: 'index' },
-          '@angular/common': { main: 'index' },
-          '@angular/compiler': { main: 'index' },
-          '@angular/http': { main: 'index' },
-          '@angular/router': { main: 'index' },
-          '@angular/platform-browser': { main: 'index' },
-          '@angular/platform-browser-dynamic': { main: 'index' },
-          'symbol-observable': { main: 'index' },
-          'ng2-window-view': { main: 'index' },
-          './lib/window-view-outlet': { main: 'index' },
-          './lib/window-view-container': { main: 'index' },
-          './components/confirm-dialog': { main: 'index' }
-        }
-      });
-
-      System.import('main');
-    </script>
-  </body>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism-solarizedlight.min.css">
+  <style>
+    html, body { height: 100%; }
+  </style>
+</head>
+<body>
+  <app-root>Loading...</app-root>
+<script type="text/javascript" src="polyfills.bundle.js"></script><script type="text/javascript" src="vendor.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script></body>
 </html>
