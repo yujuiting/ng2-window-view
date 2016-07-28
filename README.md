@@ -1,6 +1,36 @@
 # ng2-window-view
 [Documentation & Example Here!](https://yujuiting.github.io/ng2-window-view/)
 
+## Concept
+
+A few of core class for implement window more convenient,
+and provide collection of common type of modal, dialog components.
+
+### Core Classes
+
+- `WindowViewContainerComponent` - A window component using bootstrap `panel` class.
+                                   Anything wrap by this will present as content of a window.
+                                   Provide some common config.
+
+- `WindowViewOutletComponent` - An outlet component similar to `router-outlet`.
+                                Require `WindowViewService`, any window push from `WindowViewService`
+                                will be placed after outlet component.
+
+- `WindowViewService` - For management of windows. It treat all windows as a stack.
+                        You can push or pop window from it.
+
+- `WindowViewLayerService` - Some case, you need multi-floating window feature,
+                             that is what `WindowViewLayerService` do.
+                             If a `WindowViewContainerComponent` enable `floating` and
+                             disable `showBackground`, it will be push into `WindowViewLayerService`.
+                             All windows in `WindowViewLayerService` can change `z-index` by clicking
+                             component.
+
+### Components
+
+- `ConfirmDialog`
+
+
 ## Usage
 ```
 $ npm install --save ng2-window-view
