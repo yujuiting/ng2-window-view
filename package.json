@@ -16,7 +16,9 @@
     "prebuild:example": "npm run build",
     "build:example": "NODE_ENV=production webpack --progress --color --display-error-details --display-cached",
     "publish:gh-pages": "npm run build:example && gh-pages -d example-build",
-    "prepublish": "npm run build"
+    "postpublish:gh-pages": "npm run clear",
+    "prepublish": "npm run build",
+    "postpublish": "npm run clear"
   },
   "author": "yujuiting",
   "license": "ISC",
