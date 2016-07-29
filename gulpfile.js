@@ -12,7 +12,10 @@ gulp.task('build:core:inline-template', () =>
 
 gulp.task('build:components:inline-template', () => 
   gulp.src('./src/components/**/*.js', { base: './src/components' })
-    .pipe(inlineNg2Template({ useRelativePaths: true }))
+    .pipe(inlineNg2Template({
+      useRelativePaths: true,
+      target: 'es5'
+    }))
     .pipe(gulp.dest('./src/components')));
 
 gulp.task('build:inline-template', (done) => 
