@@ -5,17 +5,19 @@ const del = require('del');
 const inlineNg2Template = require('gulp-inline-ng2-template');
 const ghPages = require('gh-pages');
 
+const inlineNg2TemplateConfig = {
+  useRelativePaths: true,
+  target: 'es5'
+};
+
 gulp.task('build:core:inline-template', () => 
   gulp.src('./src/**/*.js', { base: './src' })
-    .pipe(inlineNg2Template({ useRelativePaths: true }))
+    .pipe(inlineNg2Template(inlineNg2TemplateConfig))
     .pipe(gulp.dest('./src')));
 
 gulp.task('build:components:inline-template', () => 
   gulp.src('./src/components/**/*.js', { base: './src/components' })
-    .pipe(inlineNg2Template({
-      useRelativePaths: true,
-      target: 'es5'
-    }))
+    .pipe(inlineNg2Template(inlineNg2TemplateConfig))
     .pipe(gulp.dest('./src/components')));
 
 gulp.task('build:inline-template', (done) => 
