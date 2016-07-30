@@ -18,7 +18,10 @@
     "publish:gh-pages": "npm run build:example && gh-pages -d example-build",
     "postpublish:gh-pages": "npm run clear",
     "prepublish": "npm run build",
-    "postpublish": "npm run clear"
+    "postpublish": "npm run clear",
+    "pretest": "npm run build",
+    "test": "karma start",
+    "posttest": "npm run clear"
   },
   "author": "yujuiting",
   "license": "ISC",

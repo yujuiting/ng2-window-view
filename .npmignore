@@ -1,3 +1,8 @@
 /node_modules
 /typings
+
+# build output
 /example-build
+
+#
+/coverage

@@ -1,5 +1,5 @@
-import { Injectable, Type, Injector,
-         DynamicComponentLoader, ViewContainerRef, ComponentRef,
+import { Injectable, Type, DynamicComponentLoader,
+         ViewContainerRef, ComponentRef,
          ResolvedReflectiveProvider } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
@@ -16,9 +16,9 @@ export class WindowViewService {
 
   private _length$: Subject<number> = new Subject<number>();
 
-  private _onOpen$: Subject<ComponentRef<any>> = new Subject<ComponentRef<any>>();
+  private _open$: Subject<any> = new Subject<any>();
 
-  private _onClose$: Subject<ComponentRef<any>> = new Subject<ComponentRef<any>>();
+  private _close$: Subject<any> = new Subject<any>();
 
   get length(): number { return this.stack.length; }
 
@@ -30,12 +30,12 @@ export class WindowViewService {
   /**
    * Emit after window open.
    */
-  get onOpen$(): Observable<ComponentRef<any>> { return this._onOpen$.asObservable(); }
+  get open$(): Observable<any> { return this._open$.asObservable(); }
 
   /**
    * Emit before window close.
    */
-  get onClose$(): Observable<ComponentRef<any>> { return this._onClose$.asObservable(); }
+  get close$(): Observable<any> { return this._close$.asObservable(); }
 
   constructor(private dcl: DynamicComponentLoader) {}
 
@@ -43,8 +43,32 @@ export class WindowViewService {
     this.outlet = outlet;
   }
 
-  getWindowInstanceAt(index: number) {
+  getInstanceAt(index: number) {
     return (this.stack[index]) ? this.stack[index].instance : null;
+  }
+
+  add(componentRef: ComponentRef<any>) {
+    this.stack.push(componentRef);
+    this._open$.next(componentRef.instance);
+    this._length$.next(this.stack.length);
+  }
+
+  remove(componentRef: ComponentRef<any>): boolean {
+    if (!this.canCloseWindowView(componentRef)) {
+      return false;
+    }
+    let index: number = this.stack.indexOf(componentRef);
+    this.stack.splice(index, 1);
+    this._close$.next(componentRef.instance);
+    this._length$.next(this.stack.length);
+    componentRef.destroy();
+    return true;
+  }
+
+  removeByInstance(instance: any) {
+    let removedComponentRef: ComponentRef<any> = this.stack.find((componentRef: ComponentRef<any>) =>
+      componentRef.instance === instance);
+    return this.remove(removedComponentRef);
   }
 
   /**
@@ -56,27 +80,9 @@ export class WindowViewService {
     }
     return this.dcl.loadNextToLocation(Component, this.outlet, providers)
       .then((componentRef: ComponentRef<any>) => {
-        this.stack.push(componentRef);
-        this._onOpen$.next(componentRef);
-        this._length$.next(this.stack.length);
+        this.add(componentRef);
         return componentRef;
       });
-  }
-
-  /**
-   * Open window and wait for result.
-   */
-  pushWindowAndGetResult<T>(Component: WindowViewHasResult<T>, providers: ResolvedReflectiveProvider[] = []): Promise<Observable<T>> {
-    return this.pushWindow(Component as any, providers).then((componentRef: ComponentRef<WindowViewHasResult<T>>) => {
-      let component: WindowViewHasResult<T> = componentRef.instance;
-      if (!component.preventAutoCloseWindow) {
-        let waitForResult: Subscription = component.result$.subscribe(null, null, () => {
-          this.popWindow();
-          waitForResult.unsubscribe();
-        });
-      }
-      return component.result$;
-    });
   }
 
   /**
@@ -87,25 +93,7 @@ export class WindowViewService {
       return false;
     }
     let componentRef: ComponentRef<any> = this.stack[this.stack.length - 1];
-    return this.removeWindow(componentRef);
-  }
-
-  removeWindow(componentRef: ComponentRef<any>): boolean {
-    if (!this.canCloseWindowView(componentRef)) {
-      return false;
-    }
-    let index: number = this.stack.indexOf(componentRef);
-    this.stack.splice(index, 1);
-    this._onClose$.next(componentRef);
-    this._length$.next(this.stack.length);
-    componentRef.destroy();
-    return true;
-  }
-
-  removeWindowByInstance(instance: any) {
-    let removedComponentRef: ComponentRef<any> = this.stack.find((componentRef: ComponentRef<any>) =>
-      componentRef.instance === instance);
-    return this.removeWindow(removedComponentRef);
+    return this.remove(componentRef);
   }
 
   private canCloseWindowView(componentRef: ComponentRef<WindowViewCanClose>) {

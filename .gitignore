@@ -1,9 +1,12 @@
 /node_modules
 /typings
 
-#build output
+# build output
 /components
 /core
 /index.*
 /components.*
 /example-build
+
+#
+/coverage

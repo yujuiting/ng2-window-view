@@ -13,8 +13,6 @@
  * all here! Crazy huh. So we need to do some setup
  */
 'use strict';
-// todo: replace with path to your test files source
-const PATH_TO_FILES = './src';
 
 Error.stackTraceLimit = Infinity;
 
@@ -52,7 +50,7 @@ Object.assign(global, testing);
  * any file that ends with spec.js and get its path. By passing in true
  * we say do this recursively
  */
-var testContext = require.context(PATH_TO_FILES, true, /\.spec\.ts/);
+var testContext = require.context('./src', true, /\.spec\.ts/);
 
 /*
  * get all the files, for each file, call the context function
