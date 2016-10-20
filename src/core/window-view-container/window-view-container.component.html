@@ -1,0 +1,27 @@
+<div class="window-container"
+     [class.floating]="floating"
+     [class.fixed]="!floating"
+     [class.hide-container]="hideContainer"
+     [style.z-index]="zIndex">
+  <div class="window-background" (click)="onClickBackground($event)" *ngIf="showBackground"></div>
+  <div class="panel {{ panelClass }} {{ sizeClass }}"
+       [style.top]="top + 'px'"
+       [style.left]="left + 'px'"
+       (click)="onClickWindow()">
+    <div class="panel-heading"
+         (mousedown)="onMouseDown($event)"
+         (mouseup)="onMouseUp($event)"
+         (mouseleave)="onMouseUp($event)"
+         (mousemove)="onMouseMove($event)">
+      {{ heading }}
+      <ng-content select="[panel-heading]"></ng-content>
+      <a class="btn-close" (click)="closeWindow()"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+    </div>
+    <div class="panel-body">
+      <ng-content></ng-content>
+    </div>
+    <div class="panel-footer">
+      <ng-content select="[panel-footer]"></ng-content>
+    </div>
+  </div>
+</div>

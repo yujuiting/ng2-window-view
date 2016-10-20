@@ -1,0 +1,15 @@
+/node_modules
+/typings
+
+# build output
+/components
+/core
+/index.*
+/components.*
+/example-build
+
+#
+/coverage
+
+# IDE
+.vscode

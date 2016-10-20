@@ -1,0 +1,49 @@
+.window-container,
+.window-background {
+  position: fixed;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.window-container.hide-container {
+  width: 0;
+  height: 0;
+}
+
+.window-background {
+  background-color: rgba(0,0,0,0.6);
+  z-index: -1;
+}
+
+.window-container.fixed .panel {
+  min-width: 20%;
+  margin: 4% auto;
+}
+
+.window-container.floating .panel {
+  min-width: 20%;
+  position: fixed;
+  box-shadow: 0px 6px 24px grey;
+}
+
+.panel.size-relative-large { width: 80%; }
+.panel.size-relative-middle { width: 60%; }
+.panel.size-relative-small { width: 40%; }
+.panel.size-large { width: 1080px; }
+.panel.size-middle { width: 720px; }
+.panel.size-small { width: 360px; }
+
+.panel-heading {
+  text-align: center;
+}
+
+.btn-close {
+  cursor: auto;
+}
+
+.window-container.floating .panel-heading {
+  cursor: move;
+}
