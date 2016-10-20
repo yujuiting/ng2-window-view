@@ -1,10 +1,6 @@
 /node_modules
 
 # build output
-/components
-/core
-/index.*
-/components.*
 /example-build
 
 #

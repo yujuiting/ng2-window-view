@@ -3862,6 +3862,10 @@ pretty-error@^2.0.0:
     renderkid "~2.0.0"
     utila "~0.4"
 
+prism@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/prism/-/prism-1.0.0.tgz#c77c2a04aa2d4df9e303ef4dba2ba62c42eefb41"
+
 private@~0.1.5:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.6.tgz#55c6a976d0f9bafb9924851350fe47b9b5fbb7c1"

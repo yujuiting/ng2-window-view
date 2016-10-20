@@ -6,8 +6,37 @@ import { WindowViewContainerComponent,
 
 @Component({
   selector: 'confirm-dialog',
-  templateUrl: 'confirm-dialog.component.html',
-  styleUrls: ['confirm-dialog.component.css']
+  template: `
+  <window-view-container [heading]="title"
+                         [size]="size"
+                         (close)="onClose()">
+
+    <div class="confirm-dialog-content">
+      {{ content }}
+      <ng-content></ng-content>
+    </div>
+
+    <div panel-footer class="confirm-dialog-button-set">
+      <button class="btn btn-primary" (click)="confirm()">
+        {{ confirmString }}
+      </button>
+
+      <button class="btn btn-default" (click)="deny()">
+        {{ denyString }}
+      </button>
+    </div>
+
+  </window-view-container>
+  `,
+  styles: [`
+  .confirm-dialog-content {
+    margin: 12px;
+  }
+  .confirm-dialog-button-set {
+    margin: 0 auto;
+    text-align: center;
+  }
+  `]
 })
 export class ConfirmDialogComponent implements WindowViewHasResult<boolean> {
   @Input()

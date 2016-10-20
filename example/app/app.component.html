@@ -1,1 +1,192 @@
-Hello, Angular!
+<div id="wrapper">
+
+  <header>
+    <h1>{{title}}</h1>
+    <div class="progress" *ngIf="loadedCount < totalLoadCount">
+      <div class="progress-bar" role="progressbar" [style.width]="loadPercent + '%'">
+        {{ loadPercent }}%
+      </div>
+    </div>
+  </header>
+
+  <div id="main">
+
+    <aside>
+      <nav>
+        <ul class="nav nav-pills nav-stacked">
+          <li>Core Example</li>
+          <li role="presentation"><a href="#simple-usage">Simple Usage</a></li>
+          <li role="presentation"><a href="#without-service">Without Service</a></li>
+          <!--<li role="presentation"><a href="#window-control">Window Control</a></li>-->
+          <li role="presentation"><a href="#access-flow">Access Flow</a></li>
+          <li role="presentation"><a href="#multi-floating-window">Multi Floaing Window</a></li>
+          <li>Core API</li>
+          <li role="presentation"><a href="#core-api-window-view-service">WindowViewService</a></li>
+          <li role="presentation"><a href="#core-api-window-view-layer-service">WindowViewLayerService</a></li>
+          <li role="presentation"><a href="#core-api-window-view-can-close">WindowViewCanClose</a></li>
+          <li role="presentation"><a href="#core-api-window-view-has-result">WindowViewHasResult</a></li>
+          <li role="presentation"><a href="#core-api-window-view-container">WindowViewContainerComponent</a></li>
+
+          <hr>
+
+          <li>Components Example</li>
+          <li role="presentation"><a href="#confirm-dialog-usage">Confirm Dialog Usage</a></li>
+          <li>Components API</li>
+          <li role="presentation"><a href="#components-api-confirm-dialog">CondirmDialogComponent</a></li>
+          <li>Others</li>
+          <li role="presentation"><a href="https://github.com/yujuiting/ng2-window-view">Github</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <div id="page" class="container">
+
+      <section id="simple-usage" class="jumbotron">
+        <h2>Simple Usage</h2>
+
+        <h3>Example</h3>
+        <app-simple-usage></app-simple-usage>
+
+        <h3>Code</h3>
+        <ul class="nav nav-tabs">
+          <li role="presentation"
+              *ngFor="let filename of fileList('simple-usage')"
+              [class.active]="simpleUsageFilename === filename">
+            <a (click)="simpleUsageFilename = filename">{{ filename }}</a>
+          </li>
+        </ul>
+        <pre [class]="'language-' + files['simple-usage'][simpleUsageFilename]?.type"
+             [innerHTML]="files['simple-usage'][simpleUsageFilename]?.html"></pre>
+      </section>
+
+      <section id="without-service" class="jumbotron">
+        <h2>Without Service</h2>
+
+        <h3>Example</h3>
+        <app-without-service></app-without-service>
+
+        <h3>Code</h3>
+        <ul class="nav nav-tabs">
+          <li role="presentation"
+              *ngFor="let filename of fileList('without-service')"
+              [class.active]="withoutServiceFilename === filename">
+            <a (click)="withoutServiceFilename = filename">{{ filename }}</a>
+          </li>
+        </ul>
+        <pre [class]="'language-' + files['without-service'][withoutServiceFilename]?.type"
+             [innerHTML]="files['without-service'][withoutServiceFilename]?.html"></pre>
+      </section>
+
+      <!--<section id="window-control" class="jumbotron">
+        <h2>Window Control</h2>
+
+        <h3>Example</h3>
+        <window-control></window-control>
+
+        <h3>Code</h3>
+        <ul class="nav nav-tabs">
+          <li role="presentation"
+              *ngFor="let filename of fileList('window-control')"
+              [class.active]="windowControlFilename === filename">
+            <a (click)="windowControlFilename = filename">{{ filename }}</a>
+          </li>
+        </ul>
+        <pre [class]="'language-' + files['window-control'][windowControlFilename]?.type"
+             [innerHTML]="files['window-control'][windowControlFilename]?.html"></pre>
+      </section>-->
+
+      <section id="access-flow" class="jumbotron">
+        <h2>Access Flow</h2>
+
+        <h3>Example</h3>
+        <app-access-flow></app-access-flow>
+
+        <h3>Code</h3>
+        <ul class="nav nav-tabs">
+          <li role="presentation"
+              *ngFor="let filename of fileList('access-flow')"
+              [class.active]="accessFlowFilename === filename">
+            <a (click)="accessFlowFilename = filename">{{ filename }}</a>
+          </li>
+        </ul>
+        <pre [class]="'language-' + files['access-flow'][accessFlowFilename]?.type"
+             [innerHTML]="files['access-flow'][accessFlowFilename]?.html"></pre>
+      </section>
+
+      <section id="multi-floating-window" class="jumbotron">
+        <h2>Multi Floating Window</h2>
+
+        <h3>Example</h3>
+        <app-multi-floating-window></app-multi-floating-window>
+
+        <h3>Code</h3>
+        <ul class="nav nav-tabs">
+          <li role="presentation"
+              *ngFor="let filename of fileList('multi-floating-window')"
+              [class.active]="MultiFloatingWindowFilename === filename">
+            <a (click)="MultiFloatingWindowFilename = filename">{{ filename }}</a>
+          </li>
+        </ul>
+        <pre [class]="'language-' + files['multi-floating-window']?.type"
+             [innerHTML]="files['multi-floating-window'][MultiFloatingWindowFilename]?.html"></pre>
+      </section>
+
+      <section id="core-api" class="jumbotron">
+        <h2>Core API</h2>
+
+        <h3 id="core-api-window-view-service">WindowViewService</h3>
+        <pre [class]="'language-' + files['core-api']['window-view.service.d.ts']?.type"
+             [innerHTML]="files['core-api']['window-view.service.d.ts']?.html"></pre>
+
+        <h3 id="core-api-window-view-layer-service">WindowViewLayerService</h3>
+        <pre [class]="'language-' + files['core-api']['window-view-layer.service.d.ts']?.type"
+             [innerHTML]="files['core-api']['window-view-layer.service.d.ts']?.html"></pre>
+
+        <h3 id="core-api-window-view-can-close">WindowViewCanClose</h3>
+        <pre [class]="'language-' + files['core-api']['window-view-can-close.d.ts']?.type"
+             [innerHTML]="files['core-api']['window-view-can-close.d.ts']?.html"></pre>
+        
+        <h3 id="core-api-window-view-has-result">WindowViewHasResult</h3>
+        <pre [class]="'language-' + files['core-api']['window-view-has-result.d.ts']?.type"
+             [innerHTML]="files['core-api']['window-view-has-result.d.ts']?.html"></pre>
+
+        <h3 id="core-api-window-view-container">WindowViewContainer</h3>
+        <pre [class]="'language-' + files['core-api']['window-view-container.component.d.ts']?.type"
+             [innerHTML]="files['core-api']['window-view-container.component.d.ts']?.html"></pre>
+
+      </section>
+
+      <hr>
+
+      <section id="confirm-dialog-usage" class="jumbotron">
+        <h2>Confirm Dialog</h2>
+
+        <h3>Example</h3>
+        <app-confirm-dialog-usage></app-confirm-dialog-usage>
+
+        <h3>Code</h3>
+        <ul class="nav nav-tabs">
+          <li role="presentation"
+              *ngFor="let filename of fileList('confirm-dialog-usage')"
+              [class.active]="confirmDialogUsageFilename === filename">
+            <a (click)="confirmDialogUsageFilename = filename">{{ filename }}</a>
+          </li>
+        </ul>
+        <pre [class]="'language-' + files['confirm-dialog-usage']?.type"
+             [innerHTML]="files['confirm-dialog-usage'][confirmDialogUsageFilename]?.html"></pre>
+      </section>
+
+      <section id="components-api" class="jumbotron">
+        <h2>Components API</h2>
+
+        <h3 id="components-api-confirm-dialog">ConfirmDialogComponent</h3>
+        <pre [class]="'language-' + files['components-api']['confirm-dialog.component.d.ts']?.type"
+             [innerHTML]="files['components-api']['confirm-dialog.component.d.ts']?.html"></pre>
+
+      </section>
+
+    </div>
+
+  </div>
+
+</div>

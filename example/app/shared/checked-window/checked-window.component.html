@@ -1,0 +1,11 @@
+<window-view-container [heading]="title" size="s">
+  <div class="form-group">
+    <label>username?</label>
+    <input class="form-control" [(ngModel)]="username" type="string" placeholder="Please enter your username">
+    <div class="alert alert-danger" *ngIf="!!alert">{{ alert }}</div>
+  </div>
+
+  <div panel-footer>
+    <button class="btn btn-default" (click)="submit()">Submit</button>
+  </div>
+</window-view-container>

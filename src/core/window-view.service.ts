@@ -43,7 +43,7 @@ export class WindowViewService {
     this.outlet = outlet;
   }
 
-  getInstanceAt<T>(index: number): T {
+  getInstanceAt(index: number): any {
     return (this.stack[index]) ? this.stack[index].instance : null;
   }
 
@@ -74,11 +74,12 @@ export class WindowViewService {
   /**
    * Add window to top.
    */
-  pushWindow<T>(Component: Type<T>, injector: Injector = ReflectiveInjector.resolveAndCreate([])): ComponentRef<T> {
+  pushWindow<T>(Component: Type<T>): ComponentRef<T> {
     if (!this.outlet) {
       throw new Error('[WindowViewService] pushWindow error. Not found window-view-outlet');
     }
-    let componentRef = this.cfr.resolveComponentFactory(Component).create(injector, null, this.outlet);
+    let factory = this.cfr.resolveComponentFactory(Component);
+    let componentRef = this.outlet.createComponent(factory);
     this.add(componentRef);
     return componentRef;
   }

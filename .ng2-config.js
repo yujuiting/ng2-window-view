@@ -28,6 +28,13 @@ module.exports = {
   alias: {},
   // copy any additional files you need
   copy: [
-    {from: 'src/favicon.ico', to: 'favicon.ico'}
+    { from: 'example/favicon.ico', to: 'favicon.ico' },
+    {
+      context: 'example/app/shared',
+      from: '**/*.*',
+      to: 'examples'
+    },
+    { from: 'core/**/*.d.ts', to: 'examples/api' },
+    { from: 'components/**/*.d.ts', to: 'examples/api' }
   ]
 };

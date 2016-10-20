@@ -1,0 +1,28 @@
+#wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: #247094;
+  color: #fff;
+}
+
+a {
+  color: #37AAE0;
+}
+
+#main {
+  display: flex;
+}
+
+aside,
+#page {
+  overflow: auto;
+}
+
+#page {
+  flex-grow: 1;
+}
