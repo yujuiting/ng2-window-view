@@ -11,7 +11,7 @@ export declare class ConfirmDialogComponent implements WindowViewHasResult<boole
     dismiss: EventEmitter<any>;
     windowViewContainer: WindowViewContainerComponent;
     private _result$;
-    result$: Observable<boolean>;
+    readonly result$: Observable<boolean>;
     confirm(): void;
     deny(): void;
     private onClose();

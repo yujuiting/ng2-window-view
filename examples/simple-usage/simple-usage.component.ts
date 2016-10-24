@@ -1,13 +1,10 @@
 import { Component, ComponentRef } from '@angular/core';
-import { WindowViewOutletComponent,
-         WindowViewService } from '../../../../';
-import { SimpleWindowComponent } from '../simple-window';
+import { WindowViewService } from '../../../../src';
+import { SimpleWindowComponent } from '../simple-window/simple-window.component';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-simple-usage',
   template: require('./simple-usage.component.html'),
-  directives: [WindowViewOutletComponent],
   providers: [WindowViewService]
 })
 export class SimpleUsageComponent {
@@ -21,14 +18,12 @@ export class SimpleUsageComponent {
   constructor(private windowView: WindowViewService) {}
 
   openWindow() {
-    this.windowView.pushWindow(SimpleWindowComponent).then((componentRef: ComponentRef<SimpleWindowComponent>) => {
-      let simpleWindow: SimpleWindowComponent = componentRef.instance;
-      simpleWindow.title = this.title;
-      simpleWindow.isFloatingWindow = this.isFloatingWindow;
-      simpleWindow.showBackground = this.showBackground;
-      simpleWindow.windowSize = this.windowSize;
-      simpleWindow.panelClass = this.panelClass;
-    });
+    let simpleWindow: SimpleWindowComponent = this.windowView.pushWindow(SimpleWindowComponent);
+    simpleWindow.title = this.title;
+    simpleWindow.isFloatingWindow = this.isFloatingWindow;
+    simpleWindow.showBackground = this.showBackground;
+    simpleWindow.windowSize = this.windowSize;
+    simpleWindow.panelClass = this.panelClass;
   }
 
 }

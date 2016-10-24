@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ConfirmDialogComponent } from '../../../../components';
 
 @Component({
   selector: 'app-confirm-dialog-usage',
@@ -18,8 +17,7 @@ import { ConfirmDialogComponent } from '../../../../components';
   <div *ngIf="ending">
     {{ ending }}
   </div>
-  `,
-  directives: [ConfirmDialogComponent]
+  `
 })
 export class ConfirmDialogUsageComponent {
 

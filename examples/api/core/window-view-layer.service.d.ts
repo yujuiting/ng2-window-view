@@ -1,3 +1,4 @@
+import { WindowViewContainerComponent } from './window-view-container/window-view-container.component';
 export declare class WindowViewLayerService {
     /**
      * Order index is same as z-index.
@@ -8,9 +9,9 @@ export declare class WindowViewLayerService {
      * always start at it.
      */
     zIndexStartAt: number;
-    add(windowViewContainer: any): void;
-    remove(windowViewContainer: any): void;
-    bringToTop(windowViewContainer: any): void;
+    add(windowViewContainer: WindowViewContainerComponent): void;
+    remove(windowViewContainer: WindowViewContainerComponent): void;
+    bringToTop(windowViewContainer: WindowViewContainerComponent): void;
     private _add(windowViewContainer);
     private _remove(windowViewContainer);
     private setAllWindowViewContainersZIndex();

@@ -46,12 +46,13 @@ export declare class WindowViewContainerComponent implements OnInit, OnDestroy {
         x: number;
         y: number;
     };
-    hideContainer: boolean;
+    readonly hideContainer: boolean;
     private top;
     private left;
+    private isMouseDown;
     private isDragging;
     private draggingRelativeLocation;
-    private sizeClass;
+    private readonly sizeClass;
     constructor(windowView: WindowViewService, windowViewLayer: WindowViewLayerService);
     ngOnInit(): void;
     ngOnDestroy(): void;
