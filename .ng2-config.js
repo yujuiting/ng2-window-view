@@ -18,7 +18,7 @@ module.exports = {
   entry: {
     polyfills: './example/polyfills.ts',
     vendor: './example/vendor.ts',
-    main: './example/index.ts'
+    main: './example/main.ts'
   },
   // in most cases you don't need to change this line
   commonChunks: {

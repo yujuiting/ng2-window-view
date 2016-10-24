@@ -1,12 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { WindowViewContainerComponent,
-         WindowViewService } from '../../../../';
+         WindowViewService } from '../../../../src';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-simple-window',
-  template: require('./simple-window.component.html'),
-  directives: [WindowViewContainerComponent]
+  template: require('./simple-window.component.html')
 })
 export class SimpleWindowComponent {
   title: string = 'Simple Window';

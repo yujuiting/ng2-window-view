@@ -1,6 +1,6 @@
-import { Injectable, Type, DynamicComponentLoader,
+import { Injectable, Type, ComponentFactoryResolver,
          ViewContainerRef, ComponentRef,
-         ResolvedReflectiveProvider } from '@angular/core';
+         Injector, ReflectiveInjector } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -37,13 +37,13 @@ export class WindowViewService {
    */
   get close$(): Observable<any> { return this._close$.asObservable(); }
 
-  constructor(private dcl: DynamicComponentLoader) {}
+  constructor(private cfr: ComponentFactoryResolver) {}
 
   setOutlet(outlet: ViewContainerRef) {
     this.outlet = outlet;
   }
 
-  getInstanceAt(index: number) {
+  getInstanceAt(index: number): any {
     return (this.stack[index]) ? this.stack[index].instance : null;
   }
 
@@ -65,8 +65,8 @@ export class WindowViewService {
     return true;
   }
 
-  removeByInstance(instance: any) {
-    let removedComponentRef: ComponentRef<any> = this.stack.find((componentRef: ComponentRef<any>) =>
+  removeByInstance<T>(instance: T) {
+    let removedComponentRef: ComponentRef<T> = this.stack.find((componentRef: ComponentRef<any>) =>
       componentRef.instance === instance);
     return this.remove(removedComponentRef);
   }
@@ -74,15 +74,14 @@ export class WindowViewService {
   /**
    * Add window to top.
    */
-  pushWindow(Component: Type, providers: ResolvedReflectiveProvider[] = []): Promise<ComponentRef<any>> {
+  pushWindow<T>(Component: Type<T>): T {
     if (!this.outlet) {
       throw new Error('[WindowViewService] pushWindow error. Not found window-view-outlet');
     }
-    return this.dcl.loadNextToLocation(Component, this.outlet, providers)
-      .then((componentRef: ComponentRef<any>) => {
-        this.add(componentRef);
-        return componentRef;
-      });
+    let factory = this.cfr.resolveComponentFactory(Component);
+    let componentRef = this.outlet.createComponent(factory);
+    this.add(componentRef);
+    return componentRef.instance;
   }
 
   /**

@@ -2,13 +2,11 @@ import { Component, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/observable';
 import { WindowViewContainerComponent,
-         WindowViewCanClose } from '../../../../';
+         WindowViewCanClose } from '../../../../src';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-checked-window',
-  template: require('./checked-window.component.html'),
-  directives: [WindowViewContainerComponent]
+  template: require('./checked-window.component.html')
 })
 export class CheckedWindowComponent implements WindowViewCanClose {
   title: string = 'Simple Window';

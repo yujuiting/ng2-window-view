@@ -2,29 +2,15 @@ import { Component } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Subscription } from 'rxjs/Subscription';
 
-import { AccessFlowComponent,
-         MultiFloatingWindowComponent,
-         SimpleUsageComponent,
-         WithoutServiceComponent,
-         ConfirmDialogUsageComponent } from './shared';
-
 interface ExampleFile {
   type: string;
   html: string;
 }
 
 @Component({
-  moduleId: module.id,
   selector: 'app-root',
   template: require('./app.component.html'),
-  styles: [require('./app.component.css')],
-  directives: [
-    AccessFlowComponent,
-    MultiFloatingWindowComponent,
-    SimpleUsageComponent,
-    WithoutServiceComponent,
-    ConfirmDialogUsageComponent
-  ]
+  styles: [require('./app.component.css')]
 })
 export class AppComponent {
   title: string = 'ng2-window-view example';
@@ -43,32 +29,44 @@ export class AppComponent {
   MultiFloatingWindowFilename: string;
   confirmDialogUsageFilename: string;
 
+  importModuleExample = Prism.highlight(`
+import { NgModule } from '@angular/core';
+import { WindowViewModule } from 'ng2-window-view';
+
+@NgModule({
+  imports: [
+    WindowViewModule
+  ]
+})
+export class AppModule {}
+`, Prism.languages['typescript']);
+
   constructor(private http: Http) {
     this.loadAssets();
   }
 
   loadAssets() {
-
     this.loadFile('simple-usage', 'examples/simple-usage', 'simple-usage.component.ts');
-    this.loadFile('simple-usage', 'examples/simple-usage', 'simple-usage.component.html');
+    this.loadFile('simple-usage', 'examples/simple-usage', 'simple-usage.component.html', 'html');
     this.loadFile('simple-usage', 'examples/simple-window', 'simple-window.component.ts');
-    this.loadFile('simple-usage', 'examples/simple-window', 'simple-window.component.html');
+    this.loadFile('simple-usage', 'examples/simple-window', 'simple-window.component.html', 'html');
     this.simpleUsageFilename = 'simple-usage.component.ts';
 
     this.loadFile('without-service', 'examples/without-service', 'without-service.component.ts');
-    this.loadFile('without-service', 'examples/without-service', 'without-service.component.html');
+    this.loadFile('without-service', 'examples/without-service', 'without-service.component.html', 'html');
     this.withoutServiceFilename = 'without-service.component.ts';
 
     this.loadFile('access-flow', 'examples/access-flow', 'access-flow.component.ts');
-    this.loadFile('access-flow', 'examples/access-flow', 'access-flow.component.html');
+    this.loadFile('access-flow', 'examples/access-flow', 'access-flow.component.html', 'html');
     this.loadFile('access-flow', 'examples/checked-window', 'checked-window.component.ts');
-    this.loadFile('access-flow', 'examples/checked-window', 'checked-window.component.html');
+    this.loadFile('access-flow', 'examples/checked-window', 'checked-window.component.html', 'html');
     this.accessFlowFilename = 'access-flow.component.ts';
 
     this.loadFile('multi-floating-window', 'examples/multi-floating-window', 'multi-floating-window.component.ts');
-    this.loadFile('multi-floating-window', 'examples/multi-floating-window', 'multi-floating-window.component.html');
+    this.loadFile('multi-floating-window', 'examples/multi-floating-window', 'multi-floating-window.component.html', 'html');
     this.loadFile('multi-floating-window', 'examples/floating-window', 'floating-window.component.ts');
-    this.loadFile('multi-floating-window', 'examples/floating-window', 'floating-window.component.html');
+    this.loadFile('multi-floating-window', 'examples/floating-window', 'floating-window.component.html', 'html');
+
     this.MultiFloatingWindowFilename = 'multi-floating-window.component.ts';
 
     this.loadFile('confirm-dialog-usage', 'examples/confirm-dialog-usage', 'confirm-dialog-usage.component.ts');
@@ -87,23 +85,20 @@ export class AppComponent {
     return Object.keys(this.files[group] || {});
   }
 
-  loadFile(group: string, dir: string, filename: string) {
+
+  loadFile(group: string, filepath: string, filename: string, type = 'typescript') {
     this.totalLoadCount++;
     this.files[group] = this.files[group] || {};
-    let language = 'typescript';
-    if (!!/html$/.test(filename)) {
-      language = 'html';
-    }
-    let loadFile: Subscription = this.http.get(`${dir}/${filename}`)
+    let loadFile: Subscription = this.http.get(`${filepath}/${filename}`)
       .subscribe(
         (response: Response) => {
           let file: string = response.text()
-            .replace('../../../../components', 'ng2-window-view/components')
-            .replace('../../../../', 'ng2-window-view');
+            .replace('../../../../src/components', 'ng2-window-view/components')
+            .replace('../../../../src', 'ng2-window-view');
 
           this.files[group][filename] = {
-            html: Prism.highlight(file, Prism.languages[language]),
-            type: language
+            html: Prism.highlight(file, Prism.languages[type]),
+            type
           };
           this.loadedCount++;
         },

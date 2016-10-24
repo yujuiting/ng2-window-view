@@ -16,18 +16,11 @@ a {
 
 #main {
   display: flex;
-  flex-grow: 1;
 }
 
 aside,
 #page {
   overflow: auto;
-  margin: 0 12px;
-  margin-top: 12px;
-}
-
-aside {
-  width: 200px;
 }
 
 #page {

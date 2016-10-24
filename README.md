@@ -38,7 +38,21 @@ $ npm install --save ng2-window-view
 
 ## Quick Start
 
-1. Create your window component.
+1. Import module.
+
+```typescript
+import { NgModule } from '@angular/core';
+import { WindowViewModule } from 'ng2-window-view';
+
+@NgModule({
+  imports: [
+    WindowViewModule
+  ]
+})
+export class AppModule {}
+```
+
+2. Create your window component.
 
 ```typescript
 import { Component } from '@angular/core';
@@ -56,7 +70,7 @@ export class MyWindowComponent {
 }
 ```
 
-2. Push window component.
+3. Push window component.
 
 ```typescript
 import { Component, ComponentRef } from '@angular/core';
@@ -69,7 +83,6 @@ import { MyWindowComponent } from './my-window';
   <button (click)="openWindow()">Open Window</button>
   <window-view-outlet></window-view-outlet>
   `,
-  directives: [WindowViewOutletComponent],
   providers: [WindowViewService]
 })
 export class AppComponent {

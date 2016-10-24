@@ -1,12 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { WindowViewContainerComponent,
-         WindowViewService } from '../../../../';
+         WindowViewService } from '../../../../src';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-floating-window',
-  template: require('./floating-window.component.html'),
-  directives: [WindowViewContainerComponent]
+  template: require('./floating-window.component.html')
 })
 export class FloatingWindowComponent {
 
@@ -45,6 +43,6 @@ export class FloatingWindowComponent {
      * Because order of closing window no longer stable.
      * We have remove window with specific target.
      */
-    this.windowView.removeWindowByInstance(this);
+    this.windowView.removeByInstance(this);
   }
 }

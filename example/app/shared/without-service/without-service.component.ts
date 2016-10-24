@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { WindowViewContainerComponent } from '../../../../';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-without-service',
-  template: require('./without-service.component.html'),
-  directives: [WindowViewContainerComponent]
+  template: require('./without-service.component.html')
 })
 export class WithoutServiceComponent implements OnInit {
 
