@@ -13,8 +13,6 @@
  * all here! Crazy huh. So we need to do some setup
  */
 'use strict';
-// todo: replace with path to your test files source
-const PATH_TO_FILES = './src';
 
 Error.stackTraceLimit = Infinity;
 
@@ -25,10 +23,11 @@ require('ts-helpers');
 
 require('zone.js/dist/zone');
 require('zone.js/dist/long-stack-trace-zone');
-require('zone.js/dist/jasmine-patch');
 require('zone.js/dist/async-test');
 require('zone.js/dist/fake-async-test');
 require('zone.js/dist/sync-test');
+require('zone.js/dist/proxy');
+require('zone.js/dist/jasmine-patch');
 
 // RxJS
 require('rxjs/Rx');
@@ -52,7 +51,7 @@ Object.assign(global, testing);
  * any file that ends with spec.js and get its path. By passing in true
  * we say do this recursively
  */
-var testContext = require.context(PATH_TO_FILES, true, /\.spec\.ts/);
+var testContext = require.context('./src', true, /\.spec\.ts/);
 
 /*
  * get all the files, for each file, call the context function

@@ -1,27 +1,25 @@
-// /* tslint:disable:no-unused-variable */
+import { Component } from '@angular/core';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-// import { By }           from '@angular/platform-browser';
-// import { DebugElement, ViewContainerRef, DynamicComponentLoader } from '@angular/core';
-// import { beforeEach, async, inject, addProviders } from '@angular/core/testing';
+import { WindowViewOutletComponent } from './window-view-outlet.component';
+import { WindowViewService } from '../window-view.service';
 
-// import { WindowViewOutletComponent } from './window-view-outlet.component';
-// import { WindowViewService } from '../window-view.service';
+describe('Component: WindowViewOutlet', () => {
 
-// describe('Component: WindowViewOutlet', () => {
+  let fixture: ComponentFixture<WindowViewOutletComponent>;
+  let service: WindowViewService;
 
-//   let windowView: WindowViewService;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [WindowViewOutletComponent],
+      providers: [WindowViewService]
+    });
 
-//   beforeEach(() => addProviders([
-//     DynamicComponentLoader,
-//     ViewContainerRef
-//   ]));
+    fixture = TestBed.createComponent(WindowViewOutletComponent);
+    service = TestBed.get(WindowViewService);
+  });
 
-//   beforeEach(inject([DynamicComponentLoader], (dcl: DynamicComponentLoader) => {
-//     windowView = new WindowViewService(dcl);
-//   }));
-
-//   it('should create an instance', inject([ViewContainerRef], (viewContainerRef: ViewContainerRef) => {
-//     let component = new WindowViewOutletComponent(viewContainerRef, windowView);
-//     expect(component).toBeTruthy();
-//   }));
-// });
+  it('should create an instance', () => {
+    expect(fixture.componentInstance).toBeTruthy();
+  });
+});

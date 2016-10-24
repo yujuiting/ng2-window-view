@@ -1,96 +1,89 @@
-// /* tslint:disable:no-unused-variable */
+import { Component } from '@angular/core';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-// import { By }           from '@angular/platform-browser';
-// import { DebugElement, DynamicComponentLoader, Component } from '@angular/core';
-// import { beforeEach, async, inject, addProviders,
-//          TestComponentBuilder, ComponentFixture } from '@angular/core/testing';
+import { WindowViewService } from './window-view.service';
+import { WindowViewCanClose } from './window-view-can-close';
 
-// import { WindowViewService } from './window-view.service';
-// import { WindowViewCanClose } from './window-view-can-close';
+@Component({
+  template: ''
+})
+class TestComponent implements WindowViewCanClose {
+  canClose: boolean = true;
+  windowViewCanClose() { return this.canClose; }
+}
 
-// @Component({
-//   template: ''
-// })
-// class TestComponent implements WindowViewCanClose {
-//   canClose: boolean = true;
-//   windowViewCanClose() { return this.canClose; }
-// }
+describe('Service: WindowView', () => {
 
-// describe('Service: WindowView', () => {
+  let fixture: ComponentFixture<TestComponent>;
+  let service: WindowViewService;
 
-//   let windowView: WindowViewService;
-//   let componentFixture: ComponentFixture<TestComponent>;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [TestComponent],
+      providers: [WindowViewService]
+    });
 
-//   // provider for service
-//   beforeEach(() => addProviders([DynamicComponentLoader]));
+    fixture = TestBed.createComponent(TestComponent);
+    service = TestBed.get(WindowViewService);
+  });
 
-//   // prepare service
-//   beforeEach(inject([DynamicComponentLoader], (dcl: DynamicComponentLoader) =>
-//     windowView = new WindowViewService(dcl)));
+  it('should create an instance', () => {
+    expect(service).toBeTruthy();
+  });
 
-//   // prepare component
-//   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) =>
-//     tcb.createAsync(TestComponent).then((f: ComponentFixture<any>) => componentFixture = f))));
+  describe('Property: length$', () => {
 
-//   it('should create an instance', inject(
-//     [ DynamicComponentLoader ],
-//     ( dcl: DynamicComponentLoader ) => {
-//       expect(windowView).toBeTruthy();
-//     }));
+    it('should emit new value after add', () => {
+      service.length$.forEach((length) => expect(length).toBe(1));
+      service.add(fixture.componentRef);
+    });
 
-//   describe('Property: length$', () => {
+    it('should emit new value after remove', () => {
+      service.add(fixture.componentRef);
+      service.length$.forEach((length) => expect(length).toBe(0));
+      service.remove(fixture.componentRef);
+    });
 
-//     it('should emit new value after add', () => {
-//       windowView.length$.forEach((length) => expect(length).toBe(1));
-//       windowView.add(componentFixture.componentRef);
-//     });
+  });
 
-//     it('should emit new value after remove', () => {
-//       windowView.add(componentFixture.componentRef);
-//       windowView.length$.forEach((length) => expect(length).toBe(0));
-//       windowView.remove(componentFixture.componentRef);
-//     });
+  describe('Property: open$', () => {
 
-//   });
+    it('should emit new value after add', () => {
+      service.open$.forEach((component) =>
+        expect(component).toBe(fixture.componentInstance));
+      service.add(fixture.componentRef);
+    });
 
-//   describe('Property: open$', () => {
+  });
 
-//     it('should emit new value after add', () => {
-//       windowView.open$.forEach((component) =>
-//         expect(component).toBe(componentFixture.componentInstance));
-//       windowView.add(componentFixture.componentRef);
-//     });
+  describe('Property: close$', () => {
 
-//   });
+    it('should emit new value after remove', () => {
+      service.add(fixture.componentRef);
+      service.close$.forEach((component) =>
+        expect(component).toBe(fixture.componentInstance));
+      service.remove(fixture.componentRef);
+    });
 
-//   describe('Property: close$', () => {
+  });
 
-//     it('should emit new value after remove', () => {
-//       windowView.add(componentFixture.componentRef);
-//       windowView.close$.forEach((component) =>
-//         expect(component).toBe(componentFixture.componentInstance));
-//       windowView.remove(componentFixture.componentRef);
-//     });
+  describe('Method: remove', () => {
 
-//   });
+    it('should return false if window view can not close', () => {
+      fixture.componentInstance.canClose = false;
+      service.add(fixture.componentRef);
+      expect(service.remove(fixture.componentRef)).toBeFalsy();
+    });
 
-//   describe('Method: remove', () => {
+  });
 
-//     it('should return false if window view can not close', () => {
-//       componentFixture.componentInstance.canClose = false;
-//       windowView.add(componentFixture.componentRef);
-//       expect(windowView.remove(componentFixture.componentRef)).toBeFalsy();
-//     });
+  describe('Method: pushWindow', () => {
 
-//   });
+    it('should throw if no outlet', () => {
+      let throwNotFoundOutlet = () => service.pushWindow(TestComponent);
+      expect(throwNotFoundOutlet).toThrowError(
+        '[WindowViewService] pushWindow error. Not found window-view-outlet');
+    });
 
-//   describe('Method: pushWindow', () => {
-
-//     it('should throw if no outlet', () => {
-//       let throwNotFoundOutlet = () => windowView.pushWindow(TestComponent);
-//       expect(throwNotFoundOutlet).toThrowError(
-//         '[WindowViewService] pushWindow error. Not found window-view-outlet');
-//     });
-
-//   });
-// });
+  });
+});

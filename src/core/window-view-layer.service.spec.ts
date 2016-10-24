@@ -1,39 +1,48 @@
-// /* tslint:disable:no-unused-variable */
+import { Component } from '@angular/core';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-// import { By }           from '@angular/platform-browser';
-// import { Component } from '@angular/core';
-// import { beforeEach, async, inject, addProviders,
-//          TestComponentBuilder, ComponentFixture } from '@angular/core/testing';
+import { WindowViewService } from './window-view.service';
+import { WindowViewLayerService } from './window-view-layer.service';
+import { WindowViewContainerComponent } from './window-view-container/window-view-container.component';
+import { WindowViewOutletComponent } from './window-view-outlet/window-view-outlet.component';
 
-// import { WindowViewLayerService } from './window-view-layer.service';
-// import { WindowViewContainerComponent } from './window-view-container';
+@Component({
+  template: '<window-view-container></window-view-container>'
+})
+class TestWindowComponent {}
 
-// @Component({
-//   template: '<window-view-container></window-view-container>',
-//   directives: [WindowViewContainerComponent],
-//   providers: [WindowViewLayerService]
-// })
-// class TestWindowComponent {}
+@Component({
+  template: `
+  <window-view-outlet></window-view-outlet>
+  `
+})
+class TestAppComponent {}
 
-// describe('Service: WindowView', () => {
+describe('Service: WindowView', () => {
 
-//   let windowViewLayer: WindowViewLayerService;
-//   let componentFixture: ComponentFixture<TestWindowComponent>;
+  let fixture: ComponentFixture<TestAppComponent>;
+  let windowView: WindowViewService;
+  let windowViewLayer: WindowViewLayerService;
 
-//   // provider for service
-//   beforeEach(() => addProviders([
-//     WindowViewLayerService
-//   ]));
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        TestAppComponent,
+        WindowViewContainerComponent,
+        WindowViewOutletComponent
+      ],
+      providers: [
+        WindowViewLayerService,
+        WindowViewService
+      ]
+    });
 
-//   // prepare component
-//   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-//     return tcb
-//       .overrideProviders(TestWindowComponent, [WindowViewLayerService])
-//       .createAsync(TestWindowComponent)
-//       .then((f: ComponentFixture<any>) => componentFixture = f);
-//   })));
+    fixture = TestBed.createComponent(TestAppComponent);
+    windowView = TestBed.get(WindowViewService);
+    windowViewLayer = TestBed.get(WindowViewLayerService);
+  });
 
-//   it('should create an instance', () => {
-//       expect(windowViewLayer).toBeTruthy();
-//     });
-// });
+  it('should create an instance', () => {
+    expect(windowViewLayer).toBeTruthy();
+  });
+});
