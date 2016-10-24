@@ -18,7 +18,7 @@
     "example.build:prod": "npm run example.env:prod && cross-env NODE_ENV=production webpack --progress --color --display-error-details --display-cached",
     "example.clean": "rm -rf example-build",
     "postpublish:gh-pages": "npm run example.clean",
-    "publish:gh-pages": "npm run build:example && gh-pages -d example-build",
+    "publish:gh-pages": "npm run example.build:prod && gh-pages -d example-build",
     "prepublish": "npm run build"
   },
   "author": "yujuiting",
