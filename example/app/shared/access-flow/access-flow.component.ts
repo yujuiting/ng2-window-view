@@ -15,8 +15,7 @@ export class AccessFlowComponent {
   constructor(private windowView: WindowViewService) {}
 
   openWindow() {
-    let componentRef = this.windowView.pushWindow(CheckedWindowComponent)
-    let checkedWindow: CheckedWindowComponent = componentRef.instance;
+    let checkedWindow: CheckedWindowComponent = this.windowView.pushWindow(CheckedWindowComponent);
     let waitResult: Subscription = checkedWindow.result$.subscribe(
       (username: string) => this.username = username,
       () => delete this.username,

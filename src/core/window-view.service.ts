@@ -65,8 +65,8 @@ export class WindowViewService {
     return true;
   }
 
-  removeByInstance(instance: any) {
-    let removedComponentRef: ComponentRef<any> = this.stack.find((componentRef: ComponentRef<any>) =>
+  removeByInstance<T>(instance: T) {
+    let removedComponentRef: ComponentRef<T> = this.stack.find((componentRef: ComponentRef<any>) =>
       componentRef.instance === instance);
     return this.remove(removedComponentRef);
   }
@@ -74,14 +74,14 @@ export class WindowViewService {
   /**
    * Add window to top.
    */
-  pushWindow<T>(Component: Type<T>): ComponentRef<T> {
+  pushWindow<T>(Component: Type<T>): T {
     if (!this.outlet) {
       throw new Error('[WindowViewService] pushWindow error. Not found window-view-outlet');
     }
     let factory = this.cfr.resolveComponentFactory(Component);
     let componentRef = this.outlet.createComponent(factory);
     this.add(componentRef);
-    return componentRef;
+    return componentRef.instance;
   }
 
   /**

@@ -18,8 +18,7 @@ export class SimpleUsageComponent {
   constructor(private windowView: WindowViewService) {}
 
   openWindow() {
-    let componentRef = this.windowView.pushWindow(SimpleWindowComponent);
-    let simpleWindow: SimpleWindowComponent = componentRef.instance;
+    let simpleWindow: SimpleWindowComponent = this.windowView.pushWindow(SimpleWindowComponent);
     simpleWindow.title = this.title;
     simpleWindow.isFloatingWindow = this.isFloatingWindow;
     simpleWindow.showBackground = this.showBackground;
