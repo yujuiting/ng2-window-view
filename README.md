@@ -43,10 +43,16 @@ $ npm install --save ng2-window-view
 ```typescript
 import { NgModule } from '@angular/core';
 import { WindowViewModule } from 'ng2-window-view';
+import { MyWindowComponent } from './my-window-component';
 
 @NgModule({
   imports: [
     WindowViewModule
+  ],
+  entryComponents: [
+    // window component have to provide a component factory,
+    // by adding component to `entryComponents`.
+    MyWindowComponent
   ]
 })
 export class AppModule {}
