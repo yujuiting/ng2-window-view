@@ -1,6 +1,11 @@
-import { Injectable, Type, ComponentFactoryResolver,
-         ViewContainerRef, ComponentRef,
-         Injector, ReflectiveInjector } from '@angular/core';
+import { Injectable,
+         Type,
+         ComponentFactoryResolver,
+         ViewContainerRef,
+         ComponentRef,
+         ComponentFactory,
+         Compiler,
+         Injector } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -37,7 +42,9 @@ export class WindowViewService {
    */
   get close$(): Observable<any> { return this._close$.asObservable(); }
 
-  constructor(private cfr: ComponentFactoryResolver) {}
+  constructor(private cfr: ComponentFactoryResolver,
+              private compiler: Compiler,
+              private injector: Injector) {}
 
   setOutlet(outlet: ViewContainerRef) {
     this.outlet = outlet;
@@ -74,14 +81,30 @@ export class WindowViewService {
   /**
    * Add window to top.
    */
-  pushWindow<T>(Component: Type<T>): T {
+  pushWindow<T>(componentType: Type<T> | ComponentFactory<T>): T {
     if (!this.outlet) {
       throw new Error('[WindowViewService] pushWindow error. Not found window-view-outlet');
     }
-    let factory = this.cfr.resolveComponentFactory(Component);
+
+    let factory: ComponentFactory<T>;
+    if (componentType instanceof ComponentFactory) {
+      factory = componentType;
+    } else {
+      factory = this.cfr.resolveComponentFactory(componentType);
+    }
     let componentRef = this.outlet.createComponent(factory);
     this.add(componentRef);
     return componentRef.instance;
+  }
+
+  pushDynamicWindow<T>(moduleType: any, componentType: Type<T>): Promise<T> {
+    return this.compiler.compileModuleAsync(moduleType).then( moduleFactory => {
+      let moduleRef = moduleFactory.create(this.injector);
+      let componentFactory = moduleRef
+                             .componentFactoryResolver
+                             .resolveComponentFactory(componentType);
+      return this.pushWindow(componentFactory);
+    });
   }
 
   /**

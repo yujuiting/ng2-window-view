@@ -25,7 +25,7 @@ import { ConfirmDialogUsageComponent } from './shared/confirm-dialog-usage/confi
     FloatingWindowComponent,
     MultiFloatingWindowComponent,
     SimpleUsageComponent,
-    SimpleWindowComponent,
+    // SimpleWindowComponent,
     WithoutServiceComponent,
     ConfirmDialogUsageComponent
   ],
@@ -39,7 +39,7 @@ import { ConfirmDialogUsageComponent } from './shared/confirm-dialog-usage/confi
   entryComponents: [
     CheckedWindowComponent,
     FloatingWindowComponent,
-    SimpleWindowComponent
+    // SimpleWindowComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
