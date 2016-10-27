@@ -130,7 +130,7 @@ export class WindowViewService {
    */
   pushDynamicWindow<T, U>(moduleType: Type<U>, componentType: Type<T>, cached = false): Promise<T> {
     if (cached && this.cachedComponentFactories.has(componentType)) {
-      return Promise.resolve().then(() => this.pushWindow(componentType));
+      return Promise.resolve().then(() => this.pushWindow(componentType, true));
     }
 
     return this.compiler.compileModuleAsync(moduleType).then( moduleFactory => {
