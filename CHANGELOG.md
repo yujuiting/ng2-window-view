@@ -2,7 +2,7 @@
 
 ## 0.1.1 (2016-10-27)
 
-- Dynamic compile component. (20c33ec1178234b02c079f73889f21364a41b9a3)
+- Dynamic compile component. ([20c33ec](https://github.com/yujuiting/ng2-window-view/commit/20c33ec1178234b02c079f73889f21364a41b9a3))
 
   [Please checkout document](https://github.com/yujuiting/ng2-window-view/blob/master/docs/dynamic-compile.md)
 
