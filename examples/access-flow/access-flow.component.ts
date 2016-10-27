@@ -1,5 +1,8 @@
 import { Component, ComponentRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
+
 import { WindowViewService } from '../../../../src';
 import { CheckedWindowComponent } from '../checked-window/checked-window.component';
 
@@ -15,12 +18,13 @@ export class AccessFlowComponent {
   constructor(private windowView: WindowViewService) {}
 
   openWindow() {
-    let checkedWindow: CheckedWindowComponent = this.windowView.pushWindow(CheckedWindowComponent);
-    let waitResult: Subscription = checkedWindow.result$.subscribe(
-      (username: string) => this.username = username,
-      () => delete this.username,
-      () => waitResult.unsubscribe()
-    );
+    this.windowView.pushBareDynamicWindow(CheckedWindowComponent, { imports: [FormsModule, CommonModule] }).then( checkedWindow => {
+      let waitResult: Subscription = checkedWindow.result$.subscribe(
+        (username: string) => this.username = username,
+        () => delete this.username,
+        () => waitResult.unsubscribe()
+      );
+    });
   }
 
 }

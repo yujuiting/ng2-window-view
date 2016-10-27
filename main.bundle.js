@@ -4,10 +4,10 @@ webpackJsonp([1],{
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var platform_browser_dynamic_1 = __webpack_require__(87);
+	var platform_browser_dynamic_1 = __webpack_require__(88);
 	var core_1 = __webpack_require__(5);
-	var _1 = __webpack_require__(312);
-	var environment_1 = __webpack_require__(318);
+	var _1 = __webpack_require__(311);
+	var environment_1 = __webpack_require__(320);
 	if (environment_1.environment.production) {
 	    core_1.enableProdMode();
 	}
@@ -23,2658 +23,16 @@ webpackJsonp([1],{
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(61));
-	__export(__webpack_require__(128));
-	__export(__webpack_require__(129));
+	__export(__webpack_require__(86));
+	__export(__webpack_require__(126));
 	__export(__webpack_require__(127));
-	__export(__webpack_require__(321));
+	__export(__webpack_require__(125));
+	__export(__webpack_require__(128));
 	
 
 /***/ },
 
-/***/ 61:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var core_1 = __webpack_require__(5);
-	var Subject_1 = __webpack_require__(45);
-	var WindowViewService = (function () {
-	    function WindowViewService(cfr) {
-	        this.cfr = cfr;
-	        this.stack = [];
-	        this._length$ = new Subject_1.Subject();
-	        this._open$ = new Subject_1.Subject();
-	        this._close$ = new Subject_1.Subject();
-	    }
-	    Object.defineProperty(WindowViewService.prototype, "length", {
-	        get: function () { return this.stack.length; },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    Object.defineProperty(WindowViewService.prototype, "length$", {
-	        /**
-	         * Current window's count.
-	         */
-	        get: function () { return this._length$.asObservable(); },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    Object.defineProperty(WindowViewService.prototype, "open$", {
-	        /**
-	         * Emit after window open.
-	         */
-	        get: function () { return this._open$.asObservable(); },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    Object.defineProperty(WindowViewService.prototype, "close$", {
-	        /**
-	         * Emit before window close.
-	         */
-	        get: function () { return this._close$.asObservable(); },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    WindowViewService.prototype.setOutlet = function (outlet) {
-	        this.outlet = outlet;
-	    };
-	    WindowViewService.prototype.getInstanceAt = function (index) {
-	        return (this.stack[index]) ? this.stack[index].instance : null;
-	    };
-	    WindowViewService.prototype.add = function (componentRef) {
-	        this.stack.push(componentRef);
-	        this._open$.next(componentRef.instance);
-	        this._length$.next(this.stack.length);
-	    };
-	    WindowViewService.prototype.remove = function (componentRef) {
-	        if (!this.canCloseWindowView(componentRef)) {
-	            return false;
-	        }
-	        var index = this.stack.indexOf(componentRef);
-	        this.stack.splice(index, 1);
-	        this._close$.next(componentRef.instance);
-	        this._length$.next(this.stack.length);
-	        componentRef.destroy();
-	        return true;
-	    };
-	    WindowViewService.prototype.removeByInstance = function (instance) {
-	        var removedComponentRef = this.stack.find(function (componentRef) {
-	            return componentRef.instance === instance;
-	        });
-	        return this.remove(removedComponentRef);
-	    };
-	    /**
-	     * Add window to top.
-	     */
-	    WindowViewService.prototype.pushWindow = function (Component) {
-	        if (!this.outlet) {
-	            throw new Error('[WindowViewService] pushWindow error. Not found window-view-outlet');
-	        }
-	        var factory = this.cfr.resolveComponentFactory(Component);
-	        var componentRef = this.outlet.createComponent(factory);
-	        this.add(componentRef);
-	        return componentRef.instance;
-	    };
-	    /**
-	     * Remove latest window.
-	     */
-	    WindowViewService.prototype.popWindow = function () {
-	        if (this.stack.length === 0) {
-	            return false;
-	        }
-	        var componentRef = this.stack[this.stack.length - 1];
-	        return this.remove(componentRef);
-	    };
-	    WindowViewService.prototype.canCloseWindowView = function (componentRef) {
-	        if (typeof componentRef.instance.windowViewCanClose !== 'function') {
-	            return true;
-	        }
-	        return componentRef.instance.windowViewCanClose();
-	    };
-	    WindowViewService = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [core_1.ComponentFactoryResolver])
-	    ], WindowViewService);
-	    return WindowViewService;
-	}());
-	exports.WindowViewService = WindowViewService;
-	
-
-/***/ },
-
-/***/ 86:
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * @license Angular v2.1.0
-	 * (c) 2010-2016 Google, Inc. https://angular.io/
-	 * License: MIT
-	 */
-	(function (global, factory) {
-	     true ? factory(exports, __webpack_require__(5), __webpack_require__(44), __webpack_require__(51)) :
-	    typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/Observable', '@angular/platform-browser'], factory) :
-	    (factory((global.ng = global.ng || {}, global.ng.http = global.ng.http || {}),global.ng.core,global.Rx,global.ng.platformBrowser));
-	}(this, function (exports,_angular_core,rxjs_Observable,_angular_platformBrowser) { 'use strict';
-
-	    /**
-	     * A backend for http that uses the `XMLHttpRequest` browser API.
-	     *
-	     * Take care not to evaluate this in non-browser contexts.
-	     *
-	     * @experimental
-	     */
-	    var BrowserXhr = (function () {
-	        function BrowserXhr() {
-	        }
-	        BrowserXhr.prototype.build = function () { return (new XMLHttpRequest()); };
-	        BrowserXhr.decorators = [
-	            { type: _angular_core.Injectable },
-	        ];
-	        /** @nocollapse */
-	        BrowserXhr.ctorParameters = [];
-	        return BrowserXhr;
-	    }());
-
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var globalScope;
-	    if (typeof window === 'undefined') {
-	        if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
-	            // TODO: Replace any with WorkerGlobalScope from lib.webworker.d.ts #3492
-	            globalScope = self;
-	        }
-	        else {
-	            globalScope = global;
-	        }
-	    }
-	    else {
-	        globalScope = window;
-	    }
-	    // Need to declare a new variable for global here since TypeScript
-	    // exports the original value of the symbol.
-	    var global$1 = globalScope;
-	    // TODO: remove calls to assert in production environment
-	    // Note: Can't just export this and import in in other files
-	    // as `assert` is a reserved keyword in Dart
-	    global$1.assert = function assert(condition) {
-	        // TODO: to be fixed properly via #2830, noop for now
-	    };
-	    function isPresent(obj) {
-	        return obj !== undefined && obj !== null;
-	    }
-	    function isString(obj) {
-	        return typeof obj === 'string';
-	    }
-	    var NumberWrapper = (function () {
-	        function NumberWrapper() {
-	        }
-	        NumberWrapper.toFixed = function (n, fractionDigits) { return n.toFixed(fractionDigits); };
-	        NumberWrapper.equal = function (a, b) { return a === b; };
-	        NumberWrapper.parseIntAutoRadix = function (text) {
-	            var result = parseInt(text);
-	            if (isNaN(result)) {
-	                throw new Error('Invalid integer literal when parsing ' + text);
-	            }
-	            return result;
-	        };
-	        NumberWrapper.parseInt = function (text, radix) {
-	            if (radix == 10) {
-	                if (/^(\-|\+)?[0-9]+$/.test(text)) {
-	                    return parseInt(text, radix);
-	                }
-	            }
-	            else if (radix == 16) {
-	                if (/^(\-|\+)?[0-9ABCDEFabcdef]+$/.test(text)) {
-	                    return parseInt(text, radix);
-	                }
-	            }
-	            else {
-	                var result = parseInt(text, radix);
-	                if (!isNaN(result)) {
-	                    return result;
-	                }
-	            }
-	            throw new Error('Invalid integer literal when parsing ' + text + ' in base ' + radix);
-	        };
-	        Object.defineProperty(NumberWrapper, "NaN", {
-	            get: function () { return NaN; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        NumberWrapper.isNumeric = function (value) { return !isNaN(value - parseFloat(value)); };
-	        NumberWrapper.isNaN = function (value) { return isNaN(value); };
-	        NumberWrapper.isInteger = function (value) { return Number.isInteger(value); };
-	        return NumberWrapper;
-	    }());
-	    function isJsObject(o) {
-	        return o !== null && (typeof o === 'function' || typeof o === 'object');
-	    }
-	    // Can't be all uppercase as our transpiler would think it is a special directive...
-	    var Json = (function () {
-	        function Json() {
-	        }
-	        Json.parse = function (s) { return global$1.JSON.parse(s); };
-	        Json.stringify = function (data) {
-	            // Dart doesn't take 3 arguments
-	            return global$1.JSON.stringify(data, null, 2);
-	        };
-	        return Json;
-	    }());
-
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    /**
-	     * Supported http methods.
-	     * @experimental
-	     */
-	    exports.RequestMethod;
-	    (function (RequestMethod) {
-	        RequestMethod[RequestMethod["Get"] = 0] = "Get";
-	        RequestMethod[RequestMethod["Post"] = 1] = "Post";
-	        RequestMethod[RequestMethod["Put"] = 2] = "Put";
-	        RequestMethod[RequestMethod["Delete"] = 3] = "Delete";
-	        RequestMethod[RequestMethod["Options"] = 4] = "Options";
-	        RequestMethod[RequestMethod["Head"] = 5] = "Head";
-	        RequestMethod[RequestMethod["Patch"] = 6] = "Patch";
-	    })(exports.RequestMethod || (exports.RequestMethod = {}));
-	    /**
-	     * All possible states in which a connection can be, based on
-	     * [States](http://www.w3.org/TR/XMLHttpRequest/#states) from the `XMLHttpRequest` spec, but with an
-	     * additional "CANCELLED" state.
-	     * @experimental
-	     */
-	    exports.ReadyState;
-	    (function (ReadyState) {
-	        ReadyState[ReadyState["Unsent"] = 0] = "Unsent";
-	        ReadyState[ReadyState["Open"] = 1] = "Open";
-	        ReadyState[ReadyState["HeadersReceived"] = 2] = "HeadersReceived";
-	        ReadyState[ReadyState["Loading"] = 3] = "Loading";
-	        ReadyState[ReadyState["Done"] = 4] = "Done";
-	        ReadyState[ReadyState["Cancelled"] = 5] = "Cancelled";
-	    })(exports.ReadyState || (exports.ReadyState = {}));
-	    /**
-	     * Acceptable response types to be associated with a {@link Response}, based on
-	     * [ResponseType](https://fetch.spec.whatwg.org/#responsetype) from the Fetch spec.
-	     * @experimental
-	     */
-	    exports.ResponseType;
-	    (function (ResponseType) {
-	        ResponseType[ResponseType["Basic"] = 0] = "Basic";
-	        ResponseType[ResponseType["Cors"] = 1] = "Cors";
-	        ResponseType[ResponseType["Default"] = 2] = "Default";
-	        ResponseType[ResponseType["Error"] = 3] = "Error";
-	        ResponseType[ResponseType["Opaque"] = 4] = "Opaque";
-	    })(exports.ResponseType || (exports.ResponseType = {}));
-	    /**
-	     * Supported content type to be automatically associated with a {@link Request}.
-	     * @experimental
-	     */
-	    var ContentType;
-	    (function (ContentType) {
-	        ContentType[ContentType["NONE"] = 0] = "NONE";
-	        ContentType[ContentType["JSON"] = 1] = "JSON";
-	        ContentType[ContentType["FORM"] = 2] = "FORM";
-	        ContentType[ContentType["FORM_DATA"] = 3] = "FORM_DATA";
-	        ContentType[ContentType["TEXT"] = 4] = "TEXT";
-	        ContentType[ContentType["BLOB"] = 5] = "BLOB";
-	        ContentType[ContentType["ARRAY_BUFFER"] = 6] = "ARRAY_BUFFER";
-	    })(ContentType || (ContentType = {}));
-	    /**
-	     * Define which buffer to use to store the response
-	     * @experimental
-	     */
-	    exports.ResponseContentType;
-	    (function (ResponseContentType) {
-	        ResponseContentType[ResponseContentType["Text"] = 0] = "Text";
-	        ResponseContentType[ResponseContentType["Json"] = 1] = "Json";
-	        ResponseContentType[ResponseContentType["ArrayBuffer"] = 2] = "ArrayBuffer";
-	        ResponseContentType[ResponseContentType["Blob"] = 3] = "Blob";
-	    })(exports.ResponseContentType || (exports.ResponseContentType = {}));
-
-	    // Safari and Internet Explorer do not support the iterable parameter to the
-	    // Map constructor.  We work around that by manually adding the items.
-	    var createMapFromPairs = (function () {
-	        try {
-	            if (new Map([[1, 2]]).size === 1) {
-	                return function createMapFromPairs(pairs) { return new Map(pairs); };
-	            }
-	        }
-	        catch (e) {
-	        }
-	        return function createMapAndPopulateFromPairs(pairs) {
-	            var map = new Map();
-	            for (var i = 0; i < pairs.length; i++) {
-	                var pair = pairs[i];
-	                map.set(pair[0], pair[1]);
-	            }
-	            return map;
-	        };
-	    })();
-	    var _clearValues = (function () {
-	        if ((new Map()).keys().next) {
-	            return function _clearValues(m) {
-	                var keyIterator = m.keys();
-	                var k;
-	                while (!((k = keyIterator.next()).done)) {
-	                    m.set(k.value, null);
-	                }
-	            };
-	        }
-	        else {
-	            return function _clearValuesWithForeEach(m) {
-	                m.forEach(function (v, k) { m.set(k, null); });
-	            };
-	        }
-	    })();
-	    // Safari doesn't implement MapIterator.next(), which is used is Traceur's polyfill of Array.from
-	    // TODO(mlaval): remove the work around once we have a working polyfill of Array.from
-	    var _arrayFromMap = (function () {
-	        try {
-	            if ((new Map()).values().next) {
-	                return function createArrayFromMap(m, getValues) {
-	                    return getValues ? Array.from(m.values()) : Array.from(m.keys());
-	                };
-	            }
-	        }
-	        catch (e) {
-	        }
-	        return function createArrayFromMapWithForeach(m, getValues) {
-	            var res = new Array(m.size), i = 0;
-	            m.forEach(function (v, k) {
-	                res[i] = getValues ? v : k;
-	                i++;
-	            });
-	            return res;
-	        };
-	    })();
-	    var MapWrapper = (function () {
-	        function MapWrapper() {
-	        }
-	        MapWrapper.createFromStringMap = function (stringMap) {
-	            var result = new Map();
-	            for (var prop in stringMap) {
-	                result.set(prop, stringMap[prop]);
-	            }
-	            return result;
-	        };
-	        MapWrapper.toStringMap = function (m) {
-	            var r = {};
-	            m.forEach(function (v, k) { return r[k] = v; });
-	            return r;
-	        };
-	        MapWrapper.createFromPairs = function (pairs) { return createMapFromPairs(pairs); };
-	        MapWrapper.iterable = function (m) { return m; };
-	        MapWrapper.keys = function (m) { return _arrayFromMap(m, false); };
-	        MapWrapper.values = function (m) { return _arrayFromMap(m, true); };
-	        return MapWrapper;
-	    }());
-
-	    /**
-	     * Polyfill for [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers/Headers), as
-	     * specified in the [Fetch Spec](https://fetch.spec.whatwg.org/#headers-class).
-	     *
-	     * The only known difference between this `Headers` implementation and the spec is the
-	     * lack of an `entries` method.
-	     *
-	     * ### Example
-	     *
-	     * ```
-	     * import {Headers} from '@angular/http';
-	     *
-	     * var firstHeaders = new Headers();
-	     * firstHeaders.append('Content-Type', 'image/jpeg');
-	     * console.log(firstHeaders.get('Content-Type')) //'image/jpeg'
-	     *
-	     * // Create headers from Plain Old JavaScript Object
-	     * var secondHeaders = new Headers({
-	     *   'X-My-Custom-Header': 'Angular'
-	     * });
-	     * console.log(secondHeaders.get('X-My-Custom-Header')); //'Angular'
-	     *
-	     * var thirdHeaders = new Headers(secondHeaders);
-	     * console.log(thirdHeaders.get('X-My-Custom-Header')); //'Angular'
-	     * ```
-	     *
-	     * @experimental
-	     */
-	    var Headers = (function () {
-	        // TODO(vicb): any -> string|string[]
-	        function Headers(headers) {
-	            var _this = this;
-	            /** @internal header names are lower case */
-	            this._headers = new Map();
-	            /** @internal map lower case names to actual names */
-	            this._normalizedNames = new Map();
-	            if (!headers) {
-	                return;
-	            }
-	            if (headers instanceof Headers) {
-	                headers._headers.forEach(function (values, name) {
-	                    values.forEach(function (value) { return _this.append(name, value); });
-	                });
-	                return;
-	            }
-	            Object.keys(headers).forEach(function (name) {
-	                var values = Array.isArray(headers[name]) ? headers[name] : [headers[name]];
-	                _this.delete(name);
-	                values.forEach(function (value) { return _this.append(name, value); });
-	            });
-	        }
-	        /**
-	         * Returns a new Headers instance from the given DOMString of Response Headers
-	         */
-	        Headers.fromResponseHeaderString = function (headersString) {
-	            var headers = new Headers();
-	            headersString.split('\n').forEach(function (line) {
-	                var index = line.indexOf(':');
-	                if (index > 0) {
-	                    var name_1 = line.slice(0, index);
-	                    var value = line.slice(index + 1).trim();
-	                    headers.set(name_1, value);
-	                }
-	            });
-	            return headers;
-	        };
-	        /**
-	         * Appends a header to existing list of header values for a given header name.
-	         */
-	        Headers.prototype.append = function (name, value) {
-	            var values = this.getAll(name);
-	            if (values === null) {
-	                this.set(name, value);
-	            }
-	            else {
-	                values.push(value);
-	            }
-	        };
-	        /**
-	         * Deletes all header values for the given name.
-	         */
-	        Headers.prototype.delete = function (name) {
-	            var lcName = name.toLowerCase();
-	            this._normalizedNames.delete(lcName);
-	            this._headers.delete(lcName);
-	        };
-	        Headers.prototype.forEach = function (fn) {
-	            var _this = this;
-	            this._headers.forEach(function (values, lcName) { return fn(values, _this._normalizedNames.get(lcName), _this._headers); });
-	        };
-	        /**
-	         * Returns first header that matches given name.
-	         */
-	        Headers.prototype.get = function (name) {
-	            var values = this.getAll(name);
-	            if (values === null) {
-	                return null;
-	            }
-	            return values.length > 0 ? values[0] : null;
-	        };
-	        /**
-	         * Checks for existence of header by given name.
-	         */
-	        Headers.prototype.has = function (name) { return this._headers.has(name.toLowerCase()); };
-	        /**
-	         * Returns the names of the headers
-	         */
-	        Headers.prototype.keys = function () { return MapWrapper.values(this._normalizedNames); };
-	        /**
-	         * Sets or overrides header value for given name.
-	         */
-	        Headers.prototype.set = function (name, value) {
-	            if (Array.isArray(value)) {
-	                if (value.length) {
-	                    this._headers.set(name.toLowerCase(), [value.join(',')]);
-	                }
-	            }
-	            else {
-	                this._headers.set(name.toLowerCase(), [value]);
-	            }
-	            this.mayBeSetNormalizedName(name);
-	        };
-	        /**
-	         * Returns values of all headers.
-	         */
-	        Headers.prototype.values = function () { return MapWrapper.values(this._headers); };
-	        /**
-	         * Returns string of all headers.
-	         */
-	        // TODO(vicb): returns {[name: string]: string[]}
-	        Headers.prototype.toJSON = function () {
-	            var _this = this;
-	            var serialized = {};
-	            this._headers.forEach(function (values, name) {
-	                var split = [];
-	                values.forEach(function (v) { return split.push.apply(split, v.split(',')); });
-	                serialized[_this._normalizedNames.get(name)] = split;
-	            });
-	            return serialized;
-	        };
-	        /**
-	         * Returns list of header values for a given name.
-	         */
-	        Headers.prototype.getAll = function (name) {
-	            return this.has(name) ? this._headers.get(name.toLowerCase()) : null;
-	        };
-	        /**
-	         * This method is not implemented.
-	         */
-	        Headers.prototype.entries = function () { throw new Error('"entries" method is not implemented on Headers class'); };
-	        Headers.prototype.mayBeSetNormalizedName = function (name) {
-	            var lcName = name.toLowerCase();
-	            if (!this._normalizedNames.has(lcName)) {
-	                this._normalizedNames.set(lcName, name);
-	            }
-	        };
-	        return Headers;
-	    }());
-
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var __extends$1 = (this && this.__extends) || function (d, b) {
-	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    };
-	    /**
-	     * Creates a response options object to be optionally provided when instantiating a
-	     * {@link Response}.
-	     *
-	     * This class is based on the `ResponseInit` description in the [Fetch
-	     * Spec](https://fetch.spec.whatwg.org/#responseinit).
-	     *
-	     * All values are null by default. Typical defaults can be found in the
-	     * {@link BaseResponseOptions} class, which sub-classes `ResponseOptions`.
-	     *
-	     * This class may be used in tests to build {@link Response Responses} for
-	     * mock responses (see {@link MockBackend}).
-	     *
-	     * ### Example ([live demo](http://plnkr.co/edit/P9Jkk8e8cz6NVzbcxEsD?p=preview))
-	     *
-	     * ```typescript
-	     * import {ResponseOptions, Response} from '@angular/http';
-	     *
-	     * var options = new ResponseOptions({
-	     *   body: '{"name":"Jeff"}'
-	     * });
-	     * var res = new Response(options);
-	     *
-	     * console.log('res.json():', res.json()); // Object {name: "Jeff"}
-	     * ```
-	     *
-	     * @experimental
-	     */
-	    var ResponseOptions = (function () {
-	        function ResponseOptions(_a) {
-	            var _b = _a === void 0 ? {} : _a, body = _b.body, status = _b.status, headers = _b.headers, statusText = _b.statusText, type = _b.type, url = _b.url;
-	            this.body = isPresent(body) ? body : null;
-	            this.status = isPresent(status) ? status : null;
-	            this.headers = isPresent(headers) ? headers : null;
-	            this.statusText = isPresent(statusText) ? statusText : null;
-	            this.type = isPresent(type) ? type : null;
-	            this.url = isPresent(url) ? url : null;
-	        }
-	        /**
-	         * Creates a copy of the `ResponseOptions` instance, using the optional input as values to
-	         * override
-	         * existing values. This method will not change the values of the instance on which it is being
-	         * called.
-	         *
-	         * This may be useful when sharing a base `ResponseOptions` object inside tests,
-	         * where certain properties may change from test to test.
-	         *
-	         * ### Example ([live demo](http://plnkr.co/edit/1lXquqFfgduTFBWjNoRE?p=preview))
-	         *
-	         * ```typescript
-	         * import {ResponseOptions, Response} from '@angular/http';
-	         *
-	         * var options = new ResponseOptions({
-	         *   body: {name: 'Jeff'}
-	         * });
-	         * var res = new Response(options.merge({
-	         *   url: 'https://google.com'
-	         * }));
-	         * console.log('options.url:', options.url); // null
-	         * console.log('res.json():', res.json()); // Object {name: "Jeff"}
-	         * console.log('res.url:', res.url); // https://google.com
-	         * ```
-	         */
-	        ResponseOptions.prototype.merge = function (options) {
-	            return new ResponseOptions({
-	                body: isPresent(options) && isPresent(options.body) ? options.body : this.body,
-	                status: isPresent(options) && isPresent(options.status) ? options.status : this.status,
-	                headers: isPresent(options) && isPresent(options.headers) ? options.headers : this.headers,
-	                statusText: isPresent(options) && isPresent(options.statusText) ? options.statusText :
-	                    this.statusText,
-	                type: isPresent(options) && isPresent(options.type) ? options.type : this.type,
-	                url: isPresent(options) && isPresent(options.url) ? options.url : this.url,
-	            });
-	        };
-	        return ResponseOptions;
-	    }());
-	    /**
-	     * Subclass of {@link ResponseOptions}, with default values.
-	     *
-	     * Default values:
-	     *  * status: 200
-	     *  * headers: empty {@link Headers} object
-	     *
-	     * This class could be extended and bound to the {@link ResponseOptions} class
-	     * when configuring an {@link Injector}, in order to override the default options
-	     * used by {@link Http} to create {@link Response Responses}.
-	     *
-	     * ### Example ([live demo](http://plnkr.co/edit/qv8DLT?p=preview))
-	     *
-	     * ```typescript
-	     * import {provide} from '@angular/core';
-	     * import {bootstrap} from '@angular/platform-browser/browser';
-	     * import {HTTP_PROVIDERS, Headers, Http, BaseResponseOptions, ResponseOptions} from
-	     * '@angular/http';
-	     * import {App} from './myapp';
-	     *
-	     * class MyOptions extends BaseResponseOptions {
-	     *   headers:Headers = new Headers({network: 'github'});
-	     * }
-	     *
-	     * bootstrap(App, [HTTP_PROVIDERS, {provide: ResponseOptions, useClass: MyOptions}]);
-	     * ```
-	     *
-	     * The options could also be extended when manually creating a {@link Response}
-	     * object.
-	     *
-	     * ### Example ([live demo](http://plnkr.co/edit/VngosOWiaExEtbstDoix?p=preview))
-	     *
-	     * ```
-	     * import {BaseResponseOptions, Response} from '@angular/http';
-	     *
-	     * var options = new BaseResponseOptions();
-	     * var res = new Response(options.merge({
-	     *   body: 'Angular',
-	     *   headers: new Headers({framework: 'angular'})
-	     * }));
-	     * console.log('res.headers.get("framework"):', res.headers.get('framework')); // angular
-	     * console.log('res.text():', res.text()); // Angular;
-	     * ```
-	     *
-	     * @experimental
-	     */
-	    var BaseResponseOptions = (function (_super) {
-	        __extends$1(BaseResponseOptions, _super);
-	        function BaseResponseOptions() {
-	            _super.call(this, { status: 200, statusText: 'Ok', type: exports.ResponseType.Default, headers: new Headers() });
-	        }
-	        BaseResponseOptions.decorators = [
-	            { type: _angular_core.Injectable },
-	        ];
-	        /** @nocollapse */
-	        BaseResponseOptions.ctorParameters = [];
-	        return BaseResponseOptions;
-	    }(ResponseOptions));
-
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    /**
-	     * Abstract class from which real backends are derived.
-	     *
-	     * The primary purpose of a `ConnectionBackend` is to create new connections to fulfill a given
-	     * {@link Request}.
-	     *
-	     * @experimental
-	     */
-	    var ConnectionBackend = (function () {
-	        function ConnectionBackend() {
-	        }
-	        return ConnectionBackend;
-	    }());
-	    /**
-	     * Abstract class from which real connections are derived.
-	     *
-	     * @experimental
-	     */
-	    var Connection = (function () {
-	        function Connection() {
-	        }
-	        return Connection;
-	    }());
-	    /**
-	     * An XSRFStrategy configures XSRF protection (e.g. via headers) on an HTTP request.
-	     *
-	     * @experimental
-	     */
-	    var XSRFStrategy = (function () {
-	        function XSRFStrategy() {
-	        }
-	        return XSRFStrategy;
-	    }());
-
-	    function normalizeMethodName(method) {
-	        if (isString(method)) {
-	            var originalMethod = method;
-	            method = method
-	                .replace(/(\w)(\w*)/g, function (g0, g1, g2) { return g1.toUpperCase() + g2.toLowerCase(); });
-	            method = exports.RequestMethod[method];
-	            if (typeof method !== 'number')
-	                throw new Error("Invalid request method. The method \"" + originalMethod + "\" is not supported.");
-	        }
-	        return method;
-	    }
-	    var isSuccess = function (status) { return (status >= 200 && status < 300); };
-	    function getResponseURL(xhr) {
-	        if ('responseURL' in xhr) {
-	            return xhr.responseURL;
-	        }
-	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
-	            return xhr.getResponseHeader('X-Request-URL');
-	        }
-	        return;
-	    }
-	    function stringToArrayBuffer(input) {
-	        var view = new Uint16Array(input.length);
-	        for (var i = 0, strLen = input.length; i < strLen; i++) {
-	            view[i] = input.charCodeAt(i);
-	        }
-	        return view.buffer;
-	    }
-
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    function paramParser(rawParams) {
-	        if (rawParams === void 0) { rawParams = ''; }
-	        var map = new Map();
-	        if (rawParams.length > 0) {
-	            var params = rawParams.split('&');
-	            params.forEach(function (param) {
-	                var eqIdx = param.indexOf('=');
-	                var _a = eqIdx == -1 ? [param, ''] : [param.slice(0, eqIdx), param.slice(eqIdx + 1)], key = _a[0], val = _a[1];
-	                var list = map.get(key) || [];
-	                list.push(val);
-	                map.set(key, list);
-	            });
-	        }
-	        return map;
-	    }
-	    /**
-	     * @experimental
-	     **/
-	    var QueryEncoder = (function () {
-	        function QueryEncoder() {
-	        }
-	        QueryEncoder.prototype.encodeKey = function (k) { return standardEncoding(k); };
-	        QueryEncoder.prototype.encodeValue = function (v) { return standardEncoding(v); };
-	        return QueryEncoder;
-	    }());
-	    function standardEncoding(v) {
-	        return encodeURIComponent(v)
-	            .replace(/%40/gi, '@')
-	            .replace(/%3A/gi, ':')
-	            .replace(/%24/gi, '$')
-	            .replace(/%2C/gi, ',')
-	            .replace(/%3B/gi, ';')
-	            .replace(/%2B/gi, '+')
-	            .replace(/%3D/gi, '=')
-	            .replace(/%3F/gi, '?')
-	            .replace(/%2F/gi, '/');
-	    }
-	    /**
-	     * Map-like representation of url search parameters, based on
-	     * [URLSearchParams](https://url.spec.whatwg.org/#urlsearchparams) in the url living standard,
-	     * with several extensions for merging URLSearchParams objects:
-	     *   - setAll()
-	     *   - appendAll()
-	     *   - replaceAll()
-	     *
-	     * This class accepts an optional second parameter of ${@link QueryEncoder},
-	     * which is used to serialize parameters before making a request. By default,
-	     * `QueryEncoder` encodes keys and values of parameters using `encodeURIComponent`,
-	     * and then un-encodes certain characters that are allowed to be part of the query
-	     * according to IETF RFC 3986: https://tools.ietf.org/html/rfc3986.
-	     *
-	     * These are the characters that are not encoded: `! $ \' ( ) * + , ; A 9 - . _ ~ ? /`
-	     *
-	     * If the set of allowed query characters is not acceptable for a particular backend,
-	     * `QueryEncoder` can be subclassed and provided as the 2nd argument to URLSearchParams.
-	     *
-	     * ```
-	     * import {URLSearchParams, QueryEncoder} from '@angular/http';
-	     * class MyQueryEncoder extends QueryEncoder {
-	     *   encodeKey(k: string): string {
-	     *     return myEncodingFunction(k);
-	     *   }
-	     *
-	     *   encodeValue(v: string): string {
-	     *     return myEncodingFunction(v);
-	     *   }
-	     * }
-	     *
-	     * let params = new URLSearchParams('', new MyQueryEncoder());
-	     * ```
-	     * @experimental
-	     */
-	    var URLSearchParams = (function () {
-	        function URLSearchParams(rawParams, queryEncoder) {
-	            if (rawParams === void 0) { rawParams = ''; }
-	            if (queryEncoder === void 0) { queryEncoder = new QueryEncoder(); }
-	            this.rawParams = rawParams;
-	            this.queryEncoder = queryEncoder;
-	            this.paramsMap = paramParser(rawParams);
-	        }
-	        URLSearchParams.prototype.clone = function () {
-	            var clone = new URLSearchParams('', this.queryEncoder);
-	            clone.appendAll(this);
-	            return clone;
-	        };
-	        URLSearchParams.prototype.has = function (param) { return this.paramsMap.has(param); };
-	        URLSearchParams.prototype.get = function (param) {
-	            var storedParam = this.paramsMap.get(param);
-	            return Array.isArray(storedParam) ? storedParam[0] : null;
-	        };
-	        URLSearchParams.prototype.getAll = function (param) { return this.paramsMap.get(param) || []; };
-	        URLSearchParams.prototype.set = function (param, val) {
-	            if (val === void 0 || val === null) {
-	                this.delete(param);
-	                return;
-	            }
-	            var list = this.paramsMap.get(param) || [];
-	            list.length = 0;
-	            list.push(val);
-	            this.paramsMap.set(param, list);
-	        };
-	        // A merge operation
-	        // For each name-values pair in `searchParams`, perform `set(name, values[0])`
-	        //
-	        // E.g: "a=[1,2,3], c=[8]" + "a=[4,5,6], b=[7]" = "a=[4], c=[8], b=[7]"
-	        //
-	        // TODO(@caitp): document this better
-	        URLSearchParams.prototype.setAll = function (searchParams) {
-	            var _this = this;
-	            searchParams.paramsMap.forEach(function (value, param) {
-	                var list = _this.paramsMap.get(param) || [];
-	                list.length = 0;
-	                list.push(value[0]);
-	                _this.paramsMap.set(param, list);
-	            });
-	        };
-	        URLSearchParams.prototype.append = function (param, val) {
-	            if (val === void 0 || val === null)
-	                return;
-	            var list = this.paramsMap.get(param) || [];
-	            list.push(val);
-	            this.paramsMap.set(param, list);
-	        };
-	        // A merge operation
-	        // For each name-values pair in `searchParams`, perform `append(name, value)`
-	        // for each value in `values`.
-	        //
-	        // E.g: "a=[1,2], c=[8]" + "a=[3,4], b=[7]" = "a=[1,2,3,4], c=[8], b=[7]"
-	        //
-	        // TODO(@caitp): document this better
-	        URLSearchParams.prototype.appendAll = function (searchParams) {
-	            var _this = this;
-	            searchParams.paramsMap.forEach(function (value, param) {
-	                var list = _this.paramsMap.get(param) || [];
-	                for (var i = 0; i < value.length; ++i) {
-	                    list.push(value[i]);
-	                }
-	                _this.paramsMap.set(param, list);
-	            });
-	        };
-	        // A merge operation
-	        // For each name-values pair in `searchParams`, perform `delete(name)`,
-	        // followed by `set(name, values)`
-	        //
-	        // E.g: "a=[1,2,3], c=[8]" + "a=[4,5,6], b=[7]" = "a=[4,5,6], c=[8], b=[7]"
-	        //
-	        // TODO(@caitp): document this better
-	        URLSearchParams.prototype.replaceAll = function (searchParams) {
-	            var _this = this;
-	            searchParams.paramsMap.forEach(function (value, param) {
-	                var list = _this.paramsMap.get(param) || [];
-	                list.length = 0;
-	                for (var i = 0; i < value.length; ++i) {
-	                    list.push(value[i]);
-	                }
-	                _this.paramsMap.set(param, list);
-	            });
-	        };
-	        URLSearchParams.prototype.toString = function () {
-	            var _this = this;
-	            var paramsList = [];
-	            this.paramsMap.forEach(function (values, k) {
-	                values.forEach(function (v) { return paramsList.push(_this.queryEncoder.encodeKey(k) + '=' + _this.queryEncoder.encodeValue(v)); });
-	            });
-	            return paramsList.join('&');
-	        };
-	        URLSearchParams.prototype.delete = function (param) { this.paramsMap.delete(param); };
-	        return URLSearchParams;
-	    }());
-
-	    /**
-	     * HTTP request body used by both {@link Request} and {@link Response}
-	     * https://fetch.spec.whatwg.org/#body
-	     */
-	    var Body = (function () {
-	        function Body() {
-	        }
-	        /**
-	         * Attempts to return body as parsed `JSON` object, or raises an exception.
-	         */
-	        Body.prototype.json = function () {
-	            if (isString(this._body)) {
-	                return Json.parse(this._body);
-	            }
-	            if (this._body instanceof ArrayBuffer) {
-	                return Json.parse(this.text());
-	            }
-	            return this._body;
-	        };
-	        /**
-	         * Returns the body as a string, presuming `toString()` can be called on the response body.
-	         */
-	        Body.prototype.text = function () {
-	            if (this._body instanceof URLSearchParams) {
-	                return this._body.toString();
-	            }
-	            if (this._body instanceof ArrayBuffer) {
-	                return String.fromCharCode.apply(null, new Uint16Array(this._body));
-	            }
-	            if (this._body === null) {
-	                return '';
-	            }
-	            if (isJsObject(this._body)) {
-	                return Json.stringify(this._body);
-	            }
-	            return this._body.toString();
-	        };
-	        /**
-	         * Return the body as an ArrayBuffer
-	         */
-	        Body.prototype.arrayBuffer = function () {
-	            if (this._body instanceof ArrayBuffer) {
-	                return this._body;
-	            }
-	            return stringToArrayBuffer(this.text());
-	        };
-	        /**
-	          * Returns the request's body as a Blob, assuming that body exists.
-	          */
-	        Body.prototype.blob = function () {
-	            if (this._body instanceof Blob) {
-	                return this._body;
-	            }
-	            if (this._body instanceof ArrayBuffer) {
-	                return new Blob([this._body]);
-	            }
-	            throw new Error('The request body isn\'t either a blob or an array buffer');
-	        };
-	        return Body;
-	    }());
-
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var __extends$2 = (this && this.__extends) || function (d, b) {
-	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    };
-	    /**
-	     * Creates `Response` instances from provided values.
-	     *
-	     * Though this object isn't
-	     * usually instantiated by end-users, it is the primary object interacted with when it comes time to
-	     * add data to a view.
-	     *
-	     * ### Example
-	     *
-	     * ```
-	     * http.request('my-friends.txt').subscribe(response => this.friends = response.text());
-	     * ```
-	     *
-	     * The Response's interface is inspired by the Response constructor defined in the [Fetch
-	     * Spec](https://fetch.spec.whatwg.org/#response-class), but is considered a static value whose body
-	     * can be accessed many times. There are other differences in the implementation, but this is the
-	     * most significant.
-	     *
-	     * @experimental
-	     */
-	    var Response = (function (_super) {
-	        __extends$2(Response, _super);
-	        function Response(responseOptions) {
-	            _super.call(this);
-	            this._body = responseOptions.body;
-	            this.status = responseOptions.status;
-	            this.ok = (this.status >= 200 && this.status <= 299);
-	            this.statusText = responseOptions.statusText;
-	            this.headers = responseOptions.headers;
-	            this.type = responseOptions.type;
-	            this.url = responseOptions.url;
-	        }
-	        Response.prototype.toString = function () {
-	            return "Response with status: " + this.status + " " + this.statusText + " for URL: " + this.url;
-	        };
-	        return Response;
-	    }(Body));
-
-	    var _nextRequestId = 0;
-	    var JSONP_HOME = '__ng_jsonp__';
-	    var _jsonpConnections = null;
-	    function _getJsonpConnections() {
-	        if (_jsonpConnections === null) {
-	            _jsonpConnections = global$1[JSONP_HOME] = {};
-	        }
-	        return _jsonpConnections;
-	    }
-	    // Make sure not to evaluate this in a non-browser environment!
-	    var BrowserJsonp = (function () {
-	        function BrowserJsonp() {
-	        }
-	        // Construct a <script> element with the specified URL
-	        BrowserJsonp.prototype.build = function (url) {
-	            var node = document.createElement('script');
-	            node.src = url;
-	            return node;
-	        };
-	        BrowserJsonp.prototype.nextRequestID = function () { return "__req" + _nextRequestId++; };
-	        BrowserJsonp.prototype.requestCallback = function (id) { return JSONP_HOME + "." + id + ".finished"; };
-	        BrowserJsonp.prototype.exposeConnection = function (id, connection) {
-	            var connections = _getJsonpConnections();
-	            connections[id] = connection;
-	        };
-	        BrowserJsonp.prototype.removeConnection = function (id) {
-	            var connections = _getJsonpConnections();
-	            connections[id] = null;
-	        };
-	        // Attach the <script> element to the DOM
-	        BrowserJsonp.prototype.send = function (node) { document.body.appendChild((node)); };
-	        // Remove <script> element from the DOM
-	        BrowserJsonp.prototype.cleanup = function (node) {
-	            if (node.parentNode) {
-	                node.parentNode.removeChild((node));
-	            }
-	        };
-	        BrowserJsonp.decorators = [
-	            { type: _angular_core.Injectable },
-	        ];
-	        /** @nocollapse */
-	        BrowserJsonp.ctorParameters = [];
-	        return BrowserJsonp;
-	    }());
-
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var __extends = (this && this.__extends) || function (d, b) {
-	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    };
-	    var JSONP_ERR_NO_CALLBACK = 'JSONP injected script did not invoke callback.';
-	    var JSONP_ERR_WRONG_METHOD = 'JSONP requests must use GET request method.';
-	    /**
-	     * Abstract base class for an in-flight JSONP request.
-	     *
-	     * @experimental
-	     */
-	    var JSONPConnection = (function () {
-	        function JSONPConnection() {
-	        }
-	        return JSONPConnection;
-	    }());
-	    var JSONPConnection_ = (function (_super) {
-	        __extends(JSONPConnection_, _super);
-	        function JSONPConnection_(req, _dom, baseResponseOptions) {
-	            var _this = this;
-	            _super.call(this);
-	            this._dom = _dom;
-	            this.baseResponseOptions = baseResponseOptions;
-	            this._finished = false;
-	            if (req.method !== exports.RequestMethod.Get) {
-	                throw new TypeError(JSONP_ERR_WRONG_METHOD);
-	            }
-	            this.request = req;
-	            this.response = new rxjs_Observable.Observable(function (responseObserver) {
-	                _this.readyState = exports.ReadyState.Loading;
-	                var id = _this._id = _dom.nextRequestID();
-	                _dom.exposeConnection(id, _this);
-	                // Workaround Dart
-	                // url = url.replace(/=JSONP_CALLBACK(&|$)/, `generated method`);
-	                var callback = _dom.requestCallback(_this._id);
-	                var url = req.url;
-	                if (url.indexOf('=JSONP_CALLBACK&') > -1) {
-	                    url = url.replace('=JSONP_CALLBACK&', "=" + callback + "&");
-	                }
-	                else if (url.lastIndexOf('=JSONP_CALLBACK') === url.length - '=JSONP_CALLBACK'.length) {
-	                    url = url.substring(0, url.length - '=JSONP_CALLBACK'.length) + ("=" + callback);
-	                }
-	                var script = _this._script = _dom.build(url);
-	                var onLoad = function (event) {
-	                    if (_this.readyState === exports.ReadyState.Cancelled)
-	                        return;
-	                    _this.readyState = exports.ReadyState.Done;
-	                    _dom.cleanup(script);
-	                    if (!_this._finished) {
-	                        var responseOptions_1 = new ResponseOptions({ body: JSONP_ERR_NO_CALLBACK, type: exports.ResponseType.Error, url: url });
-	                        if (isPresent(baseResponseOptions)) {
-	                            responseOptions_1 = baseResponseOptions.merge(responseOptions_1);
-	                        }
-	                        responseObserver.error(new Response(responseOptions_1));
-	                        return;
-	                    }
-	                    var responseOptions = new ResponseOptions({ body: _this._responseData, url: url });
-	                    if (isPresent(_this.baseResponseOptions)) {
-	                        responseOptions = _this.baseResponseOptions.merge(responseOptions);
-	                    }
-	                    responseObserver.next(new Response(responseOptions));
-	                    responseObserver.complete();
-	                };
-	                var onError = function (error) {
-	                    if (_this.readyState === exports.ReadyState.Cancelled)
-	                        return;
-	                    _this.readyState = exports.ReadyState.Done;
-	                    _dom.cleanup(script);
-	                    var responseOptions = new ResponseOptions({ body: error.message, type: exports.ResponseType.Error });
-	                    if (isPresent(baseResponseOptions)) {
-	                        responseOptions = baseResponseOptions.merge(responseOptions);
-	                    }
-	                    responseObserver.error(new Response(responseOptions));
-	                };
-	                script.addEventListener('load', onLoad);
-	                script.addEventListener('error', onError);
-	                _dom.send(script);
-	                return function () {
-	                    _this.readyState = exports.ReadyState.Cancelled;
-	                    script.removeEventListener('load', onLoad);
-	                    script.removeEventListener('error', onError);
-	                    if (isPresent(script)) {
-	                        _this._dom.cleanup(script);
-	                    }
-	                };
-	            });
-	        }
-	        JSONPConnection_.prototype.finished = function (data) {
-	            // Don't leak connections
-	            this._finished = true;
-	            this._dom.removeConnection(this._id);
-	            if (this.readyState === exports.ReadyState.Cancelled)
-	                return;
-	            this._responseData = data;
-	        };
-	        return JSONPConnection_;
-	    }(JSONPConnection));
-	    /**
-	     * A {@link ConnectionBackend} that uses the JSONP strategy of making requests.
-	     *
-	     * @experimental
-	     */
-	    var JSONPBackend = (function (_super) {
-	        __extends(JSONPBackend, _super);
-	        function JSONPBackend() {
-	            _super.apply(this, arguments);
-	        }
-	        return JSONPBackend;
-	    }(ConnectionBackend));
-	    var JSONPBackend_ = (function (_super) {
-	        __extends(JSONPBackend_, _super);
-	        function JSONPBackend_(_browserJSONP, _baseResponseOptions) {
-	            _super.call(this);
-	            this._browserJSONP = _browserJSONP;
-	            this._baseResponseOptions = _baseResponseOptions;
-	        }
-	        JSONPBackend_.prototype.createConnection = function (request) {
-	            return new JSONPConnection_(request, this._browserJSONP, this._baseResponseOptions);
-	        };
-	        JSONPBackend_.decorators = [
-	            { type: _angular_core.Injectable },
-	        ];
-	        /** @nocollapse */
-	        JSONPBackend_.ctorParameters = [
-	            { type: BrowserJsonp, },
-	            { type: ResponseOptions, },
-	        ];
-	        return JSONPBackend_;
-	    }(JSONPBackend));
-
-	    var XSSI_PREFIX = /^\)\]\}',?\n/;
-	    /**
-	     * Creates connections using `XMLHttpRequest`. Given a fully-qualified
-	     * request, an `XHRConnection` will immediately create an `XMLHttpRequest` object and send the
-	     * request.
-	     *
-	     * This class would typically not be created or interacted with directly inside applications, though
-	     * the {@link MockConnection} may be interacted with in tests.
-	     *
-	     * @experimental
-	     */
-	    var XHRConnection = (function () {
-	        function XHRConnection(req, browserXHR, baseResponseOptions) {
-	            var _this = this;
-	            this.request = req;
-	            this.response = new rxjs_Observable.Observable(function (responseObserver) {
-	                var _xhr = browserXHR.build();
-	                _xhr.open(exports.RequestMethod[req.method].toUpperCase(), req.url);
-	                if (isPresent(req.withCredentials)) {
-	                    _xhr.withCredentials = req.withCredentials;
-	                }
-	                // load event handler
-	                var onLoad = function () {
-	                    // responseText is the old-school way of retrieving response (supported by IE8 & 9)
-	                    // response/responseType properties were introduced in ResourceLoader Level2 spec (supported
-	                    // by IE10)
-	                    var body = _xhr.response === undefined ? _xhr.responseText : _xhr.response;
-	                    // Implicitly strip a potential XSSI prefix.
-	                    if (isString(body))
-	                        body = body.replace(XSSI_PREFIX, '');
-	                    var headers = Headers.fromResponseHeaderString(_xhr.getAllResponseHeaders());
-	                    var url = getResponseURL(_xhr);
-	                    // normalize IE9 bug (http://bugs.jquery.com/ticket/1450)
-	                    var status = _xhr.status === 1223 ? 204 : _xhr.status;
-	                    // fix status code when it is 0 (0 status is undocumented).
-	                    // Occurs when accessing file resources or on Android 4.1 stock browser
-	                    // while retrieving files from application cache.
-	                    if (status === 0) {
-	                        status = body ? 200 : 0;
-	                    }
-	                    var statusText = _xhr.statusText || 'OK';
-	                    var responseOptions = new ResponseOptions({ body: body, status: status, headers: headers, statusText: statusText, url: url });
-	                    if (isPresent(baseResponseOptions)) {
-	                        responseOptions = baseResponseOptions.merge(responseOptions);
-	                    }
-	                    var response = new Response(responseOptions);
-	                    response.ok = isSuccess(status);
-	                    if (response.ok) {
-	                        responseObserver.next(response);
-	                        // TODO(gdi2290): defer complete if array buffer until done
-	                        responseObserver.complete();
-	                        return;
-	                    }
-	                    responseObserver.error(response);
-	                };
-	                // error event handler
-	                var onError = function (err) {
-	                    var responseOptions = new ResponseOptions({
-	                        body: err,
-	                        type: exports.ResponseType.Error,
-	                        status: _xhr.status,
-	                        statusText: _xhr.statusText,
-	                    });
-	                    if (isPresent(baseResponseOptions)) {
-	                        responseOptions = baseResponseOptions.merge(responseOptions);
-	                    }
-	                    responseObserver.error(new Response(responseOptions));
-	                };
-	                _this.setDetectedContentType(req, _xhr);
-	                if (isPresent(req.headers)) {
-	                    req.headers.forEach(function (values, name) { return _xhr.setRequestHeader(name, values.join(',')); });
-	                }
-	                // Select the correct buffer type to store the response
-	                if (isPresent(req.responseType) && isPresent(_xhr.responseType)) {
-	                    switch (req.responseType) {
-	                        case exports.ResponseContentType.ArrayBuffer:
-	                            _xhr.responseType = 'arraybuffer';
-	                            break;
-	                        case exports.ResponseContentType.Json:
-	                            _xhr.responseType = 'json';
-	                            break;
-	                        case exports.ResponseContentType.Text:
-	                            _xhr.responseType = 'text';
-	                            break;
-	                        case exports.ResponseContentType.Blob:
-	                            _xhr.responseType = 'blob';
-	                            break;
-	                        default:
-	                            throw new Error('The selected responseType is not supported');
-	                    }
-	                }
-	                _xhr.addEventListener('load', onLoad);
-	                _xhr.addEventListener('error', onError);
-	                _xhr.send(_this.request.getBody());
-	                return function () {
-	                    _xhr.removeEventListener('load', onLoad);
-	                    _xhr.removeEventListener('error', onError);
-	                    _xhr.abort();
-	                };
-	            });
-	        }
-	        XHRConnection.prototype.setDetectedContentType = function (req /** TODO #9100 */, _xhr /** TODO #9100 */) {
-	            // Skip if a custom Content-Type header is provided
-	            if (isPresent(req.headers) && isPresent(req.headers.get('Content-Type'))) {
-	                return;
-	            }
-	            // Set the detected content type
-	            switch (req.contentType) {
-	                case ContentType.NONE:
-	                    break;
-	                case ContentType.JSON:
-	                    _xhr.setRequestHeader('content-type', 'application/json');
-	                    break;
-	                case ContentType.FORM:
-	                    _xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-	                    break;
-	                case ContentType.TEXT:
-	                    _xhr.setRequestHeader('content-type', 'text/plain');
-	                    break;
-	                case ContentType.BLOB:
-	                    var blob = req.blob();
-	                    if (blob.type) {
-	                        _xhr.setRequestHeader('content-type', blob.type);
-	                    }
-	                    break;
-	            }
-	        };
-	        return XHRConnection;
-	    }());
-	    /**
-	     * `XSRFConfiguration` sets up Cross Site Request Forgery (XSRF) protection for the application
-	     * using a cookie. See {@link https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)}
-	     * for more information on XSRF.
-	     *
-	     * Applications can configure custom cookie and header names by binding an instance of this class
-	     * with different `cookieName` and `headerName` values. See the main HTTP documentation for more
-	     * details.
-	     *
-	     * @experimental
-	     */
-	    var CookieXSRFStrategy = (function () {
-	        function CookieXSRFStrategy(_cookieName, _headerName) {
-	            if (_cookieName === void 0) { _cookieName = 'XSRF-TOKEN'; }
-	            if (_headerName === void 0) { _headerName = 'X-XSRF-TOKEN'; }
-	            this._cookieName = _cookieName;
-	            this._headerName = _headerName;
-	        }
-	        CookieXSRFStrategy.prototype.configureRequest = function (req) {
-	            var xsrfToken = _angular_platformBrowser.__platform_browser_private__.getDOM().getCookie(this._cookieName);
-	            if (xsrfToken && !req.headers.has(this._headerName)) {
-	                req.headers.set(this._headerName, xsrfToken);
-	            }
-	        };
-	        return CookieXSRFStrategy;
-	    }());
-	    /**
-	     * Creates {@link XHRConnection} instances.
-	     *
-	     * This class would typically not be used by end users, but could be
-	     * overridden if a different backend implementation should be used,
-	     * such as in a node backend.
-	     *
-	     * ### Example
-	     *
-	     * ```
-	     * import {Http, MyNodeBackend, HTTP_PROVIDERS, BaseRequestOptions} from '@angular/http';
-	     * @Component({
-	     *   viewProviders: [
-	     *     HTTP_PROVIDERS,
-	     *     {provide: Http, useFactory: (backend, options) => {
-	     *       return new Http(backend, options);
-	     *     }, deps: [MyNodeBackend, BaseRequestOptions]}]
-	     * })
-	     * class MyComponent {
-	     *   constructor(http:Http) {
-	     *     http.request('people.json').subscribe(res => this.people = res.json());
-	     *   }
-	     * }
-	     * ```
-	     * @experimental
-	     */
-	    var XHRBackend = (function () {
-	        function XHRBackend(_browserXHR, _baseResponseOptions, _xsrfStrategy) {
-	            this._browserXHR = _browserXHR;
-	            this._baseResponseOptions = _baseResponseOptions;
-	            this._xsrfStrategy = _xsrfStrategy;
-	        }
-	        XHRBackend.prototype.createConnection = function (request) {
-	            this._xsrfStrategy.configureRequest(request);
-	            return new XHRConnection(request, this._browserXHR, this._baseResponseOptions);
-	        };
-	        XHRBackend.decorators = [
-	            { type: _angular_core.Injectable },
-	        ];
-	        /** @nocollapse */
-	        XHRBackend.ctorParameters = [
-	            { type: BrowserXhr, },
-	            { type: ResponseOptions, },
-	            { type: XSRFStrategy, },
-	        ];
-	        return XHRBackend;
-	    }());
-
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var __extends$3 = (this && this.__extends) || function (d, b) {
-	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    };
-	    /**
-	     * Creates a request options object to be optionally provided when instantiating a
-	     * {@link Request}.
-	     *
-	     * This class is based on the `RequestInit` description in the [Fetch
-	     * Spec](https://fetch.spec.whatwg.org/#requestinit).
-	     *
-	     * All values are null by default. Typical defaults can be found in the {@link BaseRequestOptions}
-	     * class, which sub-classes `RequestOptions`.
-	     *
-	     * ### Example ([live demo](http://plnkr.co/edit/7Wvi3lfLq41aQPKlxB4O?p=preview))
-	     *
-	     * ```typescript
-	     * import {RequestOptions, Request, RequestMethod} from '@angular/http';
-	     *
-	     * var options = new RequestOptions({
-	     *   method: RequestMethod.Post,
-	     *   url: 'https://google.com'
-	     * });
-	     * var req = new Request(options);
-	     * console.log('req.method:', RequestMethod[req.method]); // Post
-	     * console.log('options.url:', options.url); // https://google.com
-	     * ```
-	     *
-	     * @experimental
-	     */
-	    var RequestOptions = (function () {
-	        function RequestOptions(_a) {
-	            var _b = _a === void 0 ? {} : _a, method = _b.method, headers = _b.headers, body = _b.body, url = _b.url, search = _b.search, withCredentials = _b.withCredentials, responseType = _b.responseType;
-	            this.method = isPresent(method) ? normalizeMethodName(method) : null;
-	            this.headers = isPresent(headers) ? headers : null;
-	            this.body = isPresent(body) ? body : null;
-	            this.url = isPresent(url) ? url : null;
-	            this.search = isPresent(search) ?
-	                (isString(search) ? new URLSearchParams((search)) : (search)) :
-	                null;
-	            this.withCredentials = isPresent(withCredentials) ? withCredentials : null;
-	            this.responseType = isPresent(responseType) ? responseType : null;
-	        }
-	        /**
-	         * Creates a copy of the `RequestOptions` instance, using the optional input as values to override
-	         * existing values. This method will not change the values of the instance on which it is being
-	         * called.
-	         *
-	         * Note that `headers` and `search` will override existing values completely if present in
-	         * the `options` object. If these values should be merged, it should be done prior to calling
-	         * `merge` on the `RequestOptions` instance.
-	         *
-	         * ### Example ([live demo](http://plnkr.co/edit/6w8XA8YTkDRcPYpdB9dk?p=preview))
-	         *
-	         * ```typescript
-	         * import {RequestOptions, Request, RequestMethod} from '@angular/http';
-	         *
-	         * var options = new RequestOptions({
-	         *   method: RequestMethod.Post
-	         * });
-	         * var req = new Request(options.merge({
-	         *   url: 'https://google.com'
-	         * }));
-	         * console.log('req.method:', RequestMethod[req.method]); // Post
-	         * console.log('options.url:', options.url); // null
-	         * console.log('req.url:', req.url); // https://google.com
-	         * ```
-	         */
-	        RequestOptions.prototype.merge = function (options) {
-	            return new RequestOptions({
-	                method: isPresent(options) && isPresent(options.method) ? options.method : this.method,
-	                headers: isPresent(options) && isPresent(options.headers) ? options.headers : this.headers,
-	                body: isPresent(options) && isPresent(options.body) ? options.body : this.body,
-	                url: isPresent(options) && isPresent(options.url) ? options.url : this.url,
-	                search: isPresent(options) && isPresent(options.search) ?
-	                    (isString(options.search) ? new URLSearchParams((options.search)) :
-	                        (options.search).clone()) :
-	                    this.search,
-	                withCredentials: isPresent(options) && isPresent(options.withCredentials) ?
-	                    options.withCredentials :
-	                    this.withCredentials,
-	                responseType: isPresent(options) && isPresent(options.responseType) ? options.responseType :
-	                    this.responseType
-	            });
-	        };
-	        return RequestOptions;
-	    }());
-	    /**
-	     * Subclass of {@link RequestOptions}, with default values.
-	     *
-	     * Default values:
-	     *  * method: {@link RequestMethod RequestMethod.Get}
-	     *  * headers: empty {@link Headers} object
-	     *
-	     * This class could be extended and bound to the {@link RequestOptions} class
-	     * when configuring an {@link Injector}, in order to override the default options
-	     * used by {@link Http} to create and send {@link Request Requests}.
-	     *
-	     * ### Example ([live demo](http://plnkr.co/edit/LEKVSx?p=preview))
-	     *
-	     * ```typescript
-	     * import {provide} from '@angular/core';
-	     * import {bootstrap} from '@angular/platform-browser/browser';
-	     * import {HTTP_PROVIDERS, Http, BaseRequestOptions, RequestOptions} from '@angular/http';
-	     * import {App} from './myapp';
-	     *
-	     * class MyOptions extends BaseRequestOptions {
-	     *   search: string = 'coreTeam=true';
-	     * }
-	     *
-	     * bootstrap(App, [HTTP_PROVIDERS, {provide: RequestOptions, useClass: MyOptions}]);
-	     * ```
-	     *
-	     * The options could also be extended when manually creating a {@link Request}
-	     * object.
-	     *
-	     * ### Example ([live demo](http://plnkr.co/edit/oyBoEvNtDhOSfi9YxaVb?p=preview))
-	     *
-	     * ```
-	     * import {BaseRequestOptions, Request, RequestMethod} from '@angular/http';
-	     *
-	     * var options = new BaseRequestOptions();
-	     * var req = new Request(options.merge({
-	     *   method: RequestMethod.Post,
-	     *   url: 'https://google.com'
-	     * }));
-	     * console.log('req.method:', RequestMethod[req.method]); // Post
-	     * console.log('options.url:', options.url); // null
-	     * console.log('req.url:', req.url); // https://google.com
-	     * ```
-	     *
-	     * @experimental
-	     */
-	    var BaseRequestOptions = (function (_super) {
-	        __extends$3(BaseRequestOptions, _super);
-	        function BaseRequestOptions() {
-	            _super.call(this, { method: exports.RequestMethod.Get, headers: new Headers() });
-	        }
-	        BaseRequestOptions.decorators = [
-	            { type: _angular_core.Injectable },
-	        ];
-	        /** @nocollapse */
-	        BaseRequestOptions.ctorParameters = [];
-	        return BaseRequestOptions;
-	    }(RequestOptions));
-
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var __extends$5 = (this && this.__extends) || function (d, b) {
-	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    };
-	    // TODO(jeffbcross): properly implement body accessors
-	    /**
-	     * Creates `Request` instances from provided values.
-	     *
-	     * The Request's interface is inspired by the Request constructor defined in the [Fetch
-	     * Spec](https://fetch.spec.whatwg.org/#request-class),
-	     * but is considered a static value whose body can be accessed many times. There are other
-	     * differences in the implementation, but this is the most significant.
-	     *
-	     * `Request` instances are typically created by higher-level classes, like {@link Http} and
-	     * {@link Jsonp}, but it may occasionally be useful to explicitly create `Request` instances.
-	     * One such example is when creating services that wrap higher-level services, like {@link Http},
-	     * where it may be useful to generate a `Request` with arbitrary headers and search params.
-	     *
-	     * ```typescript
-	     * import {Injectable, Injector} from '@angular/core';
-	     * import {HTTP_PROVIDERS, Http, Request, RequestMethod} from '@angular/http';
-	     *
-	     * @Injectable()
-	     * class AutoAuthenticator {
-	     *   constructor(public http:Http) {}
-	     *   request(url:string) {
-	     *     return this.http.request(new Request({
-	     *       method: RequestMethod.Get,
-	     *       url: url,
-	     *       search: 'password=123'
-	     *     }));
-	     *   }
-	     * }
-	     *
-	     * var injector = Injector.resolveAndCreate([HTTP_PROVIDERS, AutoAuthenticator]);
-	     * var authenticator = injector.get(AutoAuthenticator);
-	     * authenticator.request('people.json').subscribe(res => {
-	     *   //URL should have included '?password=123'
-	     *   console.log('people', res.json());
-	     * });
-	     * ```
-	     *
-	     * @experimental
-	     */
-	    var Request = (function (_super) {
-	        __extends$5(Request, _super);
-	        function Request(requestOptions) {
-	            _super.call(this);
-	            // TODO: assert that url is present
-	            var url = requestOptions.url;
-	            this.url = requestOptions.url;
-	            if (isPresent(requestOptions.search)) {
-	                var search = requestOptions.search.toString();
-	                if (search.length > 0) {
-	                    var prefix = '?';
-	                    if (this.url.indexOf('?') != -1) {
-	                        prefix = (this.url[this.url.length - 1] == '&') ? '' : '&';
-	                    }
-	                    // TODO: just delete search-query-looking string in url?
-	                    this.url = url + prefix + search;
-	                }
-	            }
-	            this._body = requestOptions.body;
-	            this.method = normalizeMethodName(requestOptions.method);
-	            // TODO(jeffbcross): implement behavior
-	            // Defaults to 'omit', consistent with browser
-	            // TODO(jeffbcross): implement behavior
-	            this.headers = new Headers(requestOptions.headers);
-	            this.contentType = this.detectContentType();
-	            this.withCredentials = requestOptions.withCredentials;
-	            this.responseType = requestOptions.responseType;
-	        }
-	        /**
-	         * Returns the content type enum based on header options.
-	         */
-	        Request.prototype.detectContentType = function () {
-	            switch (this.headers.get('content-type')) {
-	                case 'application/json':
-	                    return ContentType.JSON;
-	                case 'application/x-www-form-urlencoded':
-	                    return ContentType.FORM;
-	                case 'multipart/form-data':
-	                    return ContentType.FORM_DATA;
-	                case 'text/plain':
-	                case 'text/html':
-	                    return ContentType.TEXT;
-	                case 'application/octet-stream':
-	                    return ContentType.BLOB;
-	                default:
-	                    return this.detectContentTypeFromBody();
-	            }
-	        };
-	        /**
-	         * Returns the content type of request's body based on its type.
-	         */
-	        Request.prototype.detectContentTypeFromBody = function () {
-	            if (this._body == null) {
-	                return ContentType.NONE;
-	            }
-	            else if (this._body instanceof URLSearchParams) {
-	                return ContentType.FORM;
-	            }
-	            else if (this._body instanceof FormData) {
-	                return ContentType.FORM_DATA;
-	            }
-	            else if (this._body instanceof Blob$1) {
-	                return ContentType.BLOB;
-	            }
-	            else if (this._body instanceof ArrayBuffer$1) {
-	                return ContentType.ARRAY_BUFFER;
-	            }
-	            else if (this._body && typeof this._body == 'object') {
-	                return ContentType.JSON;
-	            }
-	            else {
-	                return ContentType.TEXT;
-	            }
-	        };
-	        /**
-	         * Returns the request's body according to its type. If body is undefined, return
-	         * null.
-	         */
-	        Request.prototype.getBody = function () {
-	            switch (this.contentType) {
-	                case ContentType.JSON:
-	                    return this.text();
-	                case ContentType.FORM:
-	                    return this.text();
-	                case ContentType.FORM_DATA:
-	                    return this._body;
-	                case ContentType.TEXT:
-	                    return this.text();
-	                case ContentType.BLOB:
-	                    return this.blob();
-	                case ContentType.ARRAY_BUFFER:
-	                    return this.arrayBuffer();
-	                default:
-	                    return null;
-	            }
-	        };
-	        return Request;
-	    }(Body));
-	    var noop$1 = function () { };
-	    var w = typeof window == 'object' ? window : noop$1;
-	    var FormData = w['FormData'] || noop$1;
-	    var Blob$1 = w['Blob'] || noop$1;
-	    var ArrayBuffer$1 = w['ArrayBuffer'] || noop$1;
-
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var __extends$4 = (this && this.__extends) || function (d, b) {
-	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    };
-	    function httpRequest(backend, request) {
-	        return backend.createConnection(request).response;
-	    }
-	    function mergeOptions(defaultOpts, providedOpts, method, url) {
-	        var newOptions = defaultOpts;
-	        if (isPresent(providedOpts)) {
-	            // Hack so Dart can used named parameters
-	            return newOptions.merge(new RequestOptions({
-	                method: providedOpts.method || method,
-	                url: providedOpts.url || url,
-	                search: providedOpts.search,
-	                headers: providedOpts.headers,
-	                body: providedOpts.body,
-	                withCredentials: providedOpts.withCredentials,
-	                responseType: providedOpts.responseType
-	            }));
-	        }
-	        if (isPresent(method)) {
-	            return newOptions.merge(new RequestOptions({ method: method, url: url }));
-	        }
-	        else {
-	            return newOptions.merge(new RequestOptions({ url: url }));
-	        }
-	    }
-	    /**
-	     * Performs http requests using `XMLHttpRequest` as the default backend.
-	     *
-	     * `Http` is available as an injectable class, with methods to perform http requests. Calling
-	     * `request` returns an `Observable` which will emit a single {@link Response} when a
-	     * response is received.
-	     *
-	     * ### Example
-	     *
-	     * ```typescript
-	     * import {Http, HTTP_PROVIDERS} from '@angular/http';
-	     * import 'rxjs/add/operator/map'
-	     * @Component({
-	     *   selector: 'http-app',
-	     *   viewProviders: [HTTP_PROVIDERS],
-	     *   templateUrl: 'people.html'
-	     * })
-	     * class PeopleComponent {
-	     *   constructor(http: Http) {
-	     *     http.get('people.json')
-	     *       // Call map on the response observable to get the parsed people object
-	     *       .map(res => res.json())
-	     *       // Subscribe to the observable to get the parsed people object and attach it to the
-	     *       // component
-	     *       .subscribe(people => this.people = people);
-	     *   }
-	     * }
-	     * ```
-	     *
-	     *
-	     * ### Example
-	     *
-	     * ```
-	     * http.get('people.json').subscribe((res:Response) => this.people = res.json());
-	     * ```
-	     *
-	     * The default construct used to perform requests, `XMLHttpRequest`, is abstracted as a "Backend" (
-	     * {@link XHRBackend} in this case), which could be mocked with dependency injection by replacing
-	     * the {@link XHRBackend} provider, as in the following example:
-	     *
-	     * ### Example
-	     *
-	     * ```typescript
-	     * import {BaseRequestOptions, Http} from '@angular/http';
-	     * import {MockBackend} from '@angular/http/testing';
-	     * var injector = Injector.resolveAndCreate([
-	     *   BaseRequestOptions,
-	     *   MockBackend,
-	     *   {provide: Http, useFactory:
-	     *       function(backend, defaultOptions) {
-	     *         return new Http(backend, defaultOptions);
-	     *       },
-	     *       deps: [MockBackend, BaseRequestOptions]}
-	     * ]);
-	     * var http = injector.get(Http);
-	     * http.get('request-from-mock-backend.json').subscribe((res:Response) => doSomething(res));
-	     * ```
-	     *
-	     * @experimental
-	     */
-	    var Http = (function () {
-	        function Http(_backend, _defaultOptions) {
-	            this._backend = _backend;
-	            this._defaultOptions = _defaultOptions;
-	        }
-	        /**
-	         * Performs any type of http request. First argument is required, and can either be a url or
-	         * a {@link Request} instance. If the first argument is a url, an optional {@link RequestOptions}
-	         * object can be provided as the 2nd argument. The options object will be merged with the values
-	         * of {@link BaseRequestOptions} before performing the request.
-	         */
-	        Http.prototype.request = function (url, options) {
-	            var responseObservable;
-	            if (isString(url)) {
-	                responseObservable = httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Get, url)));
-	            }
-	            else if (url instanceof Request) {
-	                responseObservable = httpRequest(this._backend, url);
-	            }
-	            else {
-	                throw new Error('First argument must be a url string or Request instance.');
-	            }
-	            return responseObservable;
-	        };
-	        /**
-	         * Performs a request with `get` http method.
-	         */
-	        Http.prototype.get = function (url, options) {
-	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Get, url)));
-	        };
-	        /**
-	         * Performs a request with `post` http method.
-	         */
-	        Http.prototype.post = function (url, body, options) {
-	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({ body: body })), options, exports.RequestMethod.Post, url)));
-	        };
-	        /**
-	         * Performs a request with `put` http method.
-	         */
-	        Http.prototype.put = function (url, body, options) {
-	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({ body: body })), options, exports.RequestMethod.Put, url)));
-	        };
-	        /**
-	         * Performs a request with `delete` http method.
-	         */
-	        Http.prototype.delete = function (url, options) {
-	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Delete, url)));
-	        };
-	        /**
-	         * Performs a request with `patch` http method.
-	         */
-	        Http.prototype.patch = function (url, body, options) {
-	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({ body: body })), options, exports.RequestMethod.Patch, url)));
-	        };
-	        /**
-	         * Performs a request with `head` http method.
-	         */
-	        Http.prototype.head = function (url, options) {
-	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Head, url)));
-	        };
-	        /**
-	         * Performs a request with `options` http method.
-	         */
-	        Http.prototype.options = function (url, options) {
-	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Options, url)));
-	        };
-	        Http.decorators = [
-	            { type: _angular_core.Injectable },
-	        ];
-	        /** @nocollapse */
-	        Http.ctorParameters = [
-	            { type: ConnectionBackend, },
-	            { type: RequestOptions, },
-	        ];
-	        return Http;
-	    }());
-	    /**
-	     * @experimental
-	     */
-	    var Jsonp = (function (_super) {
-	        __extends$4(Jsonp, _super);
-	        function Jsonp(backend, defaultOptions) {
-	            _super.call(this, backend, defaultOptions);
-	        }
-	        /**
-	         * Performs any type of http request. First argument is required, and can either be a url or
-	         * a {@link Request} instance. If the first argument is a url, an optional {@link RequestOptions}
-	         * object can be provided as the 2nd argument. The options object will be merged with the values
-	         * of {@link BaseRequestOptions} before performing the request.
-	         *
-	         * @security Regular XHR is the safest alternative to JSONP for most applications, and is
-	         * supported by all current browsers. Because JSONP creates a `<script>` element with
-	         * contents retrieved from a remote source, attacker-controlled data introduced by an untrusted
-	         * source could expose your application to XSS risks. Data exposed by JSONP may also be
-	         * readable by malicious third-party websites. In addition, JSONP introduces potential risk for
-	         * future security issues (e.g. content sniffing).  For more detail, see the
-	         * [Security Guide](http://g.co/ng/security).
-	         */
-	        Jsonp.prototype.request = function (url, options) {
-	            var responseObservable;
-	            if (isString(url)) {
-	                url =
-	                    new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Get, url));
-	            }
-	            if (url instanceof Request) {
-	                if (url.method !== exports.RequestMethod.Get) {
-	                    throw new Error('JSONP requests must use GET request method.');
-	                }
-	                responseObservable = httpRequest(this._backend, url);
-	            }
-	            else {
-	                throw new Error('First argument must be a url string or Request instance.');
-	            }
-	            return responseObservable;
-	        };
-	        Jsonp.decorators = [
-	            { type: _angular_core.Injectable },
-	        ];
-	        /** @nocollapse */
-	        Jsonp.ctorParameters = [
-	            { type: ConnectionBackend, },
-	            { type: RequestOptions, },
-	        ];
-	        return Jsonp;
-	    }(Http));
-
-	    function _createDefaultCookieXSRFStrategy() {
-	        return new CookieXSRFStrategy();
-	    }
-	    function httpFactory(xhrBackend, requestOptions) {
-	        return new Http(xhrBackend, requestOptions);
-	    }
-	    function jsonpFactory(jsonpBackend, requestOptions) {
-	        return new Jsonp(jsonpBackend, requestOptions);
-	    }
-	    /**
-	     * The module that includes http's providers
-	     *
-	     * @experimental
-	     */
-	    var HttpModule = (function () {
-	        function HttpModule() {
-	        }
-	        HttpModule.decorators = [
-	            { type: _angular_core.NgModule, args: [{
-	                        providers: [
-	                            // TODO(pascal): use factory type annotations once supported in DI
-	                            // issue: https://github.com/angular/angular/issues/3183
-	                            { provide: Http, useFactory: httpFactory, deps: [XHRBackend, RequestOptions] },
-	                            BrowserXhr,
-	                            { provide: RequestOptions, useClass: BaseRequestOptions },
-	                            { provide: ResponseOptions, useClass: BaseResponseOptions },
-	                            XHRBackend,
-	                            { provide: XSRFStrategy, useFactory: _createDefaultCookieXSRFStrategy },
-	                        ],
-	                    },] },
-	        ];
-	        /** @nocollapse */
-	        HttpModule.ctorParameters = [];
-	        return HttpModule;
-	    }());
-	    /**
-	     * The module that includes jsonp's providers
-	     *
-	     * @experimental
-	     */
-	    var JsonpModule = (function () {
-	        function JsonpModule() {
-	        }
-	        JsonpModule.decorators = [
-	            { type: _angular_core.NgModule, args: [{
-	                        providers: [
-	                            // TODO(pascal): use factory type annotations once supported in DI
-	                            // issue: https://github.com/angular/angular/issues/3183
-	                            { provide: Jsonp, useFactory: jsonpFactory, deps: [JSONPBackend, RequestOptions] },
-	                            BrowserJsonp,
-	                            { provide: RequestOptions, useClass: BaseRequestOptions },
-	                            { provide: ResponseOptions, useClass: BaseResponseOptions },
-	                            { provide: JSONPBackend, useClass: JSONPBackend_ },
-	                        ],
-	                    },] },
-	        ];
-	        /** @nocollapse */
-	        JsonpModule.ctorParameters = [];
-	        return JsonpModule;
-	    }());
-
-	    exports.BrowserXhr = BrowserXhr;
-	    exports.JSONPBackend = JSONPBackend;
-	    exports.JSONPConnection = JSONPConnection;
-	    exports.CookieXSRFStrategy = CookieXSRFStrategy;
-	    exports.XHRBackend = XHRBackend;
-	    exports.XHRConnection = XHRConnection;
-	    exports.BaseRequestOptions = BaseRequestOptions;
-	    exports.RequestOptions = RequestOptions;
-	    exports.BaseResponseOptions = BaseResponseOptions;
-	    exports.ResponseOptions = ResponseOptions;
-	    exports.Headers = Headers;
-	    exports.Http = Http;
-	    exports.Jsonp = Jsonp;
-	    exports.HttpModule = HttpModule;
-	    exports.JsonpModule = JsonpModule;
-	    exports.Connection = Connection;
-	    exports.ConnectionBackend = ConnectionBackend;
-	    exports.XSRFStrategy = XSRFStrategy;
-	    exports.Request = Request;
-	    exports.Response = Response;
-	    exports.QueryEncoder = QueryEncoder;
-	    exports.URLSearchParams = URLSearchParams;
-
-	}));
-
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
-
-/***/ 122:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var core_1 = __webpack_require__(5);
-	var http_1 = __webpack_require__(86);
-	var AppComponent = (function () {
-	    function AppComponent(http) {
-	        this.http = http;
-	        this.title = 'ng2-window-view example';
-	        this.files = {};
-	        // ui status
-	        this.totalLoadCount = 0;
-	        this.loadedCount = 0;
-	        this.loadAssets();
-	    }
-	    Object.defineProperty(AppComponent.prototype, "loadPercent", {
-	        get: function () { return Math.floor(this.loadedCount / this.totalLoadCount * 100); },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    AppComponent.prototype.loadAssets = function () {
-	        this.loadFile('simple-usage', 'examples/simple-usage', 'simple-usage.component.ts');
-	        this.loadFile('simple-usage', 'examples/simple-usage', 'simple-usage.component.html');
-	        this.loadFile('simple-usage', 'examples/simple-window', 'simple-window.component.ts');
-	        this.loadFile('simple-usage', 'examples/simple-window', 'simple-window.component.html');
-	        this.simpleUsageFilename = 'simple-usage.component.ts';
-	        this.loadFile('without-service', 'examples/without-service', 'without-service.component.ts');
-	        this.loadFile('without-service', 'examples/without-service', 'without-service.component.html');
-	        this.withoutServiceFilename = 'without-service.component.ts';
-	        this.loadFile('access-flow', 'examples/access-flow', 'access-flow.component.ts');
-	        this.loadFile('access-flow', 'examples/access-flow', 'access-flow.component.html');
-	        this.loadFile('access-flow', 'examples/checked-window', 'checked-window.component.ts');
-	        this.loadFile('access-flow', 'examples/checked-window', 'checked-window.component.html');
-	        this.accessFlowFilename = 'access-flow.component.ts';
-	        this.loadFile('multi-floating-window', 'examples/multi-floating-window', 'multi-floating-window.component.ts');
-	        this.loadFile('multi-floating-window', 'examples/multi-floating-window', 'multi-floating-window.component.html');
-	        this.loadFile('multi-floating-window', 'examples/floating-window', 'floating-window.component.ts');
-	        this.loadFile('multi-floating-window', 'examples/floating-window', 'floating-window.component.html');
-	        this.MultiFloatingWindowFilename = 'multi-floating-window.component.ts';
-	        this.loadFile('confirm-dialog-usage', 'examples/confirm-dialog-usage', 'confirm-dialog-usage.component.ts');
-	        this.confirmDialogUsageFilename = 'confirm-dialog-usage.component.ts';
-	        this.loadFile('core-api', 'examples/api/core', 'window-view.service.d.ts');
-	        this.loadFile('core-api', 'examples/api/core', 'window-view-layer.service.d.ts');
-	        this.loadFile('core-api', 'examples/api/core', 'window-view-can-close.d.ts');
-	        this.loadFile('core-api', 'examples/api/core', 'window-view-has-result.d.ts');
-	        this.loadFile('core-api', 'examples/api/core/window-view-container', 'window-view-container.component.d.ts');
-	        this.loadFile('components-api', 'examples/api/components/confirm-dialog', 'confirm-dialog.component.d.ts');
-	    };
-	    AppComponent.prototype.fileList = function (group) {
-	        return Object.keys(this.files[group] || {});
-	    };
-	    AppComponent.prototype.loadFile = function (group, dir, filename) {
-	        var _this = this;
-	        this.totalLoadCount++;
-	        this.files[group] = this.files[group] || {};
-	        var language = 'typescript';
-	        if (!!/html$/.test(filename)) {
-	            language = 'html';
-	        }
-	        var loadFile = this.http.get(dir + "/" + filename)
-	            .subscribe(function (response) {
-	            var file = response.text()
-	                .replace('../../../../src/components', 'ng2-window-view/components')
-	                .replace('../../../../src', 'ng2-window-view');
-	            _this.files[group][filename] = {
-	                html: Prism.highlight(file, Prism.languages[language]),
-	                type: language
-	            };
-	            _this.loadedCount++;
-	        }, function (error) { return console.warn(error); }, function () { return loadFile.unsubscribe(); });
-	    };
-	    AppComponent = __decorate([
-	        core_1.Component({
-	            selector: 'app-root',
-	            template: __webpack_require__(133),
-	            styles: [__webpack_require__(132)]
-	        }), 
-	        __metadata('design:paramtypes', [http_1.Http])
-	    ], AppComponent);
-	    return AppComponent;
-	}());
-	exports.AppComponent = AppComponent;
-	
-
-/***/ },
-
-/***/ 123:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var core_1 = __webpack_require__(5);
-	var Subject_1 = __webpack_require__(45);
-	var src_1 = __webpack_require__(28);
-	var CheckedWindowComponent = (function () {
-	    function CheckedWindowComponent() {
-	        this.title = 'Simple Window';
-	        this.username = '';
-	        this._result$ = new Subject_1.Subject();
-	    }
-	    Object.defineProperty(CheckedWindowComponent.prototype, "result$", {
-	        get: function () { return this._result$.asObservable(); },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    CheckedWindowComponent.prototype.windowViewCanClose = function () {
-	        if (this.username.length === 0) {
-	            this.alert = 'Username can not be blank.';
-	            return false;
-	        }
-	        this._result$.next(this.username);
-	        this._result$.complete();
-	        return true;
-	    };
-	    CheckedWindowComponent.prototype.submit = function () {
-	        delete this.alert;
-	        this.windowViewContainer.closeWindow();
-	    };
-	    __decorate([
-	        core_1.ViewChild(src_1.WindowViewContainerComponent), 
-	        __metadata('design:type', src_1.WindowViewContainerComponent)
-	    ], CheckedWindowComponent.prototype, "windowViewContainer", void 0);
-	    CheckedWindowComponent = __decorate([
-	        core_1.Component({
-	            selector: 'app-checked-window',
-	            template: __webpack_require__(135)
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], CheckedWindowComponent);
-	    return CheckedWindowComponent;
-	}());
-	exports.CheckedWindowComponent = CheckedWindowComponent;
-	
-
-/***/ },
-
-/***/ 124:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var core_1 = __webpack_require__(5);
-	var src_1 = __webpack_require__(28);
-	var FloatingWindowComponent = (function () {
-	    function FloatingWindowComponent(windowView) {
-	        this.windowView = windowView;
-	        /**
-	         * Following setting are necessary.
-	         *
-	         * 1. If enable `floating` and provide `WindowViewLayerService`,
-	         *    `WindowViewContainerComponent` will auto hide it's container.
-	         *    Without container, user can touch anything under that window view.
-	         *
-	         * 2. Click on background of `WindowViewContainerComponent` will trigger
-	         *    close event. For multi-floating-window case, we have to disable it.
-	         */
-	        this.floating = true;
-	        this.showBackground = false;
-	        this.title = "Floating Window " + windowView.length;
-	    }
-	    Object.defineProperty(FloatingWindowComponent.prototype, "position", {
-	        /**
-	         * Passby property position for setup
-	         */
-	        get: function () { return this.windowViewContainer.position; },
-	        set: function (value) { this.windowViewContainer.position = value; },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    FloatingWindowComponent.prototype.closeWindow = function () {
-	        /**
-	         * Because order of closing window no longer stable.
-	         * We have remove window with specific target.
-	         */
-	        this.windowView.removeByInstance(this);
-	    };
-	    __decorate([
-	        core_1.ViewChild(src_1.WindowViewContainerComponent), 
-	        __metadata('design:type', src_1.WindowViewContainerComponent)
-	    ], FloatingWindowComponent.prototype, "windowViewContainer", void 0);
-	    FloatingWindowComponent = __decorate([
-	        core_1.Component({
-	            selector: 'app-floating-window',
-	            template: __webpack_require__(136)
-	        }), 
-	        __metadata('design:paramtypes', [src_1.WindowViewService])
-	    ], FloatingWindowComponent);
-	    return FloatingWindowComponent;
-	}());
-	exports.FloatingWindowComponent = FloatingWindowComponent;
-	
-
-/***/ },
-
-/***/ 125:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var core_1 = __webpack_require__(5);
-	var src_1 = __webpack_require__(28);
-	var SimpleWindowComponent = (function () {
-	    function SimpleWindowComponent(windowView) {
-	        this.windowView = windowView;
-	        this.title = 'Simple Window';
-	        this.isFloatingWindow = false;
-	        this.showBackground = true;
-	        this.windowSize = 'small';
-	        this.panelClass = 'panel-default';
-	    }
-	    Object.defineProperty(SimpleWindowComponent.prototype, "position", {
-	        get: function () { return this.windowViewContainer.position; },
-	        set: function (value) { this.windowViewContainer.position = value; },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    SimpleWindowComponent.prototype.openWindow = function () {
-	        this.windowView.pushWindow(SimpleWindowComponent);
-	    };
-	    __decorate([
-	        core_1.ViewChild(src_1.WindowViewContainerComponent), 
-	        __metadata('design:type', src_1.WindowViewContainerComponent)
-	    ], SimpleWindowComponent.prototype, "windowViewContainer", void 0);
-	    SimpleWindowComponent = __decorate([
-	        core_1.Component({
-	            selector: 'app-simple-window',
-	            template: __webpack_require__(139)
-	        }), 
-	        __metadata('design:paramtypes', [src_1.WindowViewService])
-	    ], SimpleWindowComponent);
-	    return SimpleWindowComponent;
-	}());
-	exports.SimpleWindowComponent = SimpleWindowComponent;
-	
-
-/***/ },
-
-/***/ 126:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var core_1 = __webpack_require__(5);
-	var Subject_1 = __webpack_require__(45);
-	var _1 = __webpack_require__(28);
-	var ConfirmDialogComponent = (function () {
-	    function ConfirmDialogComponent() {
-	        this.title = 'Confirm';
-	        this.confirmString = 'Ok';
-	        this.denyString = 'Cancel';
-	        this.size = 's';
-	        this.result = new core_1.EventEmitter();
-	        this.dismiss = new core_1.EventEmitter();
-	        this._result$ = new Subject_1.Subject();
-	    }
-	    Object.defineProperty(ConfirmDialogComponent.prototype, "result$", {
-	        get: function () { return this._result$.asObservable(); },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    ConfirmDialogComponent.prototype.confirm = function () {
-	        this._result$.next(true);
-	        this._result$.complete();
-	        this.result.emit({ target: this, result: true });
-	    };
-	    ConfirmDialogComponent.prototype.deny = function () {
-	        this._result$.next(false);
-	        this._result$.complete();
-	        this.result.emit({ target: this, result: false });
-	    };
-	    ConfirmDialogComponent.prototype.onClose = function () {
-	        this._result$.complete();
-	        this.dismiss.emit({ target: this });
-	    };
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], ConfirmDialogComponent.prototype, "title", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], ConfirmDialogComponent.prototype, "confirmString", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], ConfirmDialogComponent.prototype, "denyString", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], ConfirmDialogComponent.prototype, "content", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], ConfirmDialogComponent.prototype, "size", void 0);
-	    __decorate([
-	        core_1.Output(), 
-	        __metadata('design:type', core_1.EventEmitter)
-	    ], ConfirmDialogComponent.prototype, "result", void 0);
-	    __decorate([
-	        core_1.Output(), 
-	        __metadata('design:type', core_1.EventEmitter)
-	    ], ConfirmDialogComponent.prototype, "dismiss", void 0);
-	    __decorate([
-	        core_1.ViewChild(_1.WindowViewContainerComponent), 
-	        __metadata('design:type', _1.WindowViewContainerComponent)
-	    ], ConfirmDialogComponent.prototype, "windowViewContainer", void 0);
-	    ConfirmDialogComponent = __decorate([
-	        core_1.Component({
-	            selector: 'confirm-dialog',
-	            template: "\n  <window-view-container [heading]=\"title\"\n                         [size]=\"size\"\n                         (close)=\"onClose()\">\n\n    <div class=\"confirm-dialog-content\">\n      {{ content }}\n      <ng-content></ng-content>\n    </div>\n\n    <div panel-footer class=\"confirm-dialog-button-set\">\n      <button class=\"btn btn-primary\" (click)=\"confirm()\">\n        {{ confirmString }}\n      </button>\n\n      <button class=\"btn btn-default\" (click)=\"deny()\">\n        {{ denyString }}\n      </button>\n    </div>\n\n  </window-view-container>\n  ",
-	            styles: ["\n  .confirm-dialog-content {\n    margin: 12px;\n  }\n  .confirm-dialog-button-set {\n    margin: 0 auto;\n    text-align: center;\n  }\n  "]
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], ConfirmDialogComponent);
-	    return ConfirmDialogComponent;
-	}());
-	exports.ConfirmDialogComponent = ConfirmDialogComponent;
-	
-
-/***/ },
-
-/***/ 127:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var core_1 = __webpack_require__(5);
-	var window_view_service_1 = __webpack_require__(61);
-	var window_view_layer_service_1 = __webpack_require__(128);
-	var WindowViewContainerComponent = (function () {
-	    function WindowViewContainerComponent(windowView, windowViewLayer) {
-	        this.windowView = windowView;
-	        this.windowViewLayer = windowViewLayer;
-	        /**
-	         * Window title.
-	         *
-	         * Default: 'Untitled Window'
-	         */
-	        this.heading = 'Untitled Window';
-	        /**
-	         * Possible option:
-	         *  small, alias 's'
-	         *  middle, alias 'm'
-	         *  large, alias 'l'
-	         *  relative-small, alias 'rs'
-	         *  relative-middle, alias 'rm'
-	         *  relative-large, alias 'rl'
-	         *
-	         * Default: 'm'
-	         */
-	        this.size = 'M';
-	        /**
-	         * Prevent display transparent background.
-	         *
-	         * Default: true
-	         */
-	        this.showBackground = true;
-	        /**
-	         * Floating window, can be drag.
-	         *
-	         * Default: false
-	         */
-	        this.floating = false;
-	        /**
-	         * Panel class.
-	         *
-	         * Default: 'panel-default'
-	         */
-	        this.panelClass = 'panel-default';
-	        this.close = new core_1.EventEmitter();
-	        this.zIndex = 10;
-	        this.top = 0;
-	        this.left = 0;
-	        this.isMouseDown = false;
-	        this.isDragging = false;
-	        this.draggingRelativeLocation = { x: 0, y: 0 };
-	    }
-	    Object.defineProperty(WindowViewContainerComponent.prototype, "position", {
-	        get: function () { return { x: this.left, y: this.top }; },
-	        set: function (value) {
-	            this.top = value.y;
-	            this.left = value.x;
-	        },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    Object.defineProperty(WindowViewContainerComponent.prototype, "hideContainer", {
-	        get: function () { return this.floating && !!this.windowViewLayer; },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    Object.defineProperty(WindowViewContainerComponent.prototype, "sizeClass", {
-	        get: function () {
-	            switch (this.size.toLowerCase()) {
-	                case 's':
-	                case 'small': return 'size-small';
-	                case 'm':
-	                case 'middle': return 'size-middle';
-	                case 'l':
-	                case 'large': return 'size-large';
-	                case 'rs':
-	                case 'relative-small': return 'size-relative-small';
-	                case 'rm':
-	                case 'relative-middle': return 'size-relative-middle';
-	                case 'rl':
-	                case 'relative-large': return 'size-relative-large';
-	            }
-	        },
-	        enumerable: true,
-	        configurable: true
-	    });
-	    WindowViewContainerComponent.prototype.ngOnInit = function () {
-	        if (typeof this.size !== 'string') {
-	            throw new Error('[WindowViewContainerComponent] property `size` has to be string.');
-	        }
-	        if (this.windowViewLayer) {
-	            this.windowViewLayer.add(this);
-	        }
-	    };
-	    WindowViewContainerComponent.prototype.ngOnDestroy = function () {
-	        if (this.windowViewLayer) {
-	            this.windowViewLayer.remove(this);
-	        }
-	    };
-	    WindowViewContainerComponent.prototype.closeWindow = function () {
-	        this.close.emit({ target: this });
-	        if (this.floating && this.windowViewLayer) {
-	            return;
-	        }
-	        if (this.windowView) {
-	            this.windowView.popWindow();
-	            return;
-	        }
-	    };
-	    WindowViewContainerComponent.prototype.onClickWindow = function () {
-	        if (this.floating && this.windowViewLayer) {
-	            this.windowViewLayer.bringToTop(this);
-	        }
-	    };
-	    WindowViewContainerComponent.prototype.onClickBackground = function ($event) {
-	        if ($event.currentTarget === $event.target) {
-	            this.closeWindow();
-	        }
-	    };
-	    WindowViewContainerComponent.prototype.onMouseDown = function (e) {
-	        this.isMouseDown = true;
-	        if (this.floating) {
-	            this.draggingRelativeLocation.x = e.offsetX;
-	            this.draggingRelativeLocation.y = e.offsetY;
-	        }
-	    };
-	    WindowViewContainerComponent.prototype.onMouseUp = function (e) {
-	        this.isMouseDown = false;
-	        this.isDragging = false;
-	    };
-	    WindowViewContainerComponent.prototype.onMouseMove = function (e) {
-	        if (this.isDragging) {
-	            this.left = e.clientX - this.draggingRelativeLocation.x;
-	            this.top = e.clientY - this.draggingRelativeLocation.y;
-	        }
-	        else if (this.isMouseDown && this.floating) {
-	            this.isDragging = true;
-	        }
-	    };
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], WindowViewContainerComponent.prototype, "heading", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], WindowViewContainerComponent.prototype, "size", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Boolean)
-	    ], WindowViewContainerComponent.prototype, "showBackground", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Boolean)
-	    ], WindowViewContainerComponent.prototype, "floating", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], WindowViewContainerComponent.prototype, "panelClass", void 0);
-	    __decorate([
-	        core_1.Output(), 
-	        __metadata('design:type', core_1.EventEmitter)
-	    ], WindowViewContainerComponent.prototype, "close", void 0);
-	    WindowViewContainerComponent = __decorate([
-	        core_1.Component({
-	            selector: 'window-view-container',
-	            template: "\n  <div class=\"window-container\"\n       [class.floating]=\"floating\"\n       [class.fixed]=\"!floating\"\n       [class.hide-container]=\"hideContainer\"\n       [style.z-index]=\"zIndex\">\n    <div class=\"window-background\" (click)=\"onClickBackground($event)\" *ngIf=\"showBackground\"></div>\n    <div class=\"panel {{ panelClass }} {{ sizeClass }}\"\n        [style.top]=\"top + 'px'\"\n        [style.left]=\"left + 'px'\"\n        (click)=\"onClickWindow()\">\n      <div class=\"panel-heading\"\n          (mousedown)=\"onMouseDown($event)\"\n          (mouseup)=\"onMouseUp($event)\"\n          (mouseleave)=\"onMouseUp($event)\"\n          (mousemove)=\"onMouseMove($event)\">\n        {{ heading }}\n        <ng-content select=\"[panel-heading]\"></ng-content>\n        <a class=\"btn-close\" (click)=\"closeWindow()\"><span class=\"glyphicon glyphicon-remove pull-right\"></span></a>\n      </div>\n      <div class=\"panel-body\">\n        <ng-content></ng-content>\n      </div>\n      <div class=\"panel-footer\">\n        <ng-content select=\"[panel-footer]\"></ng-content>\n      </div>\n    </div>\n  </div>\n  ",
-	            styles: ["\n  .window-container,\n  .window-background {\n    position: fixed;\n    overflow: auto;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n  }\n\n  .window-container.hide-container {\n    width: 0;\n    height: 0;\n  }\n\n  .window-background {\n    background-color: rgba(0,0,0,0.6);\n    z-index: -1;\n  }\n\n  .window-container.fixed .panel {\n    min-width: 20%;\n    margin: 4% auto;\n  }\n\n  .window-container.floating .panel {\n    min-width: 20%;\n    position: fixed;\n    box-shadow: 0px 6px 24px grey;\n  }\n\n  .panel.size-relative-large { width: 80%; }\n  .panel.size-relative-middle { width: 60%; }\n  .panel.size-relative-small { width: 40%; }\n  .panel.size-large { width: 1080px; }\n  .panel.size-middle { width: 720px; }\n  .panel.size-small { width: 360px; }\n\n  .panel-heading {\n    text-align: center;\n  }\n\n  .btn-close {\n    cursor: auto;\n  }\n\n  .window-container.floating .panel-heading {\n    cursor: move;\n  }\n  "]
-	        }),
-	        __param(0, core_1.Optional()),
-	        __param(1, core_1.Optional()), 
-	        __metadata('design:paramtypes', [window_view_service_1.WindowViewService, window_view_layer_service_1.WindowViewLayerService])
-	    ], WindowViewContainerComponent);
-	    return WindowViewContainerComponent;
-	}());
-	exports.WindowViewContainerComponent = WindowViewContainerComponent;
-	
-
-/***/ },
-
-/***/ 128:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var core_1 = __webpack_require__(5);
-	var WindowViewLayerService = (function () {
-	    function WindowViewLayerService() {
-	        /**
-	         * Order index is same as z-index.
-	         */
-	        this.windowViewContainers = [];
-	        /**
-	         * Z-Index of controled window view container will
-	         * always start at it.
-	         */
-	        this.zIndexStartAt = 10;
-	    }
-	    WindowViewLayerService.prototype.add = function (windowViewContainer) {
-	        this._add(windowViewContainer);
-	        this.setAllWindowViewContainersZIndex();
-	    };
-	    WindowViewLayerService.prototype.remove = function (windowViewContainer) {
-	        this._remove(windowViewContainer);
-	        this.setAllWindowViewContainersZIndex();
-	    };
-	    WindowViewLayerService.prototype.bringToTop = function (windowViewContainer) {
-	        this._remove(windowViewContainer);
-	        this._add(windowViewContainer);
-	        this.setAllWindowViewContainersZIndex();
-	    };
-	    WindowViewLayerService.prototype._add = function (windowViewContainer) {
-	        this.windowViewContainers.push(windowViewContainer);
-	    };
-	    WindowViewLayerService.prototype._remove = function (windowViewContainer) {
-	        var index = this.windowViewContainers.indexOf(windowViewContainer);
-	        this.windowViewContainers.splice(index, 1);
-	    };
-	    WindowViewLayerService.prototype.setAllWindowViewContainersZIndex = function () {
-	        var _this = this;
-	        this.windowViewContainers.forEach(function (windowViewContainer, index) {
-	            return windowViewContainer.zIndex = _this.zIndexStartAt + index;
-	        });
-	    };
-	    WindowViewLayerService = __decorate([
-	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [])
-	    ], WindowViewLayerService);
-	    return WindowViewLayerService;
-	}());
-	exports.WindowViewLayerService = WindowViewLayerService;
-	
-
-/***/ },
-
-/***/ 129:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var core_1 = __webpack_require__(5);
-	var window_view_service_1 = __webpack_require__(61);
-	var WindowViewOutletComponent = (function () {
-	    function WindowViewOutletComponent(viewContainerRef, windowView) {
-	        this.viewContainerRef = viewContainerRef;
-	        this.windowView = windowView;
-	    }
-	    WindowViewOutletComponent.prototype.ngAfterViewInit = function () {
-	        this.windowView.setOutlet(this.viewContainerRef);
-	    };
-	    WindowViewOutletComponent = __decorate([
-	        core_1.Component({
-	            selector: 'window-view-outlet',
-	            template: ''
-	        }), 
-	        __metadata('design:paramtypes', [core_1.ViewContainerRef, window_view_service_1.WindowViewService])
-	    ], WindowViewOutletComponent);
-	    return WindowViewOutletComponent;
-	}());
-	exports.WindowViewOutletComponent = WindowViewOutletComponent;
-	
-
-/***/ },
-
-/***/ 131:
+/***/ 52:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2683,7 +41,7 @@ webpackJsonp([1],{
 	 * License: MIT
 	 */
 	(function (global, factory) {
-	     true ? factory(exports, __webpack_require__(5), __webpack_require__(144), __webpack_require__(45), __webpack_require__(44), __webpack_require__(143)) :
+	     true ? factory(exports, __webpack_require__(5), __webpack_require__(142), __webpack_require__(45), __webpack_require__(44), __webpack_require__(141)) :
 	    typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/operator/toPromise', 'rxjs/Subject', 'rxjs/Observable', 'rxjs/observable/fromPromise'], factory) :
 	    (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable.prototype,global.Rx,global.Rx,global.Rx.Observable));
 	}(this, function (exports,_angular_core,rxjs_operator_toPromise,rxjs_Subject,rxjs_Observable,rxjs_observable_fromPromise) { 'use strict';
@@ -7292,70 +4650,2667 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 132:
+/***/ 86:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var core_1 = __webpack_require__(5);
+	var Subject_1 = __webpack_require__(45);
+	var WindowViewService = (function () {
+	    function WindowViewService(cfr, compiler, injector) {
+	        this.cfr = cfr;
+	        this.compiler = compiler;
+	        this.injector = injector;
+	        this.cachedComponentFactory = new Map();
+	        this.stack = [];
+	        this._length$ = new Subject_1.Subject();
+	        this._open$ = new Subject_1.Subject();
+	        this._close$ = new Subject_1.Subject();
+	    }
+	    Object.defineProperty(WindowViewService.prototype, "length", {
+	        get: function () { return this.stack.length; },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(WindowViewService.prototype, "length$", {
+	        /**
+	         * Current window's count.
+	         */
+	        get: function () { return this._length$.asObservable(); },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(WindowViewService.prototype, "open$", {
+	        /**
+	         * Emit after window open.
+	         */
+	        get: function () { return this._open$.asObservable(); },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(WindowViewService.prototype, "close$", {
+	        /**
+	         * Emit before window close.
+	         */
+	        get: function () { return this._close$.asObservable(); },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    WindowViewService.prototype.setOutlet = function (outlet) {
+	        if (!!this.outlet) {
+	            throw new Error('[WindowViewService] setOutlet error. Multiple window-view-outlet');
+	        }
+	        this.outlet = outlet;
+	    };
+	    WindowViewService.prototype.getInstanceAt = function (index) {
+	        return (this.stack[index]) ? this.stack[index].instance : null;
+	    };
+	    WindowViewService.prototype.add = function (componentRef) {
+	        this.stack.push(componentRef);
+	        this._open$.next(componentRef.instance);
+	        this._length$.next(this.stack.length);
+	    };
+	    WindowViewService.prototype.remove = function (componentRef) {
+	        if (!this.canCloseWindowView(componentRef)) {
+	            return false;
+	        }
+	        var index = this.stack.indexOf(componentRef);
+	        this.stack.splice(index, 1);
+	        this._close$.next(componentRef.instance);
+	        this._length$.next(this.stack.length);
+	        componentRef.destroy();
+	        return true;
+	    };
+	    WindowViewService.prototype.removeByInstance = function (instance) {
+	        var removedComponentRef = this.stack.find(function (componentRef) {
+	            return componentRef.instance === instance;
+	        });
+	        return this.remove(removedComponentRef);
+	    };
+	    /**
+	     * Add window to top.
+	     *
+	     * The component type have to registry on entryComponents of module.
+	     * Or provide component factory directly.
+	     */
+	    WindowViewService.prototype.pushWindow = function (componentType) {
+	        if (!this.outlet) {
+	            throw new Error('[WindowViewService] pushWindow error. Not found window-view-outlet');
+	        }
+	        var factory;
+	        if (componentType instanceof core_1.ComponentFactory) {
+	            factory = componentType;
+	        }
+	        else {
+	            factory = this.cfr.resolveComponentFactory(componentType);
+	        }
+	        var componentRef = this.outlet.createComponent(factory);
+	        this.add(componentRef);
+	        return componentRef.instance;
+	    };
+	    /**
+	     * Compile module and get component factory from it and do push window.
+	     *
+	     * About third parameter `cached`.
+	     * In usual case, module has been cached by angular, you don't need to concern about it.
+	     * But, if module is created on the fly, angular can't not cached it and always compile everytime.
+	     * In addition to this, repeatly creating module on the fly with declare same component is invalid,
+	     * resolving those problem by caching component factory.
+	     */
+	    WindowViewService.prototype.pushDynamicWindow = function (moduleType, componentType, cached) {
+	        var _this = this;
+	        if (cached === void 0) { cached = false; }
+	        if (cached && this.cachedComponentFactory.has(componentType)) {
+	            return Promise.resolve().then(function () { return _this.pushWindow(_this.cachedComponentFactory.get(componentType)); });
+	        }
+	        return this.compiler.compileModuleAsync(moduleType).then(function (moduleFactory) {
+	            var moduleRef = moduleFactory.create(_this.injector);
+	            var componentFactory = moduleRef
+	                .componentFactoryResolver
+	                .resolveComponentFactory(componentType);
+	            if (cached) {
+	                _this.cachedComponentFactory.set(componentType, componentFactory);
+	            }
+	            return _this.pushWindow(componentFactory);
+	        });
+	    };
+	    /**
+	     *
+	     */
+	    WindowViewService.prototype.pushUnwrapDynamicWindow = function (componentType, options) {
+	        if (options === void 0) { options = {}; }
+	        var moduleMetadataParams = {
+	            id: options.id,
+	            declarations: options.declarations || [],
+	            entryComponents: [componentType],
+	            imports: options.imports || [],
+	            providers: options.providers
+	        };
+	        if (moduleMetadataParams.declarations.indexOf(componentType) < 0) {
+	            moduleMetadataParams.declarations.push(componentType);
+	        }
+	        var WindowViewModule = __webpack_require__(128).WindowViewModule;
+	        if (moduleMetadataParams.imports.indexOf(WindowViewModule) < 0) {
+	            moduleMetadataParams.imports.push(WindowViewModule);
+	        }
+	        var moduleMetadata = core_1.NgModule(moduleMetadataParams);
+	        var moduleType = moduleMetadata((function () {
+	            function class_1() {
+	            }
+	            return class_1;
+	        }()));
+	        return this.pushDynamicWindow(moduleType, componentType, true);
+	    };
+	    /**
+	     * Remove latest window.
+	     */
+	    WindowViewService.prototype.popWindow = function () {
+	        if (this.stack.length === 0) {
+	            return false;
+	        }
+	        var componentRef = this.stack[this.stack.length - 1];
+	        return this.remove(componentRef);
+	    };
+	    WindowViewService.prototype.clearCache = function () {
+	        this.cachedComponentFactory.clear();
+	    };
+	    WindowViewService.prototype.canCloseWindowView = function (componentRef) {
+	        if (typeof componentRef.instance.windowViewCanClose !== 'function') {
+	            return true;
+	        }
+	        return componentRef.instance.windowViewCanClose();
+	    };
+	    WindowViewService = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [core_1.ComponentFactoryResolver, core_1.Compiler, core_1.Injector])
+	    ], WindowViewService);
+	    return WindowViewService;
+	}());
+	exports.WindowViewService = WindowViewService;
+	
+
+/***/ },
+
+/***/ 87:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {/**
+	 * @license Angular v2.1.0
+	 * (c) 2010-2016 Google, Inc. https://angular.io/
+	 * License: MIT
+	 */
+	(function (global, factory) {
+	     true ? factory(exports, __webpack_require__(5), __webpack_require__(44), __webpack_require__(53)) :
+	    typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/Observable', '@angular/platform-browser'], factory) :
+	    (factory((global.ng = global.ng || {}, global.ng.http = global.ng.http || {}),global.ng.core,global.Rx,global.ng.platformBrowser));
+	}(this, function (exports,_angular_core,rxjs_Observable,_angular_platformBrowser) { 'use strict';
+
+	    /**
+	     * A backend for http that uses the `XMLHttpRequest` browser API.
+	     *
+	     * Take care not to evaluate this in non-browser contexts.
+	     *
+	     * @experimental
+	     */
+	    var BrowserXhr = (function () {
+	        function BrowserXhr() {
+	        }
+	        BrowserXhr.prototype.build = function () { return (new XMLHttpRequest()); };
+	        BrowserXhr.decorators = [
+	            { type: _angular_core.Injectable },
+	        ];
+	        /** @nocollapse */
+	        BrowserXhr.ctorParameters = [];
+	        return BrowserXhr;
+	    }());
+
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var globalScope;
+	    if (typeof window === 'undefined') {
+	        if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
+	            // TODO: Replace any with WorkerGlobalScope from lib.webworker.d.ts #3492
+	            globalScope = self;
+	        }
+	        else {
+	            globalScope = global;
+	        }
+	    }
+	    else {
+	        globalScope = window;
+	    }
+	    // Need to declare a new variable for global here since TypeScript
+	    // exports the original value of the symbol.
+	    var global$1 = globalScope;
+	    // TODO: remove calls to assert in production environment
+	    // Note: Can't just export this and import in in other files
+	    // as `assert` is a reserved keyword in Dart
+	    global$1.assert = function assert(condition) {
+	        // TODO: to be fixed properly via #2830, noop for now
+	    };
+	    function isPresent(obj) {
+	        return obj !== undefined && obj !== null;
+	    }
+	    function isString(obj) {
+	        return typeof obj === 'string';
+	    }
+	    var NumberWrapper = (function () {
+	        function NumberWrapper() {
+	        }
+	        NumberWrapper.toFixed = function (n, fractionDigits) { return n.toFixed(fractionDigits); };
+	        NumberWrapper.equal = function (a, b) { return a === b; };
+	        NumberWrapper.parseIntAutoRadix = function (text) {
+	            var result = parseInt(text);
+	            if (isNaN(result)) {
+	                throw new Error('Invalid integer literal when parsing ' + text);
+	            }
+	            return result;
+	        };
+	        NumberWrapper.parseInt = function (text, radix) {
+	            if (radix == 10) {
+	                if (/^(\-|\+)?[0-9]+$/.test(text)) {
+	                    return parseInt(text, radix);
+	                }
+	            }
+	            else if (radix == 16) {
+	                if (/^(\-|\+)?[0-9ABCDEFabcdef]+$/.test(text)) {
+	                    return parseInt(text, radix);
+	                }
+	            }
+	            else {
+	                var result = parseInt(text, radix);
+	                if (!isNaN(result)) {
+	                    return result;
+	                }
+	            }
+	            throw new Error('Invalid integer literal when parsing ' + text + ' in base ' + radix);
+	        };
+	        Object.defineProperty(NumberWrapper, "NaN", {
+	            get: function () { return NaN; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        NumberWrapper.isNumeric = function (value) { return !isNaN(value - parseFloat(value)); };
+	        NumberWrapper.isNaN = function (value) { return isNaN(value); };
+	        NumberWrapper.isInteger = function (value) { return Number.isInteger(value); };
+	        return NumberWrapper;
+	    }());
+	    function isJsObject(o) {
+	        return o !== null && (typeof o === 'function' || typeof o === 'object');
+	    }
+	    // Can't be all uppercase as our transpiler would think it is a special directive...
+	    var Json = (function () {
+	        function Json() {
+	        }
+	        Json.parse = function (s) { return global$1.JSON.parse(s); };
+	        Json.stringify = function (data) {
+	            // Dart doesn't take 3 arguments
+	            return global$1.JSON.stringify(data, null, 2);
+	        };
+	        return Json;
+	    }());
+
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    /**
+	     * Supported http methods.
+	     * @experimental
+	     */
+	    exports.RequestMethod;
+	    (function (RequestMethod) {
+	        RequestMethod[RequestMethod["Get"] = 0] = "Get";
+	        RequestMethod[RequestMethod["Post"] = 1] = "Post";
+	        RequestMethod[RequestMethod["Put"] = 2] = "Put";
+	        RequestMethod[RequestMethod["Delete"] = 3] = "Delete";
+	        RequestMethod[RequestMethod["Options"] = 4] = "Options";
+	        RequestMethod[RequestMethod["Head"] = 5] = "Head";
+	        RequestMethod[RequestMethod["Patch"] = 6] = "Patch";
+	    })(exports.RequestMethod || (exports.RequestMethod = {}));
+	    /**
+	     * All possible states in which a connection can be, based on
+	     * [States](http://www.w3.org/TR/XMLHttpRequest/#states) from the `XMLHttpRequest` spec, but with an
+	     * additional "CANCELLED" state.
+	     * @experimental
+	     */
+	    exports.ReadyState;
+	    (function (ReadyState) {
+	        ReadyState[ReadyState["Unsent"] = 0] = "Unsent";
+	        ReadyState[ReadyState["Open"] = 1] = "Open";
+	        ReadyState[ReadyState["HeadersReceived"] = 2] = "HeadersReceived";
+	        ReadyState[ReadyState["Loading"] = 3] = "Loading";
+	        ReadyState[ReadyState["Done"] = 4] = "Done";
+	        ReadyState[ReadyState["Cancelled"] = 5] = "Cancelled";
+	    })(exports.ReadyState || (exports.ReadyState = {}));
+	    /**
+	     * Acceptable response types to be associated with a {@link Response}, based on
+	     * [ResponseType](https://fetch.spec.whatwg.org/#responsetype) from the Fetch spec.
+	     * @experimental
+	     */
+	    exports.ResponseType;
+	    (function (ResponseType) {
+	        ResponseType[ResponseType["Basic"] = 0] = "Basic";
+	        ResponseType[ResponseType["Cors"] = 1] = "Cors";
+	        ResponseType[ResponseType["Default"] = 2] = "Default";
+	        ResponseType[ResponseType["Error"] = 3] = "Error";
+	        ResponseType[ResponseType["Opaque"] = 4] = "Opaque";
+	    })(exports.ResponseType || (exports.ResponseType = {}));
+	    /**
+	     * Supported content type to be automatically associated with a {@link Request}.
+	     * @experimental
+	     */
+	    var ContentType;
+	    (function (ContentType) {
+	        ContentType[ContentType["NONE"] = 0] = "NONE";
+	        ContentType[ContentType["JSON"] = 1] = "JSON";
+	        ContentType[ContentType["FORM"] = 2] = "FORM";
+	        ContentType[ContentType["FORM_DATA"] = 3] = "FORM_DATA";
+	        ContentType[ContentType["TEXT"] = 4] = "TEXT";
+	        ContentType[ContentType["BLOB"] = 5] = "BLOB";
+	        ContentType[ContentType["ARRAY_BUFFER"] = 6] = "ARRAY_BUFFER";
+	    })(ContentType || (ContentType = {}));
+	    /**
+	     * Define which buffer to use to store the response
+	     * @experimental
+	     */
+	    exports.ResponseContentType;
+	    (function (ResponseContentType) {
+	        ResponseContentType[ResponseContentType["Text"] = 0] = "Text";
+	        ResponseContentType[ResponseContentType["Json"] = 1] = "Json";
+	        ResponseContentType[ResponseContentType["ArrayBuffer"] = 2] = "ArrayBuffer";
+	        ResponseContentType[ResponseContentType["Blob"] = 3] = "Blob";
+	    })(exports.ResponseContentType || (exports.ResponseContentType = {}));
+
+	    // Safari and Internet Explorer do not support the iterable parameter to the
+	    // Map constructor.  We work around that by manually adding the items.
+	    var createMapFromPairs = (function () {
+	        try {
+	            if (new Map([[1, 2]]).size === 1) {
+	                return function createMapFromPairs(pairs) { return new Map(pairs); };
+	            }
+	        }
+	        catch (e) {
+	        }
+	        return function createMapAndPopulateFromPairs(pairs) {
+	            var map = new Map();
+	            for (var i = 0; i < pairs.length; i++) {
+	                var pair = pairs[i];
+	                map.set(pair[0], pair[1]);
+	            }
+	            return map;
+	        };
+	    })();
+	    var _clearValues = (function () {
+	        if ((new Map()).keys().next) {
+	            return function _clearValues(m) {
+	                var keyIterator = m.keys();
+	                var k;
+	                while (!((k = keyIterator.next()).done)) {
+	                    m.set(k.value, null);
+	                }
+	            };
+	        }
+	        else {
+	            return function _clearValuesWithForeEach(m) {
+	                m.forEach(function (v, k) { m.set(k, null); });
+	            };
+	        }
+	    })();
+	    // Safari doesn't implement MapIterator.next(), which is used is Traceur's polyfill of Array.from
+	    // TODO(mlaval): remove the work around once we have a working polyfill of Array.from
+	    var _arrayFromMap = (function () {
+	        try {
+	            if ((new Map()).values().next) {
+	                return function createArrayFromMap(m, getValues) {
+	                    return getValues ? Array.from(m.values()) : Array.from(m.keys());
+	                };
+	            }
+	        }
+	        catch (e) {
+	        }
+	        return function createArrayFromMapWithForeach(m, getValues) {
+	            var res = new Array(m.size), i = 0;
+	            m.forEach(function (v, k) {
+	                res[i] = getValues ? v : k;
+	                i++;
+	            });
+	            return res;
+	        };
+	    })();
+	    var MapWrapper = (function () {
+	        function MapWrapper() {
+	        }
+	        MapWrapper.createFromStringMap = function (stringMap) {
+	            var result = new Map();
+	            for (var prop in stringMap) {
+	                result.set(prop, stringMap[prop]);
+	            }
+	            return result;
+	        };
+	        MapWrapper.toStringMap = function (m) {
+	            var r = {};
+	            m.forEach(function (v, k) { return r[k] = v; });
+	            return r;
+	        };
+	        MapWrapper.createFromPairs = function (pairs) { return createMapFromPairs(pairs); };
+	        MapWrapper.iterable = function (m) { return m; };
+	        MapWrapper.keys = function (m) { return _arrayFromMap(m, false); };
+	        MapWrapper.values = function (m) { return _arrayFromMap(m, true); };
+	        return MapWrapper;
+	    }());
+
+	    /**
+	     * Polyfill for [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers/Headers), as
+	     * specified in the [Fetch Spec](https://fetch.spec.whatwg.org/#headers-class).
+	     *
+	     * The only known difference between this `Headers` implementation and the spec is the
+	     * lack of an `entries` method.
+	     *
+	     * ### Example
+	     *
+	     * ```
+	     * import {Headers} from '@angular/http';
+	     *
+	     * var firstHeaders = new Headers();
+	     * firstHeaders.append('Content-Type', 'image/jpeg');
+	     * console.log(firstHeaders.get('Content-Type')) //'image/jpeg'
+	     *
+	     * // Create headers from Plain Old JavaScript Object
+	     * var secondHeaders = new Headers({
+	     *   'X-My-Custom-Header': 'Angular'
+	     * });
+	     * console.log(secondHeaders.get('X-My-Custom-Header')); //'Angular'
+	     *
+	     * var thirdHeaders = new Headers(secondHeaders);
+	     * console.log(thirdHeaders.get('X-My-Custom-Header')); //'Angular'
+	     * ```
+	     *
+	     * @experimental
+	     */
+	    var Headers = (function () {
+	        // TODO(vicb): any -> string|string[]
+	        function Headers(headers) {
+	            var _this = this;
+	            /** @internal header names are lower case */
+	            this._headers = new Map();
+	            /** @internal map lower case names to actual names */
+	            this._normalizedNames = new Map();
+	            if (!headers) {
+	                return;
+	            }
+	            if (headers instanceof Headers) {
+	                headers._headers.forEach(function (values, name) {
+	                    values.forEach(function (value) { return _this.append(name, value); });
+	                });
+	                return;
+	            }
+	            Object.keys(headers).forEach(function (name) {
+	                var values = Array.isArray(headers[name]) ? headers[name] : [headers[name]];
+	                _this.delete(name);
+	                values.forEach(function (value) { return _this.append(name, value); });
+	            });
+	        }
+	        /**
+	         * Returns a new Headers instance from the given DOMString of Response Headers
+	         */
+	        Headers.fromResponseHeaderString = function (headersString) {
+	            var headers = new Headers();
+	            headersString.split('\n').forEach(function (line) {
+	                var index = line.indexOf(':');
+	                if (index > 0) {
+	                    var name_1 = line.slice(0, index);
+	                    var value = line.slice(index + 1).trim();
+	                    headers.set(name_1, value);
+	                }
+	            });
+	            return headers;
+	        };
+	        /**
+	         * Appends a header to existing list of header values for a given header name.
+	         */
+	        Headers.prototype.append = function (name, value) {
+	            var values = this.getAll(name);
+	            if (values === null) {
+	                this.set(name, value);
+	            }
+	            else {
+	                values.push(value);
+	            }
+	        };
+	        /**
+	         * Deletes all header values for the given name.
+	         */
+	        Headers.prototype.delete = function (name) {
+	            var lcName = name.toLowerCase();
+	            this._normalizedNames.delete(lcName);
+	            this._headers.delete(lcName);
+	        };
+	        Headers.prototype.forEach = function (fn) {
+	            var _this = this;
+	            this._headers.forEach(function (values, lcName) { return fn(values, _this._normalizedNames.get(lcName), _this._headers); });
+	        };
+	        /**
+	         * Returns first header that matches given name.
+	         */
+	        Headers.prototype.get = function (name) {
+	            var values = this.getAll(name);
+	            if (values === null) {
+	                return null;
+	            }
+	            return values.length > 0 ? values[0] : null;
+	        };
+	        /**
+	         * Checks for existence of header by given name.
+	         */
+	        Headers.prototype.has = function (name) { return this._headers.has(name.toLowerCase()); };
+	        /**
+	         * Returns the names of the headers
+	         */
+	        Headers.prototype.keys = function () { return MapWrapper.values(this._normalizedNames); };
+	        /**
+	         * Sets or overrides header value for given name.
+	         */
+	        Headers.prototype.set = function (name, value) {
+	            if (Array.isArray(value)) {
+	                if (value.length) {
+	                    this._headers.set(name.toLowerCase(), [value.join(',')]);
+	                }
+	            }
+	            else {
+	                this._headers.set(name.toLowerCase(), [value]);
+	            }
+	            this.mayBeSetNormalizedName(name);
+	        };
+	        /**
+	         * Returns values of all headers.
+	         */
+	        Headers.prototype.values = function () { return MapWrapper.values(this._headers); };
+	        /**
+	         * Returns string of all headers.
+	         */
+	        // TODO(vicb): returns {[name: string]: string[]}
+	        Headers.prototype.toJSON = function () {
+	            var _this = this;
+	            var serialized = {};
+	            this._headers.forEach(function (values, name) {
+	                var split = [];
+	                values.forEach(function (v) { return split.push.apply(split, v.split(',')); });
+	                serialized[_this._normalizedNames.get(name)] = split;
+	            });
+	            return serialized;
+	        };
+	        /**
+	         * Returns list of header values for a given name.
+	         */
+	        Headers.prototype.getAll = function (name) {
+	            return this.has(name) ? this._headers.get(name.toLowerCase()) : null;
+	        };
+	        /**
+	         * This method is not implemented.
+	         */
+	        Headers.prototype.entries = function () { throw new Error('"entries" method is not implemented on Headers class'); };
+	        Headers.prototype.mayBeSetNormalizedName = function (name) {
+	            var lcName = name.toLowerCase();
+	            if (!this._normalizedNames.has(lcName)) {
+	                this._normalizedNames.set(lcName, name);
+	            }
+	        };
+	        return Headers;
+	    }());
+
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var __extends$1 = (this && this.__extends) || function (d, b) {
+	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	    /**
+	     * Creates a response options object to be optionally provided when instantiating a
+	     * {@link Response}.
+	     *
+	     * This class is based on the `ResponseInit` description in the [Fetch
+	     * Spec](https://fetch.spec.whatwg.org/#responseinit).
+	     *
+	     * All values are null by default. Typical defaults can be found in the
+	     * {@link BaseResponseOptions} class, which sub-classes `ResponseOptions`.
+	     *
+	     * This class may be used in tests to build {@link Response Responses} for
+	     * mock responses (see {@link MockBackend}).
+	     *
+	     * ### Example ([live demo](http://plnkr.co/edit/P9Jkk8e8cz6NVzbcxEsD?p=preview))
+	     *
+	     * ```typescript
+	     * import {ResponseOptions, Response} from '@angular/http';
+	     *
+	     * var options = new ResponseOptions({
+	     *   body: '{"name":"Jeff"}'
+	     * });
+	     * var res = new Response(options);
+	     *
+	     * console.log('res.json():', res.json()); // Object {name: "Jeff"}
+	     * ```
+	     *
+	     * @experimental
+	     */
+	    var ResponseOptions = (function () {
+	        function ResponseOptions(_a) {
+	            var _b = _a === void 0 ? {} : _a, body = _b.body, status = _b.status, headers = _b.headers, statusText = _b.statusText, type = _b.type, url = _b.url;
+	            this.body = isPresent(body) ? body : null;
+	            this.status = isPresent(status) ? status : null;
+	            this.headers = isPresent(headers) ? headers : null;
+	            this.statusText = isPresent(statusText) ? statusText : null;
+	            this.type = isPresent(type) ? type : null;
+	            this.url = isPresent(url) ? url : null;
+	        }
+	        /**
+	         * Creates a copy of the `ResponseOptions` instance, using the optional input as values to
+	         * override
+	         * existing values. This method will not change the values of the instance on which it is being
+	         * called.
+	         *
+	         * This may be useful when sharing a base `ResponseOptions` object inside tests,
+	         * where certain properties may change from test to test.
+	         *
+	         * ### Example ([live demo](http://plnkr.co/edit/1lXquqFfgduTFBWjNoRE?p=preview))
+	         *
+	         * ```typescript
+	         * import {ResponseOptions, Response} from '@angular/http';
+	         *
+	         * var options = new ResponseOptions({
+	         *   body: {name: 'Jeff'}
+	         * });
+	         * var res = new Response(options.merge({
+	         *   url: 'https://google.com'
+	         * }));
+	         * console.log('options.url:', options.url); // null
+	         * console.log('res.json():', res.json()); // Object {name: "Jeff"}
+	         * console.log('res.url:', res.url); // https://google.com
+	         * ```
+	         */
+	        ResponseOptions.prototype.merge = function (options) {
+	            return new ResponseOptions({
+	                body: isPresent(options) && isPresent(options.body) ? options.body : this.body,
+	                status: isPresent(options) && isPresent(options.status) ? options.status : this.status,
+	                headers: isPresent(options) && isPresent(options.headers) ? options.headers : this.headers,
+	                statusText: isPresent(options) && isPresent(options.statusText) ? options.statusText :
+	                    this.statusText,
+	                type: isPresent(options) && isPresent(options.type) ? options.type : this.type,
+	                url: isPresent(options) && isPresent(options.url) ? options.url : this.url,
+	            });
+	        };
+	        return ResponseOptions;
+	    }());
+	    /**
+	     * Subclass of {@link ResponseOptions}, with default values.
+	     *
+	     * Default values:
+	     *  * status: 200
+	     *  * headers: empty {@link Headers} object
+	     *
+	     * This class could be extended and bound to the {@link ResponseOptions} class
+	     * when configuring an {@link Injector}, in order to override the default options
+	     * used by {@link Http} to create {@link Response Responses}.
+	     *
+	     * ### Example ([live demo](http://plnkr.co/edit/qv8DLT?p=preview))
+	     *
+	     * ```typescript
+	     * import {provide} from '@angular/core';
+	     * import {bootstrap} from '@angular/platform-browser/browser';
+	     * import {HTTP_PROVIDERS, Headers, Http, BaseResponseOptions, ResponseOptions} from
+	     * '@angular/http';
+	     * import {App} from './myapp';
+	     *
+	     * class MyOptions extends BaseResponseOptions {
+	     *   headers:Headers = new Headers({network: 'github'});
+	     * }
+	     *
+	     * bootstrap(App, [HTTP_PROVIDERS, {provide: ResponseOptions, useClass: MyOptions}]);
+	     * ```
+	     *
+	     * The options could also be extended when manually creating a {@link Response}
+	     * object.
+	     *
+	     * ### Example ([live demo](http://plnkr.co/edit/VngosOWiaExEtbstDoix?p=preview))
+	     *
+	     * ```
+	     * import {BaseResponseOptions, Response} from '@angular/http';
+	     *
+	     * var options = new BaseResponseOptions();
+	     * var res = new Response(options.merge({
+	     *   body: 'Angular',
+	     *   headers: new Headers({framework: 'angular'})
+	     * }));
+	     * console.log('res.headers.get("framework"):', res.headers.get('framework')); // angular
+	     * console.log('res.text():', res.text()); // Angular;
+	     * ```
+	     *
+	     * @experimental
+	     */
+	    var BaseResponseOptions = (function (_super) {
+	        __extends$1(BaseResponseOptions, _super);
+	        function BaseResponseOptions() {
+	            _super.call(this, { status: 200, statusText: 'Ok', type: exports.ResponseType.Default, headers: new Headers() });
+	        }
+	        BaseResponseOptions.decorators = [
+	            { type: _angular_core.Injectable },
+	        ];
+	        /** @nocollapse */
+	        BaseResponseOptions.ctorParameters = [];
+	        return BaseResponseOptions;
+	    }(ResponseOptions));
+
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    /**
+	     * Abstract class from which real backends are derived.
+	     *
+	     * The primary purpose of a `ConnectionBackend` is to create new connections to fulfill a given
+	     * {@link Request}.
+	     *
+	     * @experimental
+	     */
+	    var ConnectionBackend = (function () {
+	        function ConnectionBackend() {
+	        }
+	        return ConnectionBackend;
+	    }());
+	    /**
+	     * Abstract class from which real connections are derived.
+	     *
+	     * @experimental
+	     */
+	    var Connection = (function () {
+	        function Connection() {
+	        }
+	        return Connection;
+	    }());
+	    /**
+	     * An XSRFStrategy configures XSRF protection (e.g. via headers) on an HTTP request.
+	     *
+	     * @experimental
+	     */
+	    var XSRFStrategy = (function () {
+	        function XSRFStrategy() {
+	        }
+	        return XSRFStrategy;
+	    }());
+
+	    function normalizeMethodName(method) {
+	        if (isString(method)) {
+	            var originalMethod = method;
+	            method = method
+	                .replace(/(\w)(\w*)/g, function (g0, g1, g2) { return g1.toUpperCase() + g2.toLowerCase(); });
+	            method = exports.RequestMethod[method];
+	            if (typeof method !== 'number')
+	                throw new Error("Invalid request method. The method \"" + originalMethod + "\" is not supported.");
+	        }
+	        return method;
+	    }
+	    var isSuccess = function (status) { return (status >= 200 && status < 300); };
+	    function getResponseURL(xhr) {
+	        if ('responseURL' in xhr) {
+	            return xhr.responseURL;
+	        }
+	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+	            return xhr.getResponseHeader('X-Request-URL');
+	        }
+	        return;
+	    }
+	    function stringToArrayBuffer(input) {
+	        var view = new Uint16Array(input.length);
+	        for (var i = 0, strLen = input.length; i < strLen; i++) {
+	            view[i] = input.charCodeAt(i);
+	        }
+	        return view.buffer;
+	    }
+
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    function paramParser(rawParams) {
+	        if (rawParams === void 0) { rawParams = ''; }
+	        var map = new Map();
+	        if (rawParams.length > 0) {
+	            var params = rawParams.split('&');
+	            params.forEach(function (param) {
+	                var eqIdx = param.indexOf('=');
+	                var _a = eqIdx == -1 ? [param, ''] : [param.slice(0, eqIdx), param.slice(eqIdx + 1)], key = _a[0], val = _a[1];
+	                var list = map.get(key) || [];
+	                list.push(val);
+	                map.set(key, list);
+	            });
+	        }
+	        return map;
+	    }
+	    /**
+	     * @experimental
+	     **/
+	    var QueryEncoder = (function () {
+	        function QueryEncoder() {
+	        }
+	        QueryEncoder.prototype.encodeKey = function (k) { return standardEncoding(k); };
+	        QueryEncoder.prototype.encodeValue = function (v) { return standardEncoding(v); };
+	        return QueryEncoder;
+	    }());
+	    function standardEncoding(v) {
+	        return encodeURIComponent(v)
+	            .replace(/%40/gi, '@')
+	            .replace(/%3A/gi, ':')
+	            .replace(/%24/gi, '$')
+	            .replace(/%2C/gi, ',')
+	            .replace(/%3B/gi, ';')
+	            .replace(/%2B/gi, '+')
+	            .replace(/%3D/gi, '=')
+	            .replace(/%3F/gi, '?')
+	            .replace(/%2F/gi, '/');
+	    }
+	    /**
+	     * Map-like representation of url search parameters, based on
+	     * [URLSearchParams](https://url.spec.whatwg.org/#urlsearchparams) in the url living standard,
+	     * with several extensions for merging URLSearchParams objects:
+	     *   - setAll()
+	     *   - appendAll()
+	     *   - replaceAll()
+	     *
+	     * This class accepts an optional second parameter of ${@link QueryEncoder},
+	     * which is used to serialize parameters before making a request. By default,
+	     * `QueryEncoder` encodes keys and values of parameters using `encodeURIComponent`,
+	     * and then un-encodes certain characters that are allowed to be part of the query
+	     * according to IETF RFC 3986: https://tools.ietf.org/html/rfc3986.
+	     *
+	     * These are the characters that are not encoded: `! $ \' ( ) * + , ; A 9 - . _ ~ ? /`
+	     *
+	     * If the set of allowed query characters is not acceptable for a particular backend,
+	     * `QueryEncoder` can be subclassed and provided as the 2nd argument to URLSearchParams.
+	     *
+	     * ```
+	     * import {URLSearchParams, QueryEncoder} from '@angular/http';
+	     * class MyQueryEncoder extends QueryEncoder {
+	     *   encodeKey(k: string): string {
+	     *     return myEncodingFunction(k);
+	     *   }
+	     *
+	     *   encodeValue(v: string): string {
+	     *     return myEncodingFunction(v);
+	     *   }
+	     * }
+	     *
+	     * let params = new URLSearchParams('', new MyQueryEncoder());
+	     * ```
+	     * @experimental
+	     */
+	    var URLSearchParams = (function () {
+	        function URLSearchParams(rawParams, queryEncoder) {
+	            if (rawParams === void 0) { rawParams = ''; }
+	            if (queryEncoder === void 0) { queryEncoder = new QueryEncoder(); }
+	            this.rawParams = rawParams;
+	            this.queryEncoder = queryEncoder;
+	            this.paramsMap = paramParser(rawParams);
+	        }
+	        URLSearchParams.prototype.clone = function () {
+	            var clone = new URLSearchParams('', this.queryEncoder);
+	            clone.appendAll(this);
+	            return clone;
+	        };
+	        URLSearchParams.prototype.has = function (param) { return this.paramsMap.has(param); };
+	        URLSearchParams.prototype.get = function (param) {
+	            var storedParam = this.paramsMap.get(param);
+	            return Array.isArray(storedParam) ? storedParam[0] : null;
+	        };
+	        URLSearchParams.prototype.getAll = function (param) { return this.paramsMap.get(param) || []; };
+	        URLSearchParams.prototype.set = function (param, val) {
+	            if (val === void 0 || val === null) {
+	                this.delete(param);
+	                return;
+	            }
+	            var list = this.paramsMap.get(param) || [];
+	            list.length = 0;
+	            list.push(val);
+	            this.paramsMap.set(param, list);
+	        };
+	        // A merge operation
+	        // For each name-values pair in `searchParams`, perform `set(name, values[0])`
+	        //
+	        // E.g: "a=[1,2,3], c=[8]" + "a=[4,5,6], b=[7]" = "a=[4], c=[8], b=[7]"
+	        //
+	        // TODO(@caitp): document this better
+	        URLSearchParams.prototype.setAll = function (searchParams) {
+	            var _this = this;
+	            searchParams.paramsMap.forEach(function (value, param) {
+	                var list = _this.paramsMap.get(param) || [];
+	                list.length = 0;
+	                list.push(value[0]);
+	                _this.paramsMap.set(param, list);
+	            });
+	        };
+	        URLSearchParams.prototype.append = function (param, val) {
+	            if (val === void 0 || val === null)
+	                return;
+	            var list = this.paramsMap.get(param) || [];
+	            list.push(val);
+	            this.paramsMap.set(param, list);
+	        };
+	        // A merge operation
+	        // For each name-values pair in `searchParams`, perform `append(name, value)`
+	        // for each value in `values`.
+	        //
+	        // E.g: "a=[1,2], c=[8]" + "a=[3,4], b=[7]" = "a=[1,2,3,4], c=[8], b=[7]"
+	        //
+	        // TODO(@caitp): document this better
+	        URLSearchParams.prototype.appendAll = function (searchParams) {
+	            var _this = this;
+	            searchParams.paramsMap.forEach(function (value, param) {
+	                var list = _this.paramsMap.get(param) || [];
+	                for (var i = 0; i < value.length; ++i) {
+	                    list.push(value[i]);
+	                }
+	                _this.paramsMap.set(param, list);
+	            });
+	        };
+	        // A merge operation
+	        // For each name-values pair in `searchParams`, perform `delete(name)`,
+	        // followed by `set(name, values)`
+	        //
+	        // E.g: "a=[1,2,3], c=[8]" + "a=[4,5,6], b=[7]" = "a=[4,5,6], c=[8], b=[7]"
+	        //
+	        // TODO(@caitp): document this better
+	        URLSearchParams.prototype.replaceAll = function (searchParams) {
+	            var _this = this;
+	            searchParams.paramsMap.forEach(function (value, param) {
+	                var list = _this.paramsMap.get(param) || [];
+	                list.length = 0;
+	                for (var i = 0; i < value.length; ++i) {
+	                    list.push(value[i]);
+	                }
+	                _this.paramsMap.set(param, list);
+	            });
+	        };
+	        URLSearchParams.prototype.toString = function () {
+	            var _this = this;
+	            var paramsList = [];
+	            this.paramsMap.forEach(function (values, k) {
+	                values.forEach(function (v) { return paramsList.push(_this.queryEncoder.encodeKey(k) + '=' + _this.queryEncoder.encodeValue(v)); });
+	            });
+	            return paramsList.join('&');
+	        };
+	        URLSearchParams.prototype.delete = function (param) { this.paramsMap.delete(param); };
+	        return URLSearchParams;
+	    }());
+
+	    /**
+	     * HTTP request body used by both {@link Request} and {@link Response}
+	     * https://fetch.spec.whatwg.org/#body
+	     */
+	    var Body = (function () {
+	        function Body() {
+	        }
+	        /**
+	         * Attempts to return body as parsed `JSON` object, or raises an exception.
+	         */
+	        Body.prototype.json = function () {
+	            if (isString(this._body)) {
+	                return Json.parse(this._body);
+	            }
+	            if (this._body instanceof ArrayBuffer) {
+	                return Json.parse(this.text());
+	            }
+	            return this._body;
+	        };
+	        /**
+	         * Returns the body as a string, presuming `toString()` can be called on the response body.
+	         */
+	        Body.prototype.text = function () {
+	            if (this._body instanceof URLSearchParams) {
+	                return this._body.toString();
+	            }
+	            if (this._body instanceof ArrayBuffer) {
+	                return String.fromCharCode.apply(null, new Uint16Array(this._body));
+	            }
+	            if (this._body === null) {
+	                return '';
+	            }
+	            if (isJsObject(this._body)) {
+	                return Json.stringify(this._body);
+	            }
+	            return this._body.toString();
+	        };
+	        /**
+	         * Return the body as an ArrayBuffer
+	         */
+	        Body.prototype.arrayBuffer = function () {
+	            if (this._body instanceof ArrayBuffer) {
+	                return this._body;
+	            }
+	            return stringToArrayBuffer(this.text());
+	        };
+	        /**
+	          * Returns the request's body as a Blob, assuming that body exists.
+	          */
+	        Body.prototype.blob = function () {
+	            if (this._body instanceof Blob) {
+	                return this._body;
+	            }
+	            if (this._body instanceof ArrayBuffer) {
+	                return new Blob([this._body]);
+	            }
+	            throw new Error('The request body isn\'t either a blob or an array buffer');
+	        };
+	        return Body;
+	    }());
+
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var __extends$2 = (this && this.__extends) || function (d, b) {
+	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	    /**
+	     * Creates `Response` instances from provided values.
+	     *
+	     * Though this object isn't
+	     * usually instantiated by end-users, it is the primary object interacted with when it comes time to
+	     * add data to a view.
+	     *
+	     * ### Example
+	     *
+	     * ```
+	     * http.request('my-friends.txt').subscribe(response => this.friends = response.text());
+	     * ```
+	     *
+	     * The Response's interface is inspired by the Response constructor defined in the [Fetch
+	     * Spec](https://fetch.spec.whatwg.org/#response-class), but is considered a static value whose body
+	     * can be accessed many times. There are other differences in the implementation, but this is the
+	     * most significant.
+	     *
+	     * @experimental
+	     */
+	    var Response = (function (_super) {
+	        __extends$2(Response, _super);
+	        function Response(responseOptions) {
+	            _super.call(this);
+	            this._body = responseOptions.body;
+	            this.status = responseOptions.status;
+	            this.ok = (this.status >= 200 && this.status <= 299);
+	            this.statusText = responseOptions.statusText;
+	            this.headers = responseOptions.headers;
+	            this.type = responseOptions.type;
+	            this.url = responseOptions.url;
+	        }
+	        Response.prototype.toString = function () {
+	            return "Response with status: " + this.status + " " + this.statusText + " for URL: " + this.url;
+	        };
+	        return Response;
+	    }(Body));
+
+	    var _nextRequestId = 0;
+	    var JSONP_HOME = '__ng_jsonp__';
+	    var _jsonpConnections = null;
+	    function _getJsonpConnections() {
+	        if (_jsonpConnections === null) {
+	            _jsonpConnections = global$1[JSONP_HOME] = {};
+	        }
+	        return _jsonpConnections;
+	    }
+	    // Make sure not to evaluate this in a non-browser environment!
+	    var BrowserJsonp = (function () {
+	        function BrowserJsonp() {
+	        }
+	        // Construct a <script> element with the specified URL
+	        BrowserJsonp.prototype.build = function (url) {
+	            var node = document.createElement('script');
+	            node.src = url;
+	            return node;
+	        };
+	        BrowserJsonp.prototype.nextRequestID = function () { return "__req" + _nextRequestId++; };
+	        BrowserJsonp.prototype.requestCallback = function (id) { return JSONP_HOME + "." + id + ".finished"; };
+	        BrowserJsonp.prototype.exposeConnection = function (id, connection) {
+	            var connections = _getJsonpConnections();
+	            connections[id] = connection;
+	        };
+	        BrowserJsonp.prototype.removeConnection = function (id) {
+	            var connections = _getJsonpConnections();
+	            connections[id] = null;
+	        };
+	        // Attach the <script> element to the DOM
+	        BrowserJsonp.prototype.send = function (node) { document.body.appendChild((node)); };
+	        // Remove <script> element from the DOM
+	        BrowserJsonp.prototype.cleanup = function (node) {
+	            if (node.parentNode) {
+	                node.parentNode.removeChild((node));
+	            }
+	        };
+	        BrowserJsonp.decorators = [
+	            { type: _angular_core.Injectable },
+	        ];
+	        /** @nocollapse */
+	        BrowserJsonp.ctorParameters = [];
+	        return BrowserJsonp;
+	    }());
+
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var __extends = (this && this.__extends) || function (d, b) {
+	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	    var JSONP_ERR_NO_CALLBACK = 'JSONP injected script did not invoke callback.';
+	    var JSONP_ERR_WRONG_METHOD = 'JSONP requests must use GET request method.';
+	    /**
+	     * Abstract base class for an in-flight JSONP request.
+	     *
+	     * @experimental
+	     */
+	    var JSONPConnection = (function () {
+	        function JSONPConnection() {
+	        }
+	        return JSONPConnection;
+	    }());
+	    var JSONPConnection_ = (function (_super) {
+	        __extends(JSONPConnection_, _super);
+	        function JSONPConnection_(req, _dom, baseResponseOptions) {
+	            var _this = this;
+	            _super.call(this);
+	            this._dom = _dom;
+	            this.baseResponseOptions = baseResponseOptions;
+	            this._finished = false;
+	            if (req.method !== exports.RequestMethod.Get) {
+	                throw new TypeError(JSONP_ERR_WRONG_METHOD);
+	            }
+	            this.request = req;
+	            this.response = new rxjs_Observable.Observable(function (responseObserver) {
+	                _this.readyState = exports.ReadyState.Loading;
+	                var id = _this._id = _dom.nextRequestID();
+	                _dom.exposeConnection(id, _this);
+	                // Workaround Dart
+	                // url = url.replace(/=JSONP_CALLBACK(&|$)/, `generated method`);
+	                var callback = _dom.requestCallback(_this._id);
+	                var url = req.url;
+	                if (url.indexOf('=JSONP_CALLBACK&') > -1) {
+	                    url = url.replace('=JSONP_CALLBACK&', "=" + callback + "&");
+	                }
+	                else if (url.lastIndexOf('=JSONP_CALLBACK') === url.length - '=JSONP_CALLBACK'.length) {
+	                    url = url.substring(0, url.length - '=JSONP_CALLBACK'.length) + ("=" + callback);
+	                }
+	                var script = _this._script = _dom.build(url);
+	                var onLoad = function (event) {
+	                    if (_this.readyState === exports.ReadyState.Cancelled)
+	                        return;
+	                    _this.readyState = exports.ReadyState.Done;
+	                    _dom.cleanup(script);
+	                    if (!_this._finished) {
+	                        var responseOptions_1 = new ResponseOptions({ body: JSONP_ERR_NO_CALLBACK, type: exports.ResponseType.Error, url: url });
+	                        if (isPresent(baseResponseOptions)) {
+	                            responseOptions_1 = baseResponseOptions.merge(responseOptions_1);
+	                        }
+	                        responseObserver.error(new Response(responseOptions_1));
+	                        return;
+	                    }
+	                    var responseOptions = new ResponseOptions({ body: _this._responseData, url: url });
+	                    if (isPresent(_this.baseResponseOptions)) {
+	                        responseOptions = _this.baseResponseOptions.merge(responseOptions);
+	                    }
+	                    responseObserver.next(new Response(responseOptions));
+	                    responseObserver.complete();
+	                };
+	                var onError = function (error) {
+	                    if (_this.readyState === exports.ReadyState.Cancelled)
+	                        return;
+	                    _this.readyState = exports.ReadyState.Done;
+	                    _dom.cleanup(script);
+	                    var responseOptions = new ResponseOptions({ body: error.message, type: exports.ResponseType.Error });
+	                    if (isPresent(baseResponseOptions)) {
+	                        responseOptions = baseResponseOptions.merge(responseOptions);
+	                    }
+	                    responseObserver.error(new Response(responseOptions));
+	                };
+	                script.addEventListener('load', onLoad);
+	                script.addEventListener('error', onError);
+	                _dom.send(script);
+	                return function () {
+	                    _this.readyState = exports.ReadyState.Cancelled;
+	                    script.removeEventListener('load', onLoad);
+	                    script.removeEventListener('error', onError);
+	                    if (isPresent(script)) {
+	                        _this._dom.cleanup(script);
+	                    }
+	                };
+	            });
+	        }
+	        JSONPConnection_.prototype.finished = function (data) {
+	            // Don't leak connections
+	            this._finished = true;
+	            this._dom.removeConnection(this._id);
+	            if (this.readyState === exports.ReadyState.Cancelled)
+	                return;
+	            this._responseData = data;
+	        };
+	        return JSONPConnection_;
+	    }(JSONPConnection));
+	    /**
+	     * A {@link ConnectionBackend} that uses the JSONP strategy of making requests.
+	     *
+	     * @experimental
+	     */
+	    var JSONPBackend = (function (_super) {
+	        __extends(JSONPBackend, _super);
+	        function JSONPBackend() {
+	            _super.apply(this, arguments);
+	        }
+	        return JSONPBackend;
+	    }(ConnectionBackend));
+	    var JSONPBackend_ = (function (_super) {
+	        __extends(JSONPBackend_, _super);
+	        function JSONPBackend_(_browserJSONP, _baseResponseOptions) {
+	            _super.call(this);
+	            this._browserJSONP = _browserJSONP;
+	            this._baseResponseOptions = _baseResponseOptions;
+	        }
+	        JSONPBackend_.prototype.createConnection = function (request) {
+	            return new JSONPConnection_(request, this._browserJSONP, this._baseResponseOptions);
+	        };
+	        JSONPBackend_.decorators = [
+	            { type: _angular_core.Injectable },
+	        ];
+	        /** @nocollapse */
+	        JSONPBackend_.ctorParameters = [
+	            { type: BrowserJsonp, },
+	            { type: ResponseOptions, },
+	        ];
+	        return JSONPBackend_;
+	    }(JSONPBackend));
+
+	    var XSSI_PREFIX = /^\)\]\}',?\n/;
+	    /**
+	     * Creates connections using `XMLHttpRequest`. Given a fully-qualified
+	     * request, an `XHRConnection` will immediately create an `XMLHttpRequest` object and send the
+	     * request.
+	     *
+	     * This class would typically not be created or interacted with directly inside applications, though
+	     * the {@link MockConnection} may be interacted with in tests.
+	     *
+	     * @experimental
+	     */
+	    var XHRConnection = (function () {
+	        function XHRConnection(req, browserXHR, baseResponseOptions) {
+	            var _this = this;
+	            this.request = req;
+	            this.response = new rxjs_Observable.Observable(function (responseObserver) {
+	                var _xhr = browserXHR.build();
+	                _xhr.open(exports.RequestMethod[req.method].toUpperCase(), req.url);
+	                if (isPresent(req.withCredentials)) {
+	                    _xhr.withCredentials = req.withCredentials;
+	                }
+	                // load event handler
+	                var onLoad = function () {
+	                    // responseText is the old-school way of retrieving response (supported by IE8 & 9)
+	                    // response/responseType properties were introduced in ResourceLoader Level2 spec (supported
+	                    // by IE10)
+	                    var body = _xhr.response === undefined ? _xhr.responseText : _xhr.response;
+	                    // Implicitly strip a potential XSSI prefix.
+	                    if (isString(body))
+	                        body = body.replace(XSSI_PREFIX, '');
+	                    var headers = Headers.fromResponseHeaderString(_xhr.getAllResponseHeaders());
+	                    var url = getResponseURL(_xhr);
+	                    // normalize IE9 bug (http://bugs.jquery.com/ticket/1450)
+	                    var status = _xhr.status === 1223 ? 204 : _xhr.status;
+	                    // fix status code when it is 0 (0 status is undocumented).
+	                    // Occurs when accessing file resources or on Android 4.1 stock browser
+	                    // while retrieving files from application cache.
+	                    if (status === 0) {
+	                        status = body ? 200 : 0;
+	                    }
+	                    var statusText = _xhr.statusText || 'OK';
+	                    var responseOptions = new ResponseOptions({ body: body, status: status, headers: headers, statusText: statusText, url: url });
+	                    if (isPresent(baseResponseOptions)) {
+	                        responseOptions = baseResponseOptions.merge(responseOptions);
+	                    }
+	                    var response = new Response(responseOptions);
+	                    response.ok = isSuccess(status);
+	                    if (response.ok) {
+	                        responseObserver.next(response);
+	                        // TODO(gdi2290): defer complete if array buffer until done
+	                        responseObserver.complete();
+	                        return;
+	                    }
+	                    responseObserver.error(response);
+	                };
+	                // error event handler
+	                var onError = function (err) {
+	                    var responseOptions = new ResponseOptions({
+	                        body: err,
+	                        type: exports.ResponseType.Error,
+	                        status: _xhr.status,
+	                        statusText: _xhr.statusText,
+	                    });
+	                    if (isPresent(baseResponseOptions)) {
+	                        responseOptions = baseResponseOptions.merge(responseOptions);
+	                    }
+	                    responseObserver.error(new Response(responseOptions));
+	                };
+	                _this.setDetectedContentType(req, _xhr);
+	                if (isPresent(req.headers)) {
+	                    req.headers.forEach(function (values, name) { return _xhr.setRequestHeader(name, values.join(',')); });
+	                }
+	                // Select the correct buffer type to store the response
+	                if (isPresent(req.responseType) && isPresent(_xhr.responseType)) {
+	                    switch (req.responseType) {
+	                        case exports.ResponseContentType.ArrayBuffer:
+	                            _xhr.responseType = 'arraybuffer';
+	                            break;
+	                        case exports.ResponseContentType.Json:
+	                            _xhr.responseType = 'json';
+	                            break;
+	                        case exports.ResponseContentType.Text:
+	                            _xhr.responseType = 'text';
+	                            break;
+	                        case exports.ResponseContentType.Blob:
+	                            _xhr.responseType = 'blob';
+	                            break;
+	                        default:
+	                            throw new Error('The selected responseType is not supported');
+	                    }
+	                }
+	                _xhr.addEventListener('load', onLoad);
+	                _xhr.addEventListener('error', onError);
+	                _xhr.send(_this.request.getBody());
+	                return function () {
+	                    _xhr.removeEventListener('load', onLoad);
+	                    _xhr.removeEventListener('error', onError);
+	                    _xhr.abort();
+	                };
+	            });
+	        }
+	        XHRConnection.prototype.setDetectedContentType = function (req /** TODO #9100 */, _xhr /** TODO #9100 */) {
+	            // Skip if a custom Content-Type header is provided
+	            if (isPresent(req.headers) && isPresent(req.headers.get('Content-Type'))) {
+	                return;
+	            }
+	            // Set the detected content type
+	            switch (req.contentType) {
+	                case ContentType.NONE:
+	                    break;
+	                case ContentType.JSON:
+	                    _xhr.setRequestHeader('content-type', 'application/json');
+	                    break;
+	                case ContentType.FORM:
+	                    _xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+	                    break;
+	                case ContentType.TEXT:
+	                    _xhr.setRequestHeader('content-type', 'text/plain');
+	                    break;
+	                case ContentType.BLOB:
+	                    var blob = req.blob();
+	                    if (blob.type) {
+	                        _xhr.setRequestHeader('content-type', blob.type);
+	                    }
+	                    break;
+	            }
+	        };
+	        return XHRConnection;
+	    }());
+	    /**
+	     * `XSRFConfiguration` sets up Cross Site Request Forgery (XSRF) protection for the application
+	     * using a cookie. See {@link https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)}
+	     * for more information on XSRF.
+	     *
+	     * Applications can configure custom cookie and header names by binding an instance of this class
+	     * with different `cookieName` and `headerName` values. See the main HTTP documentation for more
+	     * details.
+	     *
+	     * @experimental
+	     */
+	    var CookieXSRFStrategy = (function () {
+	        function CookieXSRFStrategy(_cookieName, _headerName) {
+	            if (_cookieName === void 0) { _cookieName = 'XSRF-TOKEN'; }
+	            if (_headerName === void 0) { _headerName = 'X-XSRF-TOKEN'; }
+	            this._cookieName = _cookieName;
+	            this._headerName = _headerName;
+	        }
+	        CookieXSRFStrategy.prototype.configureRequest = function (req) {
+	            var xsrfToken = _angular_platformBrowser.__platform_browser_private__.getDOM().getCookie(this._cookieName);
+	            if (xsrfToken && !req.headers.has(this._headerName)) {
+	                req.headers.set(this._headerName, xsrfToken);
+	            }
+	        };
+	        return CookieXSRFStrategy;
+	    }());
+	    /**
+	     * Creates {@link XHRConnection} instances.
+	     *
+	     * This class would typically not be used by end users, but could be
+	     * overridden if a different backend implementation should be used,
+	     * such as in a node backend.
+	     *
+	     * ### Example
+	     *
+	     * ```
+	     * import {Http, MyNodeBackend, HTTP_PROVIDERS, BaseRequestOptions} from '@angular/http';
+	     * @Component({
+	     *   viewProviders: [
+	     *     HTTP_PROVIDERS,
+	     *     {provide: Http, useFactory: (backend, options) => {
+	     *       return new Http(backend, options);
+	     *     }, deps: [MyNodeBackend, BaseRequestOptions]}]
+	     * })
+	     * class MyComponent {
+	     *   constructor(http:Http) {
+	     *     http.request('people.json').subscribe(res => this.people = res.json());
+	     *   }
+	     * }
+	     * ```
+	     * @experimental
+	     */
+	    var XHRBackend = (function () {
+	        function XHRBackend(_browserXHR, _baseResponseOptions, _xsrfStrategy) {
+	            this._browserXHR = _browserXHR;
+	            this._baseResponseOptions = _baseResponseOptions;
+	            this._xsrfStrategy = _xsrfStrategy;
+	        }
+	        XHRBackend.prototype.createConnection = function (request) {
+	            this._xsrfStrategy.configureRequest(request);
+	            return new XHRConnection(request, this._browserXHR, this._baseResponseOptions);
+	        };
+	        XHRBackend.decorators = [
+	            { type: _angular_core.Injectable },
+	        ];
+	        /** @nocollapse */
+	        XHRBackend.ctorParameters = [
+	            { type: BrowserXhr, },
+	            { type: ResponseOptions, },
+	            { type: XSRFStrategy, },
+	        ];
+	        return XHRBackend;
+	    }());
+
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var __extends$3 = (this && this.__extends) || function (d, b) {
+	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	    /**
+	     * Creates a request options object to be optionally provided when instantiating a
+	     * {@link Request}.
+	     *
+	     * This class is based on the `RequestInit` description in the [Fetch
+	     * Spec](https://fetch.spec.whatwg.org/#requestinit).
+	     *
+	     * All values are null by default. Typical defaults can be found in the {@link BaseRequestOptions}
+	     * class, which sub-classes `RequestOptions`.
+	     *
+	     * ### Example ([live demo](http://plnkr.co/edit/7Wvi3lfLq41aQPKlxB4O?p=preview))
+	     *
+	     * ```typescript
+	     * import {RequestOptions, Request, RequestMethod} from '@angular/http';
+	     *
+	     * var options = new RequestOptions({
+	     *   method: RequestMethod.Post,
+	     *   url: 'https://google.com'
+	     * });
+	     * var req = new Request(options);
+	     * console.log('req.method:', RequestMethod[req.method]); // Post
+	     * console.log('options.url:', options.url); // https://google.com
+	     * ```
+	     *
+	     * @experimental
+	     */
+	    var RequestOptions = (function () {
+	        function RequestOptions(_a) {
+	            var _b = _a === void 0 ? {} : _a, method = _b.method, headers = _b.headers, body = _b.body, url = _b.url, search = _b.search, withCredentials = _b.withCredentials, responseType = _b.responseType;
+	            this.method = isPresent(method) ? normalizeMethodName(method) : null;
+	            this.headers = isPresent(headers) ? headers : null;
+	            this.body = isPresent(body) ? body : null;
+	            this.url = isPresent(url) ? url : null;
+	            this.search = isPresent(search) ?
+	                (isString(search) ? new URLSearchParams((search)) : (search)) :
+	                null;
+	            this.withCredentials = isPresent(withCredentials) ? withCredentials : null;
+	            this.responseType = isPresent(responseType) ? responseType : null;
+	        }
+	        /**
+	         * Creates a copy of the `RequestOptions` instance, using the optional input as values to override
+	         * existing values. This method will not change the values of the instance on which it is being
+	         * called.
+	         *
+	         * Note that `headers` and `search` will override existing values completely if present in
+	         * the `options` object. If these values should be merged, it should be done prior to calling
+	         * `merge` on the `RequestOptions` instance.
+	         *
+	         * ### Example ([live demo](http://plnkr.co/edit/6w8XA8YTkDRcPYpdB9dk?p=preview))
+	         *
+	         * ```typescript
+	         * import {RequestOptions, Request, RequestMethod} from '@angular/http';
+	         *
+	         * var options = new RequestOptions({
+	         *   method: RequestMethod.Post
+	         * });
+	         * var req = new Request(options.merge({
+	         *   url: 'https://google.com'
+	         * }));
+	         * console.log('req.method:', RequestMethod[req.method]); // Post
+	         * console.log('options.url:', options.url); // null
+	         * console.log('req.url:', req.url); // https://google.com
+	         * ```
+	         */
+	        RequestOptions.prototype.merge = function (options) {
+	            return new RequestOptions({
+	                method: isPresent(options) && isPresent(options.method) ? options.method : this.method,
+	                headers: isPresent(options) && isPresent(options.headers) ? options.headers : this.headers,
+	                body: isPresent(options) && isPresent(options.body) ? options.body : this.body,
+	                url: isPresent(options) && isPresent(options.url) ? options.url : this.url,
+	                search: isPresent(options) && isPresent(options.search) ?
+	                    (isString(options.search) ? new URLSearchParams((options.search)) :
+	                        (options.search).clone()) :
+	                    this.search,
+	                withCredentials: isPresent(options) && isPresent(options.withCredentials) ?
+	                    options.withCredentials :
+	                    this.withCredentials,
+	                responseType: isPresent(options) && isPresent(options.responseType) ? options.responseType :
+	                    this.responseType
+	            });
+	        };
+	        return RequestOptions;
+	    }());
+	    /**
+	     * Subclass of {@link RequestOptions}, with default values.
+	     *
+	     * Default values:
+	     *  * method: {@link RequestMethod RequestMethod.Get}
+	     *  * headers: empty {@link Headers} object
+	     *
+	     * This class could be extended and bound to the {@link RequestOptions} class
+	     * when configuring an {@link Injector}, in order to override the default options
+	     * used by {@link Http} to create and send {@link Request Requests}.
+	     *
+	     * ### Example ([live demo](http://plnkr.co/edit/LEKVSx?p=preview))
+	     *
+	     * ```typescript
+	     * import {provide} from '@angular/core';
+	     * import {bootstrap} from '@angular/platform-browser/browser';
+	     * import {HTTP_PROVIDERS, Http, BaseRequestOptions, RequestOptions} from '@angular/http';
+	     * import {App} from './myapp';
+	     *
+	     * class MyOptions extends BaseRequestOptions {
+	     *   search: string = 'coreTeam=true';
+	     * }
+	     *
+	     * bootstrap(App, [HTTP_PROVIDERS, {provide: RequestOptions, useClass: MyOptions}]);
+	     * ```
+	     *
+	     * The options could also be extended when manually creating a {@link Request}
+	     * object.
+	     *
+	     * ### Example ([live demo](http://plnkr.co/edit/oyBoEvNtDhOSfi9YxaVb?p=preview))
+	     *
+	     * ```
+	     * import {BaseRequestOptions, Request, RequestMethod} from '@angular/http';
+	     *
+	     * var options = new BaseRequestOptions();
+	     * var req = new Request(options.merge({
+	     *   method: RequestMethod.Post,
+	     *   url: 'https://google.com'
+	     * }));
+	     * console.log('req.method:', RequestMethod[req.method]); // Post
+	     * console.log('options.url:', options.url); // null
+	     * console.log('req.url:', req.url); // https://google.com
+	     * ```
+	     *
+	     * @experimental
+	     */
+	    var BaseRequestOptions = (function (_super) {
+	        __extends$3(BaseRequestOptions, _super);
+	        function BaseRequestOptions() {
+	            _super.call(this, { method: exports.RequestMethod.Get, headers: new Headers() });
+	        }
+	        BaseRequestOptions.decorators = [
+	            { type: _angular_core.Injectable },
+	        ];
+	        /** @nocollapse */
+	        BaseRequestOptions.ctorParameters = [];
+	        return BaseRequestOptions;
+	    }(RequestOptions));
+
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var __extends$5 = (this && this.__extends) || function (d, b) {
+	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	    // TODO(jeffbcross): properly implement body accessors
+	    /**
+	     * Creates `Request` instances from provided values.
+	     *
+	     * The Request's interface is inspired by the Request constructor defined in the [Fetch
+	     * Spec](https://fetch.spec.whatwg.org/#request-class),
+	     * but is considered a static value whose body can be accessed many times. There are other
+	     * differences in the implementation, but this is the most significant.
+	     *
+	     * `Request` instances are typically created by higher-level classes, like {@link Http} and
+	     * {@link Jsonp}, but it may occasionally be useful to explicitly create `Request` instances.
+	     * One such example is when creating services that wrap higher-level services, like {@link Http},
+	     * where it may be useful to generate a `Request` with arbitrary headers and search params.
+	     *
+	     * ```typescript
+	     * import {Injectable, Injector} from '@angular/core';
+	     * import {HTTP_PROVIDERS, Http, Request, RequestMethod} from '@angular/http';
+	     *
+	     * @Injectable()
+	     * class AutoAuthenticator {
+	     *   constructor(public http:Http) {}
+	     *   request(url:string) {
+	     *     return this.http.request(new Request({
+	     *       method: RequestMethod.Get,
+	     *       url: url,
+	     *       search: 'password=123'
+	     *     }));
+	     *   }
+	     * }
+	     *
+	     * var injector = Injector.resolveAndCreate([HTTP_PROVIDERS, AutoAuthenticator]);
+	     * var authenticator = injector.get(AutoAuthenticator);
+	     * authenticator.request('people.json').subscribe(res => {
+	     *   //URL should have included '?password=123'
+	     *   console.log('people', res.json());
+	     * });
+	     * ```
+	     *
+	     * @experimental
+	     */
+	    var Request = (function (_super) {
+	        __extends$5(Request, _super);
+	        function Request(requestOptions) {
+	            _super.call(this);
+	            // TODO: assert that url is present
+	            var url = requestOptions.url;
+	            this.url = requestOptions.url;
+	            if (isPresent(requestOptions.search)) {
+	                var search = requestOptions.search.toString();
+	                if (search.length > 0) {
+	                    var prefix = '?';
+	                    if (this.url.indexOf('?') != -1) {
+	                        prefix = (this.url[this.url.length - 1] == '&') ? '' : '&';
+	                    }
+	                    // TODO: just delete search-query-looking string in url?
+	                    this.url = url + prefix + search;
+	                }
+	            }
+	            this._body = requestOptions.body;
+	            this.method = normalizeMethodName(requestOptions.method);
+	            // TODO(jeffbcross): implement behavior
+	            // Defaults to 'omit', consistent with browser
+	            // TODO(jeffbcross): implement behavior
+	            this.headers = new Headers(requestOptions.headers);
+	            this.contentType = this.detectContentType();
+	            this.withCredentials = requestOptions.withCredentials;
+	            this.responseType = requestOptions.responseType;
+	        }
+	        /**
+	         * Returns the content type enum based on header options.
+	         */
+	        Request.prototype.detectContentType = function () {
+	            switch (this.headers.get('content-type')) {
+	                case 'application/json':
+	                    return ContentType.JSON;
+	                case 'application/x-www-form-urlencoded':
+	                    return ContentType.FORM;
+	                case 'multipart/form-data':
+	                    return ContentType.FORM_DATA;
+	                case 'text/plain':
+	                case 'text/html':
+	                    return ContentType.TEXT;
+	                case 'application/octet-stream':
+	                    return ContentType.BLOB;
+	                default:
+	                    return this.detectContentTypeFromBody();
+	            }
+	        };
+	        /**
+	         * Returns the content type of request's body based on its type.
+	         */
+	        Request.prototype.detectContentTypeFromBody = function () {
+	            if (this._body == null) {
+	                return ContentType.NONE;
+	            }
+	            else if (this._body instanceof URLSearchParams) {
+	                return ContentType.FORM;
+	            }
+	            else if (this._body instanceof FormData) {
+	                return ContentType.FORM_DATA;
+	            }
+	            else if (this._body instanceof Blob$1) {
+	                return ContentType.BLOB;
+	            }
+	            else if (this._body instanceof ArrayBuffer$1) {
+	                return ContentType.ARRAY_BUFFER;
+	            }
+	            else if (this._body && typeof this._body == 'object') {
+	                return ContentType.JSON;
+	            }
+	            else {
+	                return ContentType.TEXT;
+	            }
+	        };
+	        /**
+	         * Returns the request's body according to its type. If body is undefined, return
+	         * null.
+	         */
+	        Request.prototype.getBody = function () {
+	            switch (this.contentType) {
+	                case ContentType.JSON:
+	                    return this.text();
+	                case ContentType.FORM:
+	                    return this.text();
+	                case ContentType.FORM_DATA:
+	                    return this._body;
+	                case ContentType.TEXT:
+	                    return this.text();
+	                case ContentType.BLOB:
+	                    return this.blob();
+	                case ContentType.ARRAY_BUFFER:
+	                    return this.arrayBuffer();
+	                default:
+	                    return null;
+	            }
+	        };
+	        return Request;
+	    }(Body));
+	    var noop$1 = function () { };
+	    var w = typeof window == 'object' ? window : noop$1;
+	    var FormData = w['FormData'] || noop$1;
+	    var Blob$1 = w['Blob'] || noop$1;
+	    var ArrayBuffer$1 = w['ArrayBuffer'] || noop$1;
+
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var __extends$4 = (this && this.__extends) || function (d, b) {
+	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	    function httpRequest(backend, request) {
+	        return backend.createConnection(request).response;
+	    }
+	    function mergeOptions(defaultOpts, providedOpts, method, url) {
+	        var newOptions = defaultOpts;
+	        if (isPresent(providedOpts)) {
+	            // Hack so Dart can used named parameters
+	            return newOptions.merge(new RequestOptions({
+	                method: providedOpts.method || method,
+	                url: providedOpts.url || url,
+	                search: providedOpts.search,
+	                headers: providedOpts.headers,
+	                body: providedOpts.body,
+	                withCredentials: providedOpts.withCredentials,
+	                responseType: providedOpts.responseType
+	            }));
+	        }
+	        if (isPresent(method)) {
+	            return newOptions.merge(new RequestOptions({ method: method, url: url }));
+	        }
+	        else {
+	            return newOptions.merge(new RequestOptions({ url: url }));
+	        }
+	    }
+	    /**
+	     * Performs http requests using `XMLHttpRequest` as the default backend.
+	     *
+	     * `Http` is available as an injectable class, with methods to perform http requests. Calling
+	     * `request` returns an `Observable` which will emit a single {@link Response} when a
+	     * response is received.
+	     *
+	     * ### Example
+	     *
+	     * ```typescript
+	     * import {Http, HTTP_PROVIDERS} from '@angular/http';
+	     * import 'rxjs/add/operator/map'
+	     * @Component({
+	     *   selector: 'http-app',
+	     *   viewProviders: [HTTP_PROVIDERS],
+	     *   templateUrl: 'people.html'
+	     * })
+	     * class PeopleComponent {
+	     *   constructor(http: Http) {
+	     *     http.get('people.json')
+	     *       // Call map on the response observable to get the parsed people object
+	     *       .map(res => res.json())
+	     *       // Subscribe to the observable to get the parsed people object and attach it to the
+	     *       // component
+	     *       .subscribe(people => this.people = people);
+	     *   }
+	     * }
+	     * ```
+	     *
+	     *
+	     * ### Example
+	     *
+	     * ```
+	     * http.get('people.json').subscribe((res:Response) => this.people = res.json());
+	     * ```
+	     *
+	     * The default construct used to perform requests, `XMLHttpRequest`, is abstracted as a "Backend" (
+	     * {@link XHRBackend} in this case), which could be mocked with dependency injection by replacing
+	     * the {@link XHRBackend} provider, as in the following example:
+	     *
+	     * ### Example
+	     *
+	     * ```typescript
+	     * import {BaseRequestOptions, Http} from '@angular/http';
+	     * import {MockBackend} from '@angular/http/testing';
+	     * var injector = Injector.resolveAndCreate([
+	     *   BaseRequestOptions,
+	     *   MockBackend,
+	     *   {provide: Http, useFactory:
+	     *       function(backend, defaultOptions) {
+	     *         return new Http(backend, defaultOptions);
+	     *       },
+	     *       deps: [MockBackend, BaseRequestOptions]}
+	     * ]);
+	     * var http = injector.get(Http);
+	     * http.get('request-from-mock-backend.json').subscribe((res:Response) => doSomething(res));
+	     * ```
+	     *
+	     * @experimental
+	     */
+	    var Http = (function () {
+	        function Http(_backend, _defaultOptions) {
+	            this._backend = _backend;
+	            this._defaultOptions = _defaultOptions;
+	        }
+	        /**
+	         * Performs any type of http request. First argument is required, and can either be a url or
+	         * a {@link Request} instance. If the first argument is a url, an optional {@link RequestOptions}
+	         * object can be provided as the 2nd argument. The options object will be merged with the values
+	         * of {@link BaseRequestOptions} before performing the request.
+	         */
+	        Http.prototype.request = function (url, options) {
+	            var responseObservable;
+	            if (isString(url)) {
+	                responseObservable = httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Get, url)));
+	            }
+	            else if (url instanceof Request) {
+	                responseObservable = httpRequest(this._backend, url);
+	            }
+	            else {
+	                throw new Error('First argument must be a url string or Request instance.');
+	            }
+	            return responseObservable;
+	        };
+	        /**
+	         * Performs a request with `get` http method.
+	         */
+	        Http.prototype.get = function (url, options) {
+	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Get, url)));
+	        };
+	        /**
+	         * Performs a request with `post` http method.
+	         */
+	        Http.prototype.post = function (url, body, options) {
+	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({ body: body })), options, exports.RequestMethod.Post, url)));
+	        };
+	        /**
+	         * Performs a request with `put` http method.
+	         */
+	        Http.prototype.put = function (url, body, options) {
+	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({ body: body })), options, exports.RequestMethod.Put, url)));
+	        };
+	        /**
+	         * Performs a request with `delete` http method.
+	         */
+	        Http.prototype.delete = function (url, options) {
+	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Delete, url)));
+	        };
+	        /**
+	         * Performs a request with `patch` http method.
+	         */
+	        Http.prototype.patch = function (url, body, options) {
+	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({ body: body })), options, exports.RequestMethod.Patch, url)));
+	        };
+	        /**
+	         * Performs a request with `head` http method.
+	         */
+	        Http.prototype.head = function (url, options) {
+	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Head, url)));
+	        };
+	        /**
+	         * Performs a request with `options` http method.
+	         */
+	        Http.prototype.options = function (url, options) {
+	            return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Options, url)));
+	        };
+	        Http.decorators = [
+	            { type: _angular_core.Injectable },
+	        ];
+	        /** @nocollapse */
+	        Http.ctorParameters = [
+	            { type: ConnectionBackend, },
+	            { type: RequestOptions, },
+	        ];
+	        return Http;
+	    }());
+	    /**
+	     * @experimental
+	     */
+	    var Jsonp = (function (_super) {
+	        __extends$4(Jsonp, _super);
+	        function Jsonp(backend, defaultOptions) {
+	            _super.call(this, backend, defaultOptions);
+	        }
+	        /**
+	         * Performs any type of http request. First argument is required, and can either be a url or
+	         * a {@link Request} instance. If the first argument is a url, an optional {@link RequestOptions}
+	         * object can be provided as the 2nd argument. The options object will be merged with the values
+	         * of {@link BaseRequestOptions} before performing the request.
+	         *
+	         * @security Regular XHR is the safest alternative to JSONP for most applications, and is
+	         * supported by all current browsers. Because JSONP creates a `<script>` element with
+	         * contents retrieved from a remote source, attacker-controlled data introduced by an untrusted
+	         * source could expose your application to XSS risks. Data exposed by JSONP may also be
+	         * readable by malicious third-party websites. In addition, JSONP introduces potential risk for
+	         * future security issues (e.g. content sniffing).  For more detail, see the
+	         * [Security Guide](http://g.co/ng/security).
+	         */
+	        Jsonp.prototype.request = function (url, options) {
+	            var responseObservable;
+	            if (isString(url)) {
+	                url =
+	                    new Request(mergeOptions(this._defaultOptions, options, exports.RequestMethod.Get, url));
+	            }
+	            if (url instanceof Request) {
+	                if (url.method !== exports.RequestMethod.Get) {
+	                    throw new Error('JSONP requests must use GET request method.');
+	                }
+	                responseObservable = httpRequest(this._backend, url);
+	            }
+	            else {
+	                throw new Error('First argument must be a url string or Request instance.');
+	            }
+	            return responseObservable;
+	        };
+	        Jsonp.decorators = [
+	            { type: _angular_core.Injectable },
+	        ];
+	        /** @nocollapse */
+	        Jsonp.ctorParameters = [
+	            { type: ConnectionBackend, },
+	            { type: RequestOptions, },
+	        ];
+	        return Jsonp;
+	    }(Http));
+
+	    function _createDefaultCookieXSRFStrategy() {
+	        return new CookieXSRFStrategy();
+	    }
+	    function httpFactory(xhrBackend, requestOptions) {
+	        return new Http(xhrBackend, requestOptions);
+	    }
+	    function jsonpFactory(jsonpBackend, requestOptions) {
+	        return new Jsonp(jsonpBackend, requestOptions);
+	    }
+	    /**
+	     * The module that includes http's providers
+	     *
+	     * @experimental
+	     */
+	    var HttpModule = (function () {
+	        function HttpModule() {
+	        }
+	        HttpModule.decorators = [
+	            { type: _angular_core.NgModule, args: [{
+	                        providers: [
+	                            // TODO(pascal): use factory type annotations once supported in DI
+	                            // issue: https://github.com/angular/angular/issues/3183
+	                            { provide: Http, useFactory: httpFactory, deps: [XHRBackend, RequestOptions] },
+	                            BrowserXhr,
+	                            { provide: RequestOptions, useClass: BaseRequestOptions },
+	                            { provide: ResponseOptions, useClass: BaseResponseOptions },
+	                            XHRBackend,
+	                            { provide: XSRFStrategy, useFactory: _createDefaultCookieXSRFStrategy },
+	                        ],
+	                    },] },
+	        ];
+	        /** @nocollapse */
+	        HttpModule.ctorParameters = [];
+	        return HttpModule;
+	    }());
+	    /**
+	     * The module that includes jsonp's providers
+	     *
+	     * @experimental
+	     */
+	    var JsonpModule = (function () {
+	        function JsonpModule() {
+	        }
+	        JsonpModule.decorators = [
+	            { type: _angular_core.NgModule, args: [{
+	                        providers: [
+	                            // TODO(pascal): use factory type annotations once supported in DI
+	                            // issue: https://github.com/angular/angular/issues/3183
+	                            { provide: Jsonp, useFactory: jsonpFactory, deps: [JSONPBackend, RequestOptions] },
+	                            BrowserJsonp,
+	                            { provide: RequestOptions, useClass: BaseRequestOptions },
+	                            { provide: ResponseOptions, useClass: BaseResponseOptions },
+	                            { provide: JSONPBackend, useClass: JSONPBackend_ },
+	                        ],
+	                    },] },
+	        ];
+	        /** @nocollapse */
+	        JsonpModule.ctorParameters = [];
+	        return JsonpModule;
+	    }());
+
+	    exports.BrowserXhr = BrowserXhr;
+	    exports.JSONPBackend = JSONPBackend;
+	    exports.JSONPConnection = JSONPConnection;
+	    exports.CookieXSRFStrategy = CookieXSRFStrategy;
+	    exports.XHRBackend = XHRBackend;
+	    exports.XHRConnection = XHRConnection;
+	    exports.BaseRequestOptions = BaseRequestOptions;
+	    exports.RequestOptions = RequestOptions;
+	    exports.BaseResponseOptions = BaseResponseOptions;
+	    exports.ResponseOptions = ResponseOptions;
+	    exports.Headers = Headers;
+	    exports.Http = Http;
+	    exports.Jsonp = Jsonp;
+	    exports.HttpModule = HttpModule;
+	    exports.JsonpModule = JsonpModule;
+	    exports.Connection = Connection;
+	    exports.ConnectionBackend = ConnectionBackend;
+	    exports.XSRFStrategy = XSRFStrategy;
+	    exports.Request = Request;
+	    exports.Response = Response;
+	    exports.QueryEncoder = QueryEncoder;
+	    exports.URLSearchParams = URLSearchParams;
+
+	}));
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+
+/***/ 123:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var core_1 = __webpack_require__(5);
+	var http_1 = __webpack_require__(87);
+	var AppComponent = (function () {
+	    function AppComponent(http) {
+	        this.http = http;
+	        this.title = 'ng2-window-view example';
+	        this.files = {};
+	        // ui status
+	        this.totalLoadCount = 0;
+	        this.loadedCount = 0;
+	        this.importModuleExample = Prism.highlight("\nimport { NgModule } from '@angular/core';\nimport { WindowViewModule } from 'ng2-window-view';\n\n@NgModule({\n  imports: [\n    WindowViewModule\n  ]\n})\nexport class AppModule {}\n", Prism.languages['typescript']);
+	        this.loadAssets();
+	    }
+	    Object.defineProperty(AppComponent.prototype, "loadPercent", {
+	        get: function () { return Math.floor(this.loadedCount / this.totalLoadCount * 100); },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    AppComponent.prototype.loadAssets = function () {
+	        this.loadFile('simple-usage', 'examples/simple-usage', 'simple-usage.component.ts');
+	        this.loadFile('simple-usage', 'examples/simple-usage', 'simple-usage.component.html', 'html');
+	        this.loadFile('simple-usage', 'examples/simple-window', 'simple-window.component.ts');
+	        this.loadFile('simple-usage', 'examples/simple-window', 'simple-window.component.html', 'html');
+	        this.simpleUsageFilename = 'simple-usage.component.ts';
+	        this.loadFile('without-service', 'examples/without-service', 'without-service.component.ts');
+	        this.loadFile('without-service', 'examples/without-service', 'without-service.component.html', 'html');
+	        this.withoutServiceFilename = 'without-service.component.ts';
+	        this.loadFile('access-flow', 'examples/access-flow', 'access-flow.component.ts');
+	        this.loadFile('access-flow', 'examples/access-flow', 'access-flow.component.html', 'html');
+	        this.loadFile('access-flow', 'examples/checked-window', 'checked-window.component.ts');
+	        this.loadFile('access-flow', 'examples/checked-window', 'checked-window.component.html', 'html');
+	        this.accessFlowFilename = 'access-flow.component.ts';
+	        this.loadFile('multi-floating-window', 'examples/multi-floating-window', 'multi-floating-window.component.ts');
+	        this.loadFile('multi-floating-window', 'examples/multi-floating-window', 'multi-floating-window.component.html', 'html');
+	        this.loadFile('multi-floating-window', 'examples/floating-window', 'floating-window.component.ts');
+	        this.loadFile('multi-floating-window', 'examples/floating-window', 'floating-window.component.html', 'html');
+	        this.MultiFloatingWindowFilename = 'multi-floating-window.component.ts';
+	        this.loadFile('confirm-dialog-usage', 'examples/confirm-dialog-usage', 'confirm-dialog-usage.component.ts');
+	        this.confirmDialogUsageFilename = 'confirm-dialog-usage.component.ts';
+	        this.loadFile('core-api', 'examples/api/core', 'window-view.service.d.ts');
+	        this.loadFile('core-api', 'examples/api/core', 'window-view-layer.service.d.ts');
+	        this.loadFile('core-api', 'examples/api/core', 'window-view-can-close.d.ts');
+	        this.loadFile('core-api', 'examples/api/core', 'window-view-has-result.d.ts');
+	        this.loadFile('core-api', 'examples/api/core/window-view-container', 'window-view-container.component.d.ts');
+	        this.loadFile('components-api', 'examples/api/components/confirm-dialog', 'confirm-dialog.component.d.ts');
+	    };
+	    AppComponent.prototype.fileList = function (group) {
+	        return Object.keys(this.files[group] || {});
+	    };
+	    AppComponent.prototype.loadFile = function (group, filepath, filename, type) {
+	        var _this = this;
+	        if (type === void 0) { type = 'typescript'; }
+	        this.totalLoadCount++;
+	        this.files[group] = this.files[group] || {};
+	        var loadFile = this.http.get(filepath + "/" + filename)
+	            .subscribe(function (response) {
+	            var file = response.text()
+	                .replace('../../../../src/components', 'ng2-window-view/components')
+	                .replace('../../../../src', 'ng2-window-view');
+	            _this.files[group][filename] = {
+	                html: Prism.highlight(file, Prism.languages[type]),
+	                type: type
+	            };
+	            _this.loadedCount++;
+	        }, function (error) { return console.warn(error); }, function () { return loadFile.unsubscribe(); });
+	    };
+	    AppComponent = __decorate([
+	        core_1.Component({
+	            selector: 'app-root',
+	            template: __webpack_require__(131),
+	            styles: [__webpack_require__(130)]
+	        }), 
+	        __metadata('design:paramtypes', [http_1.Http])
+	    ], AppComponent);
+	    return AppComponent;
+	}());
+	exports.AppComponent = AppComponent;
+	
+
+/***/ },
+
+/***/ 124:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var core_1 = __webpack_require__(5);
+	var Subject_1 = __webpack_require__(45);
+	var _1 = __webpack_require__(28);
+	var ConfirmDialogComponent = (function () {
+	    function ConfirmDialogComponent() {
+	        this.title = 'Confirm';
+	        this.confirmString = 'Ok';
+	        this.denyString = 'Cancel';
+	        this.size = 's';
+	        this.result = new core_1.EventEmitter();
+	        this.dismiss = new core_1.EventEmitter();
+	        this._result$ = new Subject_1.Subject();
+	    }
+	    Object.defineProperty(ConfirmDialogComponent.prototype, "result$", {
+	        get: function () { return this._result$.asObservable(); },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    ConfirmDialogComponent.prototype.confirm = function () {
+	        this._result$.next(true);
+	        this._result$.complete();
+	        this.result.emit({ target: this, result: true });
+	    };
+	    ConfirmDialogComponent.prototype.deny = function () {
+	        this._result$.next(false);
+	        this._result$.complete();
+	        this.result.emit({ target: this, result: false });
+	    };
+	    ConfirmDialogComponent.prototype.onClose = function () {
+	        this._result$.complete();
+	        this.dismiss.emit({ target: this });
+	    };
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], ConfirmDialogComponent.prototype, "title", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], ConfirmDialogComponent.prototype, "confirmString", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], ConfirmDialogComponent.prototype, "denyString", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], ConfirmDialogComponent.prototype, "content", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], ConfirmDialogComponent.prototype, "size", void 0);
+	    __decorate([
+	        core_1.Output(), 
+	        __metadata('design:type', core_1.EventEmitter)
+	    ], ConfirmDialogComponent.prototype, "result", void 0);
+	    __decorate([
+	        core_1.Output(), 
+	        __metadata('design:type', core_1.EventEmitter)
+	    ], ConfirmDialogComponent.prototype, "dismiss", void 0);
+	    __decorate([
+	        core_1.ViewChild(_1.WindowViewContainerComponent), 
+	        __metadata('design:type', _1.WindowViewContainerComponent)
+	    ], ConfirmDialogComponent.prototype, "windowViewContainer", void 0);
+	    ConfirmDialogComponent = __decorate([
+	        core_1.Component({
+	            selector: 'confirm-dialog',
+	            template: "\n  <window-view-container [heading]=\"title\"\n                         [size]=\"size\"\n                         (close)=\"onClose()\">\n\n    <div class=\"confirm-dialog-content\">\n      {{ content }}\n      <ng-content></ng-content>\n    </div>\n\n    <div panel-footer class=\"confirm-dialog-button-set\">\n      <button class=\"btn btn-primary\" (click)=\"confirm()\">\n        {{ confirmString }}\n      </button>\n\n      <button class=\"btn btn-default\" (click)=\"deny()\">\n        {{ denyString }}\n      </button>\n    </div>\n\n  </window-view-container>\n  ",
+	            styles: ["\n  .confirm-dialog-content {\n    margin: 12px;\n  }\n  .confirm-dialog-button-set {\n    margin: 0 auto;\n    text-align: center;\n  }\n  "]
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], ConfirmDialogComponent);
+	    return ConfirmDialogComponent;
+	}());
+	exports.ConfirmDialogComponent = ConfirmDialogComponent;
+	
+
+/***/ },
+
+/***/ 125:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var core_1 = __webpack_require__(5);
+	var window_view_service_1 = __webpack_require__(86);
+	var window_view_layer_service_1 = __webpack_require__(126);
+	var WindowViewContainerComponent = (function () {
+	    function WindowViewContainerComponent(windowView, windowViewLayer) {
+	        this.windowView = windowView;
+	        this.windowViewLayer = windowViewLayer;
+	        /**
+	         * Window title.
+	         *
+	         * Default: 'Untitled Window'
+	         */
+	        this.heading = 'Untitled Window';
+	        /**
+	         * Possible option:
+	         *  small, alias 's'
+	         *  middle, alias 'm'
+	         *  large, alias 'l'
+	         *  relative-small, alias 'rs'
+	         *  relative-middle, alias 'rm'
+	         *  relative-large, alias 'rl'
+	         *
+	         * Default: 'm'
+	         */
+	        this.size = 'M';
+	        /**
+	         * Prevent display transparent background.
+	         *
+	         * Default: true
+	         */
+	        this.showBackground = true;
+	        /**
+	         * Floating window, can be drag.
+	         *
+	         * Default: false
+	         */
+	        this.floating = false;
+	        /**
+	         * Panel class.
+	         *
+	         * Default: 'panel-default'
+	         */
+	        this.panelClass = 'panel-default';
+	        this.close = new core_1.EventEmitter();
+	        this.zIndex = 10;
+	        this.top = 0;
+	        this.left = 0;
+	        this.isMouseDown = false;
+	        this.isDragging = false;
+	        this.draggingRelativeLocation = { x: 0, y: 0 };
+	    }
+	    Object.defineProperty(WindowViewContainerComponent.prototype, "position", {
+	        get: function () { return { x: this.left, y: this.top }; },
+	        set: function (value) {
+	            this.top = value.y;
+	            this.left = value.x;
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(WindowViewContainerComponent.prototype, "hideContainer", {
+	        get: function () { return this.floating && !!this.windowViewLayer; },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(WindowViewContainerComponent.prototype, "sizeClass", {
+	        get: function () {
+	            switch (this.size.toLowerCase()) {
+	                case 's':
+	                case 'small': return 'size-small';
+	                case 'm':
+	                case 'middle': return 'size-middle';
+	                case 'l':
+	                case 'large': return 'size-large';
+	                case 'rs':
+	                case 'relative-small': return 'size-relative-small';
+	                case 'rm':
+	                case 'relative-middle': return 'size-relative-middle';
+	                case 'rl':
+	                case 'relative-large': return 'size-relative-large';
+	            }
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    WindowViewContainerComponent.prototype.ngOnInit = function () {
+	        if (typeof this.size !== 'string') {
+	            throw new Error('[WindowViewContainerComponent] property `size` has to be string.');
+	        }
+	        if (this.windowViewLayer) {
+	            this.windowViewLayer.add(this);
+	        }
+	    };
+	    WindowViewContainerComponent.prototype.ngOnDestroy = function () {
+	        if (this.windowViewLayer) {
+	            this.windowViewLayer.remove(this);
+	        }
+	    };
+	    WindowViewContainerComponent.prototype.closeWindow = function () {
+	        this.close.emit({ target: this });
+	        if (this.floating && this.windowViewLayer) {
+	            return;
+	        }
+	        if (this.windowView) {
+	            this.windowView.popWindow();
+	            return;
+	        }
+	    };
+	    WindowViewContainerComponent.prototype.onClickWindow = function () {
+	        if (this.floating && this.windowViewLayer) {
+	            this.windowViewLayer.bringToTop(this);
+	        }
+	    };
+	    WindowViewContainerComponent.prototype.onClickBackground = function ($event) {
+	        if ($event.currentTarget === $event.target) {
+	            this.closeWindow();
+	        }
+	    };
+	    WindowViewContainerComponent.prototype.onMouseDown = function (e) {
+	        this.isMouseDown = true;
+	        if (this.floating) {
+	            this.draggingRelativeLocation.x = e.offsetX;
+	            this.draggingRelativeLocation.y = e.offsetY;
+	        }
+	    };
+	    WindowViewContainerComponent.prototype.onMouseUp = function (e) {
+	        this.isMouseDown = false;
+	        this.isDragging = false;
+	    };
+	    WindowViewContainerComponent.prototype.onMouseMove = function (e) {
+	        if (this.isDragging) {
+	            this.left = e.clientX - this.draggingRelativeLocation.x;
+	            this.top = e.clientY - this.draggingRelativeLocation.y;
+	        }
+	        else if (this.isMouseDown && this.floating) {
+	            this.isDragging = true;
+	        }
+	    };
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], WindowViewContainerComponent.prototype, "heading", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], WindowViewContainerComponent.prototype, "size", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean)
+	    ], WindowViewContainerComponent.prototype, "showBackground", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean)
+	    ], WindowViewContainerComponent.prototype, "floating", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], WindowViewContainerComponent.prototype, "panelClass", void 0);
+	    __decorate([
+	        core_1.Output(), 
+	        __metadata('design:type', core_1.EventEmitter)
+	    ], WindowViewContainerComponent.prototype, "close", void 0);
+	    WindowViewContainerComponent = __decorate([
+	        core_1.Component({
+	            selector: 'window-view-container',
+	            template: "\n  <div class=\"window-container\"\n       [class.floating]=\"floating\"\n       [class.fixed]=\"!floating\"\n       [class.hide-container]=\"hideContainer\"\n       [style.z-index]=\"zIndex\">\n    <div class=\"window-background\" (click)=\"onClickBackground($event)\" *ngIf=\"showBackground\"></div>\n    <div class=\"panel {{ panelClass }} {{ sizeClass }}\"\n        [style.top]=\"top + 'px'\"\n        [style.left]=\"left + 'px'\"\n        (click)=\"onClickWindow()\">\n      <div class=\"panel-heading\"\n          (mousedown)=\"onMouseDown($event)\"\n          (mouseup)=\"onMouseUp($event)\"\n          (mouseleave)=\"onMouseUp($event)\"\n          (mousemove)=\"onMouseMove($event)\">\n        {{ heading }}\n        <ng-content select=\"[panel-heading]\"></ng-content>\n        <a class=\"btn-close\" (click)=\"closeWindow()\"><span class=\"glyphicon glyphicon-remove pull-right\"></span></a>\n      </div>\n      <div class=\"panel-body\">\n        <ng-content></ng-content>\n      </div>\n      <div class=\"panel-footer\">\n        <ng-content select=\"[panel-footer]\"></ng-content>\n      </div>\n    </div>\n  </div>\n  ",
+	            styles: ["\n  .window-container,\n  .window-background {\n    position: fixed;\n    overflow: auto;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n  }\n\n  .window-container.hide-container {\n    width: 0;\n    height: 0;\n  }\n\n  .window-background {\n    background-color: rgba(0,0,0,0.6);\n    z-index: -1;\n  }\n\n  .window-container.fixed .panel {\n    min-width: 20%;\n    margin: 4% auto;\n  }\n\n  .window-container.floating .panel {\n    min-width: 20%;\n    position: fixed;\n    box-shadow: 0px 6px 24px grey;\n  }\n\n  .panel.size-relative-large { width: 80%; }\n  .panel.size-relative-middle { width: 60%; }\n  .panel.size-relative-small { width: 40%; }\n  .panel.size-large { width: 1080px; }\n  .panel.size-middle { width: 720px; }\n  .panel.size-small { width: 360px; }\n\n  .panel-heading {\n    text-align: center;\n  }\n\n  .btn-close {\n    cursor: auto;\n  }\n\n  .window-container.floating .panel-heading {\n    cursor: move;\n  }\n  "]
+	        }),
+	        __param(0, core_1.Optional()),
+	        __param(1, core_1.Optional()), 
+	        __metadata('design:paramtypes', [window_view_service_1.WindowViewService, window_view_layer_service_1.WindowViewLayerService])
+	    ], WindowViewContainerComponent);
+	    return WindowViewContainerComponent;
+	}());
+	exports.WindowViewContainerComponent = WindowViewContainerComponent;
+	
+
+/***/ },
+
+/***/ 126:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var core_1 = __webpack_require__(5);
+	var WindowViewLayerService = (function () {
+	    function WindowViewLayerService() {
+	        /**
+	         * Order index is same as z-index.
+	         */
+	        this.windowViewContainers = [];
+	        /**
+	         * Z-Index of controled window view container will
+	         * always start at it.
+	         */
+	        this.zIndexStartAt = 10;
+	    }
+	    WindowViewLayerService.prototype.add = function (windowViewContainer) {
+	        this._add(windowViewContainer);
+	        this.setAllWindowViewContainersZIndex();
+	    };
+	    WindowViewLayerService.prototype.remove = function (windowViewContainer) {
+	        this._remove(windowViewContainer);
+	        this.setAllWindowViewContainersZIndex();
+	    };
+	    WindowViewLayerService.prototype.bringToTop = function (windowViewContainer) {
+	        this._remove(windowViewContainer);
+	        this._add(windowViewContainer);
+	        this.setAllWindowViewContainersZIndex();
+	    };
+	    WindowViewLayerService.prototype._add = function (windowViewContainer) {
+	        this.windowViewContainers.push(windowViewContainer);
+	    };
+	    WindowViewLayerService.prototype._remove = function (windowViewContainer) {
+	        var index = this.windowViewContainers.indexOf(windowViewContainer);
+	        this.windowViewContainers.splice(index, 1);
+	    };
+	    WindowViewLayerService.prototype.setAllWindowViewContainersZIndex = function () {
+	        var _this = this;
+	        this.windowViewContainers.forEach(function (windowViewContainer, index) {
+	            return windowViewContainer.zIndex = _this.zIndexStartAt + index;
+	        });
+	    };
+	    WindowViewLayerService = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [])
+	    ], WindowViewLayerService);
+	    return WindowViewLayerService;
+	}());
+	exports.WindowViewLayerService = WindowViewLayerService;
+	
+
+/***/ },
+
+/***/ 127:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var core_1 = __webpack_require__(5);
+	var window_view_service_1 = __webpack_require__(86);
+	var WindowViewOutletComponent = (function () {
+	    function WindowViewOutletComponent(viewContainerRef, windowView) {
+	        this.viewContainerRef = viewContainerRef;
+	        this.windowView = windowView;
+	    }
+	    WindowViewOutletComponent.prototype.ngAfterViewInit = function () {
+	        this.windowView.setOutlet(this.viewContainerRef);
+	    };
+	    WindowViewOutletComponent = __decorate([
+	        core_1.Component({
+	            selector: 'window-view-outlet',
+	            template: ''
+	        }), 
+	        __metadata('design:paramtypes', [core_1.ViewContainerRef, window_view_service_1.WindowViewService])
+	    ], WindowViewOutletComponent);
+	    return WindowViewOutletComponent;
+	}());
+	exports.WindowViewOutletComponent = WindowViewOutletComponent;
+	
+
+/***/ },
+
+/***/ 128:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var core_1 = __webpack_require__(5);
+	var common_1 = __webpack_require__(51);
+	var window_view_container_component_1 = __webpack_require__(125);
+	var window_view_outlet_component_1 = __webpack_require__(127);
+	var WindowViewModule = (function () {
+	    function WindowViewModule() {
+	    }
+	    WindowViewModule = __decorate([
+	        core_1.NgModule({
+	            imports: [
+	                common_1.CommonModule
+	            ],
+	            declarations: [
+	                window_view_container_component_1.WindowViewContainerComponent,
+	                window_view_outlet_component_1.WindowViewOutletComponent
+	            ],
+	            exports: [
+	                window_view_container_component_1.WindowViewContainerComponent,
+	                window_view_outlet_component_1.WindowViewOutletComponent
+	            ]
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], WindowViewModule);
+	    return WindowViewModule;
+	}());
+	exports.WindowViewModule = WindowViewModule;
+	
+
+/***/ },
+
+/***/ 130:
 /***/ function(module, exports) {
 
 	module.exports = "#wrapper {\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  flex-direction: column;\r\n}\r\n\r\nheader {\r\n  background-color: #247094;\r\n  color: #fff;\r\n}\r\n\r\na {\r\n  color: #37AAE0;\r\n}\r\n\r\n#main {\r\n  display: flex;\r\n}\r\n\r\naside,\r\n#page {\r\n  overflow: auto;\r\n}\r\n\r\n#page {\r\n  flex-grow: 1;\r\n}"
 
 /***/ },
 
-/***/ 133:
+/***/ 131:
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"wrapper\">\r\n\r\n  <header>\r\n    <h1>{{title}}</h1>\r\n    <div class=\"progress\" *ngIf=\"loadedCount < totalLoadCount\">\r\n      <div class=\"progress-bar\" role=\"progressbar\" [style.width]=\"loadPercent + '%'\">\r\n        {{ loadPercent }}%\r\n      </div>\r\n    </div>\r\n  </header>\r\n\r\n  <div id=\"main\">\r\n\r\n    <aside>\r\n      <nav>\r\n        <ul class=\"nav nav-pills nav-stacked\">\r\n          <li>Core Example</li>\r\n          <li role=\"presentation\"><a href=\"#simple-usage\">Simple Usage</a></li>\r\n          <li role=\"presentation\"><a href=\"#without-service\">Without Service</a></li>\r\n          <!--<li role=\"presentation\"><a href=\"#window-control\">Window Control</a></li>-->\r\n          <li role=\"presentation\"><a href=\"#access-flow\">Access Flow</a></li>\r\n          <li role=\"presentation\"><a href=\"#multi-floating-window\">Multi Floaing Window</a></li>\r\n          <li>Core API</li>\r\n          <li role=\"presentation\"><a href=\"#core-api-window-view-service\">WindowViewService</a></li>\r\n          <li role=\"presentation\"><a href=\"#core-api-window-view-layer-service\">WindowViewLayerService</a></li>\r\n          <li role=\"presentation\"><a href=\"#core-api-window-view-can-close\">WindowViewCanClose</a></li>\r\n          <li role=\"presentation\"><a href=\"#core-api-window-view-has-result\">WindowViewHasResult</a></li>\r\n          <li role=\"presentation\"><a href=\"#core-api-window-view-container\">WindowViewContainerComponent</a></li>\r\n\r\n          <hr>\r\n\r\n          <li>Components Example</li>\r\n          <li role=\"presentation\"><a href=\"#confirm-dialog-usage\">Confirm Dialog Usage</a></li>\r\n          <li>Components API</li>\r\n          <li role=\"presentation\"><a href=\"#components-api-confirm-dialog\">CondirmDialogComponent</a></li>\r\n          <li>Others</li>\r\n          <li role=\"presentation\"><a href=\"https://github.com/yujuiting/ng2-window-view\">Github</a></li>\r\n        </ul>\r\n      </nav>\r\n    </aside>\r\n\r\n    <div id=\"page\" class=\"container\">\r\n\r\n      <section id=\"import-module\" class=\"jumbotron\">\r\n        <h2>Import Module</h2>\r\n        <pre class=\"language-typescript\">\r\n\r\n        </pre>\r\n      </section>\r\n\r\n      <section id=\"simple-usage\" class=\"jumbotron\">\r\n        <h2>Simple Usage</h2>\r\n\r\n        <h3>Example</h3>\r\n        <app-simple-usage></app-simple-usage>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('simple-usage')\"\r\n              [class.active]=\"simpleUsageFilename === filename\">\r\n            <a (click)=\"simpleUsageFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['simple-usage'][simpleUsageFilename]?.type\"\r\n             [innerHTML]=\"files['simple-usage'][simpleUsageFilename]?.html\"></pre>\r\n      </section>\r\n\r\n      <section id=\"without-service\" class=\"jumbotron\">\r\n        <h2>Without Service</h2>\r\n\r\n        <h3>Example</h3>\r\n        <app-without-service></app-without-service>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('without-service')\"\r\n              [class.active]=\"withoutServiceFilename === filename\">\r\n            <a (click)=\"withoutServiceFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['without-service'][withoutServiceFilename]?.type\"\r\n             [innerHTML]=\"files['without-service'][withoutServiceFilename]?.html\"></pre>\r\n      </section>\r\n\r\n      <!--<section id=\"window-control\" class=\"jumbotron\">\r\n        <h2>Window Control</h2>\r\n\r\n        <h3>Example</h3>\r\n        <window-control></window-control>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('window-control')\"\r\n              [class.active]=\"windowControlFilename === filename\">\r\n            <a (click)=\"windowControlFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['window-control'][windowControlFilename]?.type\"\r\n             [innerHTML]=\"files['window-control'][windowControlFilename]?.html\"></pre>\r\n      </section>-->\r\n\r\n      <section id=\"access-flow\" class=\"jumbotron\">\r\n        <h2>Access Flow</h2>\r\n\r\n        <h3>Example</h3>\r\n        <app-access-flow></app-access-flow>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('access-flow')\"\r\n              [class.active]=\"accessFlowFilename === filename\">\r\n            <a (click)=\"accessFlowFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['access-flow'][accessFlowFilename]?.type\"\r\n             [innerHTML]=\"files['access-flow'][accessFlowFilename]?.html\"></pre>\r\n      </section>\r\n\r\n      <section id=\"multi-floating-window\" class=\"jumbotron\">\r\n        <h2>Multi Floating Window</h2>\r\n\r\n        <h3>Example</h3>\r\n        <app-multi-floating-window></app-multi-floating-window>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('multi-floating-window')\"\r\n              [class.active]=\"MultiFloatingWindowFilename === filename\">\r\n            <a (click)=\"MultiFloatingWindowFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['multi-floating-window']?.type\"\r\n             [innerHTML]=\"files['multi-floating-window'][MultiFloatingWindowFilename]?.html\"></pre>\r\n      </section>\r\n\r\n      <section id=\"core-api\" class=\"jumbotron\">\r\n        <h2>Core API</h2>\r\n\r\n        <h3 id=\"core-api-window-view-service\">WindowViewService</h3>\r\n        <pre [class]=\"'language-' + files['core-api']['window-view.service.d.ts']?.type\"\r\n             [innerHTML]=\"files['core-api']['window-view.service.d.ts']?.html\"></pre>\r\n\r\n        <h3 id=\"core-api-window-view-layer-service\">WindowViewLayerService</h3>\r\n        <pre [class]=\"'language-' + files['core-api']['window-view-layer.service.d.ts']?.type\"\r\n             [innerHTML]=\"files['core-api']['window-view-layer.service.d.ts']?.html\"></pre>\r\n\r\n        <h3 id=\"core-api-window-view-can-close\">WindowViewCanClose</h3>\r\n        <pre [class]=\"'language-' + files['core-api']['window-view-can-close.d.ts']?.type\"\r\n             [innerHTML]=\"files['core-api']['window-view-can-close.d.ts']?.html\"></pre>\r\n        \r\n        <h3 id=\"core-api-window-view-has-result\">WindowViewHasResult</h3>\r\n        <pre [class]=\"'language-' + files['core-api']['window-view-has-result.d.ts']?.type\"\r\n             [innerHTML]=\"files['core-api']['window-view-has-result.d.ts']?.html\"></pre>\r\n\r\n        <h3 id=\"core-api-window-view-container\">WindowViewContainer</h3>\r\n        <pre [class]=\"'language-' + files['core-api']['window-view-container.component.d.ts']?.type\"\r\n             [innerHTML]=\"files['core-api']['window-view-container.component.d.ts']?.html\"></pre>\r\n\r\n      </section>\r\n\r\n      <hr>\r\n\r\n      <section id=\"confirm-dialog-usage\" class=\"jumbotron\">\r\n        <h2>Confirm Dialog</h2>\r\n\r\n        <h3>Example</h3>\r\n        <app-confirm-dialog-usage></app-confirm-dialog-usage>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('confirm-dialog-usage')\"\r\n              [class.active]=\"confirmDialogUsageFilename === filename\">\r\n            <a (click)=\"confirmDialogUsageFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['confirm-dialog-usage']?.type\"\r\n             [innerHTML]=\"files['confirm-dialog-usage'][confirmDialogUsageFilename]?.html\"></pre>\r\n      </section>\r\n\r\n      <section id=\"components-api\" class=\"jumbotron\">\r\n        <h2>Components API</h2>\r\n\r\n        <h3 id=\"components-api-confirm-dialog\">ConfirmDialogComponent</h3>\r\n        <pre [class]=\"'language-' + files['components-api']['confirm-dialog.component.d.ts']?.type\"\r\n             [innerHTML]=\"files['components-api']['confirm-dialog.component.d.ts']?.html\"></pre>\r\n\r\n      </section>\r\n\r\n    </div>\r\n\r\n  </div>\r\n\r\n</div>"
+	module.exports = "<div id=\"wrapper\">\r\n\r\n  <header>\r\n    <h1>{{title}}</h1>\r\n    <div class=\"progress\" *ngIf=\"loadedCount < totalLoadCount\">\r\n      <div class=\"progress-bar\" role=\"progressbar\" [style.width]=\"loadPercent + '%'\">\r\n        {{ loadPercent }}%\r\n      </div>\r\n    </div>\r\n  </header>\r\n\r\n  <div id=\"main\">\r\n\r\n    <aside>\r\n      <nav>\r\n        <ul class=\"nav nav-pills nav-stacked\">\r\n          <li>Core Example</li>\r\n          <li role=\"presentation\"><a href=\"#simple-usage\">Simple Usage</a></li>\r\n          <li role=\"presentation\"><a href=\"#without-service\">Without Service</a></li>\r\n          <!--<li role=\"presentation\"><a href=\"#window-control\">Window Control</a></li>-->\r\n          <li role=\"presentation\"><a href=\"#access-flow\">Access Flow</a></li>\r\n          <li role=\"presentation\"><a href=\"#multi-floating-window\">Multi Floaing Window</a></li>\r\n          <li>Core API</li>\r\n          <li role=\"presentation\"><a href=\"#core-api-window-view-service\">WindowViewService</a></li>\r\n          <li role=\"presentation\"><a href=\"#core-api-window-view-layer-service\">WindowViewLayerService</a></li>\r\n          <li role=\"presentation\"><a href=\"#core-api-window-view-can-close\">WindowViewCanClose</a></li>\r\n          <li role=\"presentation\"><a href=\"#core-api-window-view-has-result\">WindowViewHasResult</a></li>\r\n          <li role=\"presentation\"><a href=\"#core-api-window-view-container\">WindowViewContainerComponent</a></li>\r\n\r\n          <hr>\r\n\r\n          <li>Components Example</li>\r\n          <li role=\"presentation\"><a href=\"#confirm-dialog-usage\">Confirm Dialog Usage</a></li>\r\n          <li>Components API</li>\r\n          <li role=\"presentation\"><a href=\"#components-api-confirm-dialog\">CondirmDialogComponent</a></li>\r\n          <li>Others</li>\r\n          <li role=\"presentation\"><a href=\"https://github.com/yujuiting/ng2-window-view\">Github</a></li>\r\n        </ul>\r\n      </nav>\r\n    </aside>\r\n\r\n    <div id=\"page\" class=\"container\">\r\n\r\n      <section id=\"import-module\" class=\"jumbotron\">\r\n        <h2>Import Module</h2>\r\n        <pre class=\"language-typescript\"\r\n             [innerHTML]=\"importModuleExample\"></pre>\r\n      </section>\r\n\r\n      <section id=\"simple-usage\" class=\"jumbotron\">\r\n        <h2>Simple Usage</h2>\r\n\r\n        <h3>Example</h3>\r\n        <app-simple-usage></app-simple-usage>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('simple-usage')\"\r\n              [class.active]=\"simpleUsageFilename === filename\">\r\n            <a (click)=\"simpleUsageFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['simple-usage'][simpleUsageFilename]?.type\"\r\n             [innerHTML]=\"files['simple-usage'][simpleUsageFilename]?.html\"></pre>\r\n      </section>\r\n\r\n      <section id=\"without-service\" class=\"jumbotron\">\r\n        <h2>Without Service</h2>\r\n\r\n        <h3>Example</h3>\r\n        <app-without-service></app-without-service>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('without-service')\"\r\n              [class.active]=\"withoutServiceFilename === filename\">\r\n            <a (click)=\"withoutServiceFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['without-service'][withoutServiceFilename]?.type\"\r\n             [innerHTML]=\"files['without-service'][withoutServiceFilename]?.html\"></pre>\r\n      </section>\r\n\r\n      <!--<section id=\"window-control\" class=\"jumbotron\">\r\n        <h2>Window Control</h2>\r\n\r\n        <h3>Example</h3>\r\n        <window-control></window-control>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('window-control')\"\r\n              [class.active]=\"windowControlFilename === filename\">\r\n            <a (click)=\"windowControlFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['window-control'][windowControlFilename]?.type\"\r\n             [innerHTML]=\"files['window-control'][windowControlFilename]?.html\"></pre>\r\n      </section>-->\r\n\r\n      <section id=\"access-flow\" class=\"jumbotron\">\r\n        <h2>Access Flow</h2>\r\n\r\n        <h3>Example</h3>\r\n        <app-access-flow></app-access-flow>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('access-flow')\"\r\n              [class.active]=\"accessFlowFilename === filename\">\r\n            <a (click)=\"accessFlowFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['access-flow'][accessFlowFilename]?.type\"\r\n             [innerHTML]=\"files['access-flow'][accessFlowFilename]?.html\"></pre>\r\n      </section>\r\n\r\n      <section id=\"multi-floating-window\" class=\"jumbotron\">\r\n        <h2>Multi Floating Window</h2>\r\n\r\n        <h3>Example</h3>\r\n        <app-multi-floating-window></app-multi-floating-window>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('multi-floating-window')\"\r\n              [class.active]=\"MultiFloatingWindowFilename === filename\">\r\n            <a (click)=\"MultiFloatingWindowFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['multi-floating-window']?.type\"\r\n             [innerHTML]=\"files['multi-floating-window'][MultiFloatingWindowFilename]?.html\"></pre>\r\n      </section>\r\n\r\n      <section id=\"core-api\" class=\"jumbotron\">\r\n        <h2>Core API</h2>\r\n\r\n        <h3 id=\"core-api-window-view-service\">WindowViewService</h3>\r\n        <pre [class]=\"'language-' + files['core-api']['window-view.service.d.ts']?.type\"\r\n             [innerHTML]=\"files['core-api']['window-view.service.d.ts']?.html\"></pre>\r\n\r\n        <h3 id=\"core-api-window-view-layer-service\">WindowViewLayerService</h3>\r\n        <pre [class]=\"'language-' + files['core-api']['window-view-layer.service.d.ts']?.type\"\r\n             [innerHTML]=\"files['core-api']['window-view-layer.service.d.ts']?.html\"></pre>\r\n\r\n        <h3 id=\"core-api-window-view-can-close\">WindowViewCanClose</h3>\r\n        <pre [class]=\"'language-' + files['core-api']['window-view-can-close.d.ts']?.type\"\r\n             [innerHTML]=\"files['core-api']['window-view-can-close.d.ts']?.html\"></pre>\r\n        \r\n        <h3 id=\"core-api-window-view-has-result\">WindowViewHasResult</h3>\r\n        <pre [class]=\"'language-' + files['core-api']['window-view-has-result.d.ts']?.type\"\r\n             [innerHTML]=\"files['core-api']['window-view-has-result.d.ts']?.html\"></pre>\r\n\r\n        <h3 id=\"core-api-window-view-container\">WindowViewContainer</h3>\r\n        <pre [class]=\"'language-' + files['core-api']['window-view-container.component.d.ts']?.type\"\r\n             [innerHTML]=\"files['core-api']['window-view-container.component.d.ts']?.html\"></pre>\r\n\r\n      </section>\r\n\r\n      <hr>\r\n\r\n      <section id=\"confirm-dialog-usage\" class=\"jumbotron\">\r\n        <h2>Confirm Dialog</h2>\r\n\r\n        <h3>Example</h3>\r\n        <app-confirm-dialog-usage></app-confirm-dialog-usage>\r\n\r\n        <h3>Code</h3>\r\n        <ul class=\"nav nav-tabs\">\r\n          <li role=\"presentation\"\r\n              *ngFor=\"let filename of fileList('confirm-dialog-usage')\"\r\n              [class.active]=\"confirmDialogUsageFilename === filename\">\r\n            <a (click)=\"confirmDialogUsageFilename = filename\">{{ filename }}</a>\r\n          </li>\r\n        </ul>\r\n        <pre [class]=\"'language-' + files['confirm-dialog-usage']?.type\"\r\n             [innerHTML]=\"files['confirm-dialog-usage'][confirmDialogUsageFilename]?.html\"></pre>\r\n      </section>\r\n\r\n      <section id=\"components-api\" class=\"jumbotron\">\r\n        <h2>Components API</h2>\r\n\r\n        <h3 id=\"components-api-confirm-dialog\">ConfirmDialogComponent</h3>\r\n        <pre [class]=\"'language-' + files['components-api']['confirm-dialog.component.d.ts']?.type\"\r\n             [innerHTML]=\"files['components-api']['confirm-dialog.component.d.ts']?.html\"></pre>\r\n\r\n      </section>\r\n\r\n    </div>\r\n\r\n  </div>\r\n\r\n</div>"
 
 /***/ },
 
-/***/ 134:
+/***/ 132:
 /***/ function(module, exports) {
 
 	module.exports = "<button class=\"btn btn-default\" (click)=\"openWindow()\">Open Window</button>\n<div *ngIf=\"!!username\">\n  Hello, {{ username }}!\n</div>\n<window-view-outlet></window-view-outlet>"
 
 /***/ },
 
-/***/ 135:
+/***/ 133:
 /***/ function(module, exports) {
 
 	module.exports = "<window-view-container [heading]=\"title\" size=\"s\">\n  <div class=\"form-group\">\n    <label>username?</label>\n    <input class=\"form-control\" [(ngModel)]=\"username\" type=\"string\" placeholder=\"Please enter your username\">\n    <div class=\"alert alert-danger\" *ngIf=\"!!alert\">{{ alert }}</div>\n  </div>\n\n  <div panel-footer>\n    <button class=\"btn btn-default\" (click)=\"submit()\">Submit</button>\n  </div>\n</window-view-container>"
 
 /***/ },
 
-/***/ 136:
+/***/ 134:
 /***/ function(module, exports) {
 
 	module.exports = "<window-view-container [heading]=\"title\"\n                       size=\"s\"\n                       [floating]=\"floating\"\n                       [showBackground]=\"showBackground\"\n                       (close)=\"closeWindow()\">\n</window-view-container>"
 
 /***/ },
 
-/***/ 137:
+/***/ 135:
 /***/ function(module, exports) {
 
 	module.exports = "<button class=\"btn btn-default\" (click)=\"openWindow()\">Open Window</button>\n\n<window-view-outlet></window-view-outlet>"
 
 /***/ },
 
-/***/ 138:
+/***/ 136:
 /***/ function(module, exports) {
 
 	module.exports = "<button class=\"btn btn-default\" (click)=\"openWindow()\">Open Window</button>\n\n<div class=\"form-group\">\n  <label>Title</label>\n  <input class=\"form-control\" [(ngModel)]=\"title\" type=\"string\">\n</div>\n\n<div class=\"checkbox\">\n  <label>\n    <input type=\"checkbox\" [(ngModel)]=\"isFloatingWindow\">\n    Floating window\n  </label>\n</div>\n\n<div class=\"checkbox\">\n  <label>\n    <input type=\"checkbox\" [(ngModel)]=\"showBackground\">\n    Show background\n  </label>\n</div>\n\n<div class=\"form-group\">\n  <label>Window size</label>\n  <select class=\"form-control\" [(ngModel)]=\"windowSize\">\n    <option value=\"small\">small</option>\n    <option value=\"middle\">middle</option>\n    <option value=\"large\">large</option>\n    <option value=\"relative-small\">relative-small</option>\n    <option value=\"relative-middle\">relative-middle</option>\n    <option value=\"relative-large\">relative-large</option>\n  </select>\n</div>\n\n<div class=\"form-group\">\n  <label>Panel class</label>\n  <select class=\"form-control\" [(ngModel)]=\"panelClass\">\n    <option value=\"panel-default\">panel-default</option>\n    <option value=\"panel-primary\">panel-primary</option>\n    <option value=\"panel-success\">panel-success</option>\n    <option value=\"panel-info\">panel-info</option>\n    <option value=\"panel-warning\">panel-warning</option>\n    <option value=\"panel-danger\">panel-danger</option>\n  </select>\n</div>\n<window-view-outlet></window-view-outlet>"
 
 /***/ },
 
-/***/ 139:
+/***/ 137:
 /***/ function(module, exports) {
 
 	module.exports = "<window-view-container [heading]=\"title\"\n                       [size]=\"windowSize\"\n                       [floating]=\"isFloatingWindow\"\n                       [showBackground]=\"showBackground\"\n                       [panelClass]=\"panelClass\">\n  It's a window!\n\n  <div class=\"form-group\">\n    <label>Title</label>\n    <input class=\"form-control\" [(ngModel)]=\"title\" type=\"string\">\n  </div>\n\n  <div class=\"checkbox\">\n    <label>\n      <input type=\"checkbox\" [(ngModel)]=\"isFloatingWindow\">\n      Floating window\n    </label>\n  </div>\n\n  <div class=\"checkbox\">\n    <label>\n      <input type=\"checkbox\" [(ngModel)]=\"showBackground\">\n      Show background\n    </label>\n  </div>\n\n  <div class=\"form-group\">\n    <label>Window size</label>\n    <select class=\"form-control\" [(ngModel)]=\"windowSize\">\n      <option value=\"small\">small</option>\n      <option value=\"middle\">middle</option>\n      <option value=\"large\">large</option>\n      <option value=\"relative-small\">relative-small</option>\n      <option value=\"relative-middle\">relative-middle</option>\n      <option value=\"relative-large\">relative-large</option>\n    </select>\n  </div>\n\n  <div class=\"form-group\">\n    <label>Panel class</label>\n    <select class=\"form-control\" [(ngModel)]=\"panelClass\">\n      <option value=\"panel-default\">panel-default</option>\n      <option value=\"panel-primary\">panel-primary</option>\n      <option value=\"panel-success\">panel-success</option>\n      <option value=\"panel-info\">panel-info</option>\n      <option value=\"panel-warning\">panel-warning</option>\n      <option value=\"panel-danger\">panel-danger</option>\n    </select>\n  </div>\n\n  <button class=\"btn btn-default\" (click)=\"openWindow()\">Open anothor window</button>\n</window-view-container>"
 
 /***/ },
 
-/***/ 140:
+/***/ 138:
 /***/ function(module, exports) {
 
 	module.exports = "<button class=\"btn btn-default\" (click)=\"showWindow = true\">Open Window</button>\n\n<window-view-container *ngIf=\"showWindow\"\n                       (close)=\"showWindow = false\">\n  No Service!!\n\n</window-view-container>"
 
 /***/ },
 
-/***/ 142:
+/***/ 140:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7482,17 +7437,17 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 143:
+/***/ 141:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var PromiseObservable_1 = __webpack_require__(142);
+	var PromiseObservable_1 = __webpack_require__(140);
 	exports.fromPromise = PromiseObservable_1.PromiseObservable.create;
 	//# sourceMappingURL=fromPromise.js.map
 
 /***/ },
 
-/***/ 144:
+/***/ 142:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7521,24 +7476,24 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 311:
+/***/ 310:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var core_1 = __webpack_require__(5);
-	var platform_browser_1 = __webpack_require__(51);
-	var http_1 = __webpack_require__(86);
-	var forms_1 = __webpack_require__(131);
+	var platform_browser_1 = __webpack_require__(53);
+	var http_1 = __webpack_require__(87);
+	var forms_1 = __webpack_require__(52);
 	var src_1 = __webpack_require__(28);
-	var components_1 = __webpack_require__(319);
-	var app_component_1 = __webpack_require__(122);
-	var access_flow_component_1 = __webpack_require__(313);
-	var checked_window_component_1 = __webpack_require__(123);
-	var floating_window_component_1 = __webpack_require__(124);
-	var multi_floating_window_component_1 = __webpack_require__(315);
-	var simple_usage_component_1 = __webpack_require__(316);
-	var simple_window_component_1 = __webpack_require__(125);
-	var without_service_component_1 = __webpack_require__(317);
+	var components_1 = __webpack_require__(321);
+	var app_component_1 = __webpack_require__(123);
+	var access_flow_component_1 = __webpack_require__(312);
+	// import { CheckedWindowComponent } from './shared/checked-window/checked-window.component';
+	// import { FloatingWindowComponent } from './shared/floating-window/floating-window.component';
+	var multi_floating_window_component_1 = __webpack_require__(316);
+	var simple_usage_component_1 = __webpack_require__(317);
+	// import { SimpleWindowComponent } from './shared/simple-window/simple-window.component';
+	var without_service_component_1 = __webpack_require__(319);
 	var confirm_dialog_usage_component_1 = __webpack_require__(314);
 	var AppModule = (function () {
 	    function AppModule() {
@@ -7548,11 +7503,11 @@ webpackJsonp([1],{
 	            declarations: [
 	                app_component_1.AppComponent,
 	                access_flow_component_1.AccessFlowComponent,
-	                checked_window_component_1.CheckedWindowComponent,
-	                floating_window_component_1.FloatingWindowComponent,
+	                // CheckedWindowComponent,
+	                // FloatingWindowComponent,
 	                multi_floating_window_component_1.MultiFloatingWindowComponent,
 	                simple_usage_component_1.SimpleUsageComponent,
-	                simple_window_component_1.SimpleWindowComponent,
+	                // SimpleWindowComponent,
 	                without_service_component_1.WithoutServiceComponent,
 	                confirm_dialog_usage_component_1.ConfirmDialogUsageComponent
 	            ],
@@ -7563,11 +7518,7 @@ webpackJsonp([1],{
 	                src_1.WindowViewModule,
 	                components_1.WindowViewComponentModule
 	            ],
-	            entryComponents: [
-	                checked_window_component_1.CheckedWindowComponent,
-	                floating_window_component_1.FloatingWindowComponent,
-	                simple_window_component_1.SimpleWindowComponent
-	            ],
+	            entryComponents: [],
 	            providers: [],
 	            bootstrap: [app_component_1.AppComponent]
 	        }), 
@@ -7580,15 +7531,49 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 312:
+/***/ 311:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(122));
-	__export(__webpack_require__(311));
+	__export(__webpack_require__(123));
+	__export(__webpack_require__(310));
+	
+
+/***/ },
+
+/***/ 312:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var core_1 = __webpack_require__(5);
+	var common_1 = __webpack_require__(51);
+	var forms_1 = __webpack_require__(52);
+	var src_1 = __webpack_require__(28);
+	var checked_window_component_1 = __webpack_require__(313);
+	var AccessFlowComponent = (function () {
+	    function AccessFlowComponent(windowView) {
+	        this.windowView = windowView;
+	    }
+	    AccessFlowComponent.prototype.openWindow = function () {
+	        var _this = this;
+	        this.windowView.pushUnwrapDynamicWindow(checked_window_component_1.CheckedWindowComponent, { imports: [forms_1.FormsModule, common_1.CommonModule] }).then(function (checkedWindow) {
+	            var waitResult = checkedWindow.result$.subscribe(function (username) { return _this.username = username; }, function () { return delete _this.username; }, function () { return waitResult.unsubscribe(); });
+	        });
+	    };
+	    AccessFlowComponent = __decorate([
+	        core_1.Component({
+	            selector: 'app-access-flow',
+	            template: __webpack_require__(132),
+	            providers: [src_1.WindowViewService]
+	        }), 
+	        __metadata('design:paramtypes', [src_1.WindowViewService])
+	    ], AccessFlowComponent);
+	    return AccessFlowComponent;
+	}());
+	exports.AccessFlowComponent = AccessFlowComponent;
 	
 
 /***/ },
@@ -7598,28 +7583,46 @@ webpackJsonp([1],{
 
 	"use strict";
 	var core_1 = __webpack_require__(5);
+	var Subject_1 = __webpack_require__(45);
 	var src_1 = __webpack_require__(28);
-	var checked_window_component_1 = __webpack_require__(123);
-	var AccessFlowComponent = (function () {
-	    function AccessFlowComponent(windowView) {
-	        this.windowView = windowView;
+	var CheckedWindowComponent = (function () {
+	    function CheckedWindowComponent() {
+	        this.title = 'Simple Window';
+	        this.username = '';
+	        this._result$ = new Subject_1.Subject();
 	    }
-	    AccessFlowComponent.prototype.openWindow = function () {
-	        var _this = this;
-	        var checkedWindow = this.windowView.pushWindow(checked_window_component_1.CheckedWindowComponent);
-	        var waitResult = checkedWindow.result$.subscribe(function (username) { return _this.username = username; }, function () { return delete _this.username; }, function () { return waitResult.unsubscribe(); });
+	    Object.defineProperty(CheckedWindowComponent.prototype, "result$", {
+	        get: function () { return this._result$.asObservable(); },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    CheckedWindowComponent.prototype.windowViewCanClose = function () {
+	        if (this.username.length === 0) {
+	            this.alert = 'Username can not be blank.';
+	            return false;
+	        }
+	        this._result$.next(this.username);
+	        this._result$.complete();
+	        return true;
 	    };
-	    AccessFlowComponent = __decorate([
+	    CheckedWindowComponent.prototype.submit = function () {
+	        delete this.alert;
+	        this.windowViewContainer.closeWindow();
+	    };
+	    __decorate([
+	        core_1.ViewChild(src_1.WindowViewContainerComponent), 
+	        __metadata('design:type', src_1.WindowViewContainerComponent)
+	    ], CheckedWindowComponent.prototype, "windowViewContainer", void 0);
+	    CheckedWindowComponent = __decorate([
 	        core_1.Component({
-	            selector: 'app-access-flow',
-	            template: __webpack_require__(134),
-	            providers: [src_1.WindowViewService]
+	            selector: 'app-checked-window',
+	            template: __webpack_require__(133)
 	        }), 
-	        __metadata('design:paramtypes', [src_1.WindowViewService])
-	    ], AccessFlowComponent);
-	    return AccessFlowComponent;
+	        __metadata('design:paramtypes', [])
+	    ], CheckedWindowComponent);
+	    return CheckedWindowComponent;
 	}());
-	exports.AccessFlowComponent = AccessFlowComponent;
+	exports.CheckedWindowComponent = CheckedWindowComponent;
 	
 
 /***/ },
@@ -7675,24 +7678,83 @@ webpackJsonp([1],{
 	"use strict";
 	var core_1 = __webpack_require__(5);
 	var src_1 = __webpack_require__(28);
-	var floating_window_component_1 = __webpack_require__(124);
+	var FloatingWindowComponent = (function () {
+	    function FloatingWindowComponent(windowView) {
+	        this.windowView = windowView;
+	        /**
+	         * Following setting are necessary.
+	         *
+	         * 1. If enable `floating` and provide `WindowViewLayerService`,
+	         *    `WindowViewContainerComponent` will auto hide it's container.
+	         *    Without container, user can touch anything under that window view.
+	         *
+	         * 2. Click on background of `WindowViewContainerComponent` will trigger
+	         *    close event. For multi-floating-window case, we have to disable it.
+	         */
+	        this.floating = true;
+	        this.showBackground = false;
+	        this.title = "Floating Window " + windowView.length;
+	    }
+	    Object.defineProperty(FloatingWindowComponent.prototype, "position", {
+	        /**
+	         * Passby property position for setup
+	         */
+	        get: function () { return this.windowViewContainer.position; },
+	        set: function (value) { this.windowViewContainer.position = value; },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    FloatingWindowComponent.prototype.closeWindow = function () {
+	        /**
+	         * Because order of closing window no longer stable.
+	         * We have remove window with specific target.
+	         */
+	        this.windowView.removeByInstance(this);
+	    };
+	    __decorate([
+	        core_1.ViewChild(src_1.WindowViewContainerComponent), 
+	        __metadata('design:type', src_1.WindowViewContainerComponent)
+	    ], FloatingWindowComponent.prototype, "windowViewContainer", void 0);
+	    FloatingWindowComponent = __decorate([
+	        core_1.Component({
+	            selector: 'app-floating-window',
+	            template: __webpack_require__(134)
+	        }), 
+	        __metadata('design:paramtypes', [src_1.WindowViewService])
+	    ], FloatingWindowComponent);
+	    return FloatingWindowComponent;
+	}());
+	exports.FloatingWindowComponent = FloatingWindowComponent;
+	
+
+/***/ },
+
+/***/ 316:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var core_1 = __webpack_require__(5);
+	var src_1 = __webpack_require__(28);
+	var floating_window_component_1 = __webpack_require__(315);
 	var MultiFloatingWindowComponent = (function () {
 	    function MultiFloatingWindowComponent(windowView) {
 	        this.windowView = windowView;
 	    }
 	    MultiFloatingWindowComponent.prototype.openWindow = function () {
-	        var simpleWindow = this.windowView.pushWindow(floating_window_component_1.FloatingWindowComponent);
-	        var lastWindow = this.windowView.getInstanceAt(this.windowView.length - 2);
-	        if (lastWindow) {
-	            var position = lastWindow.position;
-	            position.x += 400;
-	            simpleWindow.position = position;
-	        }
+	        var _this = this;
+	        this.windowView.pushUnwrapDynamicWindow(floating_window_component_1.FloatingWindowComponent).then(function (simpleWindow) {
+	            var lastWindow = _this.windowView.getInstanceAt(_this.windowView.length - 2);
+	            if (lastWindow) {
+	                var position = lastWindow.position;
+	                position.x += 400;
+	                simpleWindow.position = position;
+	            }
+	        });
 	    };
 	    MultiFloatingWindowComponent = __decorate([
 	        core_1.Component({
 	            selector: 'app-multi-floating-window',
-	            template: __webpack_require__(137),
+	            template: __webpack_require__(135),
 	            providers: [
 	                src_1.WindowViewService,
 	                src_1.WindowViewLayerService
@@ -7707,13 +7769,14 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 316:
+/***/ 317:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var core_1 = __webpack_require__(5);
 	var src_1 = __webpack_require__(28);
-	var simple_window_component_1 = __webpack_require__(125);
+	var simple_window_component_1 = __webpack_require__(318);
+	var forms_1 = __webpack_require__(52);
 	var SimpleUsageComponent = (function () {
 	    function SimpleUsageComponent(windowView) {
 	        this.windowView = windowView;
@@ -7724,17 +7787,21 @@ webpackJsonp([1],{
 	        this.panelClass = 'panel-default';
 	    }
 	    SimpleUsageComponent.prototype.openWindow = function () {
-	        var simpleWindow = this.windowView.pushWindow(simple_window_component_1.SimpleWindowComponent);
-	        simpleWindow.title = this.title;
-	        simpleWindow.isFloatingWindow = this.isFloatingWindow;
-	        simpleWindow.showBackground = this.showBackground;
-	        simpleWindow.windowSize = this.windowSize;
-	        simpleWindow.panelClass = this.panelClass;
+	        var _this = this;
+	        this.windowView.pushUnwrapDynamicWindow(simple_window_component_1.SimpleWindowComponent, {
+	            imports: [forms_1.FormsModule]
+	        }).then(function (simpleWindow) {
+	            simpleWindow.title = _this.title;
+	            simpleWindow.isFloatingWindow = _this.isFloatingWindow;
+	            simpleWindow.showBackground = _this.showBackground;
+	            simpleWindow.windowSize = _this.windowSize;
+	            simpleWindow.panelClass = _this.panelClass;
+	        });
 	    };
 	    SimpleUsageComponent = __decorate([
 	        core_1.Component({
 	            selector: 'app-simple-usage',
-	            template: __webpack_require__(138),
+	            template: __webpack_require__(136),
 	            providers: [src_1.WindowViewService]
 	        }), 
 	        __metadata('design:paramtypes', [src_1.WindowViewService])
@@ -7746,7 +7813,60 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 317:
+/***/ 318:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var core_1 = __webpack_require__(5);
+	var src_1 = __webpack_require__(28);
+	var forms_1 = __webpack_require__(52);
+	var SimpleWindowComponent = (function () {
+	    function SimpleWindowComponent(windowView) {
+	        this.windowView = windowView;
+	        this.title = 'Simple Window';
+	        this.isFloatingWindow = false;
+	        this.showBackground = true;
+	        this.windowSize = 'small';
+	        this.panelClass = 'panel-default';
+	    }
+	    Object.defineProperty(SimpleWindowComponent.prototype, "position", {
+	        get: function () { return this.windowViewContainer.position; },
+	        set: function (value) { this.windowViewContainer.position = value; },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    SimpleWindowComponent.prototype.openWindow = function () {
+	        var _this = this;
+	        // this.windowView.pushWindow(SimpleWindowComponent);
+	        this.windowView.pushUnwrapDynamicWindow(SimpleWindowComponent, {
+	            imports: [forms_1.FormsModule]
+	        }).then(function (simpleWindow) {
+	            simpleWindow.title = _this.title;
+	            simpleWindow.isFloatingWindow = _this.isFloatingWindow;
+	            simpleWindow.showBackground = _this.showBackground;
+	            simpleWindow.windowSize = _this.windowSize;
+	            simpleWindow.panelClass = _this.panelClass;
+	        });
+	    };
+	    __decorate([
+	        core_1.ViewChild(src_1.WindowViewContainerComponent), 
+	        __metadata('design:type', src_1.WindowViewContainerComponent)
+	    ], SimpleWindowComponent.prototype, "windowViewContainer", void 0);
+	    SimpleWindowComponent = __decorate([
+	        core_1.Component({
+	            selector: 'app-simple-window',
+	            template: __webpack_require__(137)
+	        }), 
+	        __metadata('design:paramtypes', [src_1.WindowViewService])
+	    ], SimpleWindowComponent);
+	    return SimpleWindowComponent;
+	}());
+	exports.SimpleWindowComponent = SimpleWindowComponent;
+	
+
+/***/ },
+
+/***/ 319:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7759,7 +7879,7 @@ webpackJsonp([1],{
 	    WithoutServiceComponent = __decorate([
 	        core_1.Component({
 	            selector: 'app-without-service',
-	            template: __webpack_require__(140)
+	            template: __webpack_require__(138)
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], WithoutServiceComponent);
@@ -7770,7 +7890,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 318:
+/***/ 320:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7781,26 +7901,26 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 319:
+/***/ 321:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(126));
-	__export(__webpack_require__(320));
+	__export(__webpack_require__(124));
+	__export(__webpack_require__(322));
 	
 
 /***/ },
 
-/***/ 320:
+/***/ 322:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var core_1 = __webpack_require__(5);
 	var _1 = __webpack_require__(28);
-	var confirm_dialog_component_1 = __webpack_require__(126);
+	var confirm_dialog_component_1 = __webpack_require__(124);
 	var WindowViewComponentModule = (function () {
 	    function WindowViewComponentModule() {
 	    }
@@ -7821,44 +7941,6 @@ webpackJsonp([1],{
 	    return WindowViewComponentModule;
 	}());
 	exports.WindowViewComponentModule = WindowViewComponentModule;
-	
-
-/***/ },
-
-/***/ 321:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var core_1 = __webpack_require__(5);
-	var common_1 = __webpack_require__(62);
-	var window_view_service_1 = __webpack_require__(61);
-	var window_view_container_component_1 = __webpack_require__(127);
-	var window_view_outlet_component_1 = __webpack_require__(129);
-	var WindowViewModule = (function () {
-	    function WindowViewModule() {
-	    }
-	    WindowViewModule = __decorate([
-	        core_1.NgModule({
-	            imports: [
-	                common_1.CommonModule
-	            ],
-	            declarations: [
-	                window_view_container_component_1.WindowViewContainerComponent,
-	                window_view_outlet_component_1.WindowViewOutletComponent
-	            ],
-	            exports: [
-	                window_view_container_component_1.WindowViewContainerComponent,
-	                window_view_outlet_component_1.WindowViewOutletComponent
-	            ],
-	            providers: [
-	                window_view_service_1.WindowViewService
-	            ]
-	        }), 
-	        __metadata('design:paramtypes', [])
-	    ], WindowViewModule);
-	    return WindowViewModule;
-	}());
-	exports.WindowViewModule = WindowViewModule;
 	
 
 /***/ }

@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { WindowViewContainerComponent,
          WindowViewService } from '../../../../src';
 
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-simple-window',
   template: require('./simple-window.component.html')
@@ -22,7 +24,16 @@ export class SimpleWindowComponent {
   constructor(private windowView: WindowViewService) {}
 
   openWindow() {
-    this.windowView.pushWindow(SimpleWindowComponent);
+    // this.windowView.pushWindow(SimpleWindowComponent);
+    this.windowView.pushBareDynamicWindow(SimpleWindowComponent, {
+      imports: [FormsModule]
+    }).then( simpleWindow => {
+      simpleWindow.title = this.title;
+      simpleWindow.isFloatingWindow = this.isFloatingWindow;
+      simpleWindow.showBackground = this.showBackground;
+      simpleWindow.windowSize = this.windowSize;
+      simpleWindow.panelClass = this.panelClass;
+    });
   }
 
 }

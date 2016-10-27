@@ -1,6 +1,9 @@
 import { Component, ComponentRef } from '@angular/core';
-import { WindowViewService } from '../../../../src';
+import { WindowViewService,
+         WindowViewContainerComponent } from '../../../../src';
 import { SimpleWindowComponent } from '../simple-window/simple-window.component';
+
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-simple-usage',
@@ -18,12 +21,15 @@ export class SimpleUsageComponent {
   constructor(private windowView: WindowViewService) {}
 
   openWindow() {
-    let simpleWindow: SimpleWindowComponent = this.windowView.pushWindow(SimpleWindowComponent);
-    simpleWindow.title = this.title;
-    simpleWindow.isFloatingWindow = this.isFloatingWindow;
-    simpleWindow.showBackground = this.showBackground;
-    simpleWindow.windowSize = this.windowSize;
-    simpleWindow.panelClass = this.panelClass;
+    this.windowView.pushBareDynamicWindow(SimpleWindowComponent, {
+      imports: [FormsModule]
+    }).then( simpleWindow => {
+      simpleWindow.title = this.title;
+      simpleWindow.isFloatingWindow = this.isFloatingWindow;
+      simpleWindow.showBackground = this.showBackground;
+      simpleWindow.windowSize = this.windowSize;
+      simpleWindow.panelClass = this.panelClass;
+    });
   }
 
 }
