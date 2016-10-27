@@ -3,6 +3,7 @@ import { WindowViewService,
          WindowViewContainerComponent } from '../../../../src';
 import { SimpleWindowComponent } from '../simple-window/simple-window.component';
 import { SimpleWindowModule } from '../simple-window/simple-window.module';
+
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -21,7 +22,10 @@ export class SimpleUsageComponent {
   constructor(private windowView: WindowViewService) {}
 
   openWindow() {
-    this.windowView.pushDynamicWindow(SimpleWindowModule, SimpleWindowComponent).then( simpleWindow => {
+    this.windowView.pushUnwrapDynamicWindow(SimpleWindowComponent, {
+      imports: [FormsModule]
+    }).then( simpleWindow => {
+    // this.windowView.pushDynamicWindow(SimpleWindowModule, SimpleWindowComponent).then( simpleWindow => {
       simpleWindow.title = this.title;
       simpleWindow.isFloatingWindow = this.isFloatingWindow;
       simpleWindow.showBackground = this.showBackground;
