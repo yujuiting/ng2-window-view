@@ -1,8 +1,10 @@
 # ChangeLog
 
-## 0.1.1
+## 0.1.1 (2016-10-27)
 
-- Dynamic compile component.
+- Dynamic compile component. (20c33ec1178234b02c079f73889f21364a41b9a3)
+
+  [Please checkout document](https://github.com/yujuiting/ng2-window-view/blob/master/docs/dynamic-compile.md)
 
 ## 0.1.0 (2016-10-24)
 
