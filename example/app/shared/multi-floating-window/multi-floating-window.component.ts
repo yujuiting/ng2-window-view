@@ -16,7 +16,7 @@ export class MultiFloatingWindowComponent {
   constructor(private windowView: WindowViewService) {}
 
   openWindow() {
-    this.windowView.pushUnwrapDynamicWindow(FloatingWindowComponent).then( simpleWindow => {
+    this.windowView.pushBareDynamicWindow(FloatingWindowComponent).then( simpleWindow => {
       let lastWindow: FloatingWindowComponent = this.windowView.getInstanceAt(this.windowView.length - 2);
       if (lastWindow) {
         let position: { x: number, y: number } = lastWindow.position;

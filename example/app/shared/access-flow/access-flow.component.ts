@@ -18,7 +18,7 @@ export class AccessFlowComponent {
   constructor(private windowView: WindowViewService) {}
 
   openWindow() {
-    this.windowView.pushUnwrapDynamicWindow(CheckedWindowComponent, { imports: [FormsModule, CommonModule] }).then( checkedWindow => {
+    this.windowView.pushBareDynamicWindow(CheckedWindowComponent, { imports: [FormsModule, CommonModule] }).then( checkedWindow => {
       let waitResult: Subscription = checkedWindow.result$.subscribe(
         (username: string) => this.username = username,
         () => delete this.username,

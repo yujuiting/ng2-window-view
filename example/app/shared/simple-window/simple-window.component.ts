@@ -25,7 +25,7 @@ export class SimpleWindowComponent {
 
   openWindow() {
     // this.windowView.pushWindow(SimpleWindowComponent);
-    this.windowView.pushUnwrapDynamicWindow(SimpleWindowComponent, {
+    this.windowView.pushBareDynamicWindow(SimpleWindowComponent, {
       imports: [FormsModule]
     }).then( simpleWindow => {
       simpleWindow.title = this.title;

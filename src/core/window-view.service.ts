@@ -18,7 +18,7 @@ import { WindowViewHasResult } from './window-view-has-result';
 @Injectable()
 export class WindowViewService {
 
-  private cachedComponentFactory: Map<Type<any>, ComponentFactory<any>> = new Map();
+  private cachedComponentFactories: Map<Type<any>, ComponentFactory<any>> = new Map();
 
   private stack: ComponentRef<any>[] = [];
 
@@ -93,17 +93,27 @@ export class WindowViewService {
    * The component type have to registry on entryComponents of module.
    * Or provide component factory directly.
    */
-  pushWindow<T>(componentType: Type<T> | ComponentFactory<T>): T {
+  pushWindow<T>(componentType: Type<T> | ComponentFactory<T>, useCache = false): T {
     if (!this.outlet) {
       throw new Error('[WindowViewService] pushWindow error. Not found window-view-outlet');
     }
 
     let factory: ComponentFactory<T>;
+
     if (componentType instanceof ComponentFactory) {
       factory = componentType;
     } else {
-      factory = this.cfr.resolveComponentFactory(componentType);
+
+      if (useCache) {
+        factory = this.cachedComponentFactories.get(componentType);
+      }
+
+      if (!factory) {
+        factory = this.cfr.resolveComponentFactory(componentType);
+      }
+
     }
+
     let componentRef = this.outlet.createComponent(factory);
     this.add(componentRef);
     return componentRef.instance;
@@ -119,8 +129,8 @@ export class WindowViewService {
    * resolving those problem by caching component factory.
    */
   pushDynamicWindow<T, U>(moduleType: Type<U>, componentType: Type<T>, cached = false): Promise<T> {
-    if (cached && this.cachedComponentFactory.has(componentType)) {
-      return Promise.resolve().then(() => this.pushWindow(this.cachedComponentFactory.get(componentType)));
+    if (cached && this.cachedComponentFactories.has(componentType)) {
+      return Promise.resolve().then(() => this.pushWindow(componentType));
     }
 
     return this.compiler.compileModuleAsync(moduleType).then( moduleFactory => {
@@ -129,7 +139,7 @@ export class WindowViewService {
                              .componentFactoryResolver
                              .resolveComponentFactory(componentType);
       if (cached) {
-        this.cachedComponentFactory.set(componentType, componentFactory);
+        this.cachedComponentFactories.set(componentType, componentFactory);
       }
       return this.pushWindow(componentFactory);
     });
@@ -138,7 +148,7 @@ export class WindowViewService {
   /**
    * 
    */
-  pushUnwrapDynamicWindow<T>(componentType: Type<T>,
+  pushBareDynamicWindow<T>(componentType: Type<T>,
                              options: {
                                id?: string,
                                declarations?: Array<Type<any> | any[]>,
@@ -180,7 +190,7 @@ export class WindowViewService {
   }
 
   clearCache(): void {
-    this.cachedComponentFactory.clear();
+    this.cachedComponentFactories.clear();
   }
 
   private canCloseWindowView(componentRef: ComponentRef<WindowViewCanClose>) {
