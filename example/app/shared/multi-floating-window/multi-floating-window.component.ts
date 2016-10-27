@@ -16,13 +16,14 @@ export class MultiFloatingWindowComponent {
   constructor(private windowView: WindowViewService) {}
 
   openWindow() {
-    let simpleWindow: FloatingWindowComponent = this.windowView.pushWindow(FloatingWindowComponent);
-    let lastWindow: FloatingWindowComponent = this.windowView.getInstanceAt(this.windowView.length - 2);
-    if (lastWindow) {
-      let position: { x: number, y: number } = lastWindow.position;
-      position.x += 400;
-      simpleWindow.position = position;
-    }
+    this.windowView.pushUnwrapDynamicWindow(FloatingWindowComponent).then( simpleWindow => {
+      let lastWindow: FloatingWindowComponent = this.windowView.getInstanceAt(this.windowView.length - 2);
+      if (lastWindow) {
+        let position: { x: number, y: number } = lastWindow.position;
+        position.x += 400;
+        simpleWindow.position = position;
+      }
+    });
   }
 
 }
