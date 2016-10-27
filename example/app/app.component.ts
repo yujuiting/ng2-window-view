@@ -36,6 +36,11 @@ import { WindowViewModule } from 'ng2-window-view';
 @NgModule({
   imports: [
     WindowViewModule
+  ],
+  entryComponents: [
+    // window component have to provide a component factory,
+    // by adding component to \`entryComponents\`.
+    MyWindowComponent
   ]
 })
 export class AppModule {}
