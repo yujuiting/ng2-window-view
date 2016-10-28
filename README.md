@@ -1,4 +1,8 @@
 # ng2-window-view
+
+[![NPM](https://nodei.co/npm/ng2-window-view.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ng2-window-view/)
+[![NPM](https://nodei.co/npm-dl/ng2-window-view.png?months=3&height=3)](https://nodei.co/npm/ng2-window-view/)
+
 [Documentation & Example Here!](https://yujuiting.github.io/ng2-window-view/)
 
 ## Concept
