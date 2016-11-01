@@ -34,7 +34,8 @@
   ],
   "peerDependencies": {
     "@angular/core": "^2.1.0",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "ts-helpers": "^1.1.2"
   },
   "devDependencies": {
     "@angular/common": "^2.1.0",

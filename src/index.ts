@@ -1,3 +1,4 @@
+import 'ts-helpers';
 export * from './core/window-view.service';
 export * from './core/window-view-layer.service';
 export * from './core/window-view-can-close';
