@@ -27,17 +27,17 @@
     "bootstrap"
   ],
   "peerDependencies": {
-    "@angular/core": "^2.1.0",
+    "@angular/core": "^2.4.0",
     "bootstrap": "^3.3.7"
   },
   "devDependencies": {
-    "@angular/common": "^2.1.0",
-    "@angular/compiler": "^2.1.0",
-    "@angular/core": "^2.1.0",
-    "@angular/forms": "^2.1.0",
-    "@angular/http": "^2.1.0",
-    "@angular/platform-browser": "^2.1.0",
-    "@angular/platform-browser-dynamic": "^2.1.0",
+    "@angular/common": "^2.4.0",
+    "@angular/compiler": "^2.4.0",
+    "@angular/core": "^2.4.0",
+    "@angular/forms": "^2.4.0",
+    "@angular/http": "^2.4.0",
+    "@angular/platform-browser": "^2.4.0",
+    "@angular/platform-browser-dynamic": "^2.4.0",
     "@types/jasmine": "^2.5.35",
     "bootstrap": "^3.3.7",
     "codelyzer": "^1.0.0-beta.2",
@@ -50,13 +50,13 @@
     "ng2-webpack-config": "^0.0.5",
     "prismjs": "^1.5.1",
     "reflect-metadata": "^0.1.8",
-    "rxjs": "^5.0.0-rc.1",
+    "rxjs": "^5.0.0",
     "ts-helpers": "^1.1.2",
     "tslint": "^3.15.1",
     "typescript": "^2.0.3",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2",
-    "zone.js": "^0.6.26"
+    "zone.js": "^0.7.2"
   },
   "directories": {
     "example": "example"
