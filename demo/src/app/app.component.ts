@@ -9,8 +9,8 @@ interface ExampleFile {
 
 @Component({
   selector: 'app-root',
-  template: require('./app.component.html'),
-  styles: [require('./app.component.css')]
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title: string = 'ng2-window-view example';
@@ -81,8 +81,8 @@ export class AppModule {}
     this.loadFile('core-api', 'examples/api/core', 'window-view-layer.service.d.ts');
     this.loadFile('core-api', 'examples/api/core', 'window-view-can-close.d.ts');
     this.loadFile('core-api', 'examples/api/core', 'window-view-has-result.d.ts');
-    this.loadFile('core-api', 'examples/api/core/window-view-container', 'window-view-container.component.d.ts');
-    this.loadFile('components-api', 'examples/api/components/confirm-dialog', 'confirm-dialog.component.d.ts');
+    this.loadFile('core-api', 'examples/api/core', 'window-view-container.component.d.ts');
+    this.loadFile('components-api', 'examples/api/components', 'confirm-dialog.component.d.ts');
 
   }
 

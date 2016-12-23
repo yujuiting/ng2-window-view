@@ -1,10 +1,8 @@
 # ChangeLog
 
-## 0.1.2 (2016-11-1)
+## 0.1.2 (2016-12-24)
 
-### Fixed bug
-
-- Require `ts-helpers`.
+- Upgrade Angular to 2.4.*.
 
 ## 0.1.1 (2016-10-27)
 

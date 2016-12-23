@@ -15,34 +15,33 @@
       <nav>
         <ul class="nav nav-pills nav-stacked">
           <li>Documents</li>
-          <li><a href="#import-module">Import module</a></li>
-          <li role="presentation"><a href="https://github.com/yujuiting/ng2-window-view/blob/master/docs/dynamic-compile.md">
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#import-module">Import module</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="https://github.com/yujuiting/ng2-window-view/blob/master/docs/dynamic-compile.md">
             Dynamic compile <span class="glyphicon glyphicon-new-window"></span>
           </a></li>
 
           <hr>
 
           <li>Core Example</li>
-          <li role="presentation"><a href="#simple-usage">Simple Usage</a></li>
-          <li role="presentation"><a href="#without-service">Without Service</a></li>
-          <!--<li role="presentation"><a href="#window-control">Window Control</a></li>-->
-          <li role="presentation"><a href="#access-flow">Access Flow</a></li>
-          <li role="presentation"><a href="#multi-floating-window">Multi Floaing Window</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#simple-usage">Simple Usage</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#without-service">Without Service</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#access-flow">Access Flow</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#multi-floating-window">Multi Floaing Window</a></li>
           <li>Core API</li>
-          <li role="presentation"><a href="#core-api-window-view-service">WindowViewService</a></li>
-          <li role="presentation"><a href="#core-api-window-view-layer-service">WindowViewLayerService</a></li>
-          <li role="presentation"><a href="#core-api-window-view-can-close">WindowViewCanClose</a></li>
-          <li role="presentation"><a href="#core-api-window-view-has-result">WindowViewHasResult</a></li>
-          <li role="presentation"><a href="#core-api-window-view-container">WindowViewContainerComponent</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#core-api-window-view-service">WindowViewService</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#core-api-window-view-layer-service">WindowViewLayerService</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#core-api-window-view-can-close">WindowViewCanClose</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#core-api-window-view-has-result">WindowViewHasResult</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#core-api-window-view-container">WindowViewContainerComponent</a></li>
 
           <hr>
 
           <li>Components Example</li>
-          <li role="presentation"><a href="#confirm-dialog-usage">Confirm Dialog Usage</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#confirm-dialog-usage">Confirm Dialog Usage</a></li>
           <li>Components API</li>
-          <li role="presentation"><a href="#components-api-confirm-dialog">CondirmDialogComponent</a></li>
+          <li role="presentation" class="nav-item"><a class="nav-link" href="#components-api-confirm-dialog">CondirmDialogComponent</a></li>
           <li>Others</li>
-          <li role="presentation"><a href="https://github.com/yujuiting/ng2-window-view">
+          <li role="presentation" class="nav-item"><a class="nav-link" href="https://github.com/yujuiting/ng2-window-view">
             Github <span class="glyphicon glyphicon-new-window"></span>
           </a></li>
         </ul>
@@ -66,9 +65,10 @@
         <h3>Code</h3>
         <ul class="nav nav-tabs">
           <li role="presentation"
-              *ngFor="let filename of fileList('simple-usage')"
-              [class.active]="simpleUsageFilename === filename">
-            <a (click)="simpleUsageFilename = filename">{{ filename }}</a>
+              class="nav-item"
+              *ngFor="let filename of fileList('simple-usage')">
+            <a class="nav-link" (click)="simpleUsageFilename = filename"
+               [class.active]="simpleUsageFilename === filename">{{ filename }}</a>
           </li>
         </ul>
         <pre [class]="'language-' + files['simple-usage'][simpleUsageFilename]?.type"
@@ -84,9 +84,10 @@
         <h3>Code</h3>
         <ul class="nav nav-tabs">
           <li role="presentation"
-              *ngFor="let filename of fileList('without-service')"
-              [class.active]="withoutServiceFilename === filename">
-            <a (click)="withoutServiceFilename = filename">{{ filename }}</a>
+              class="nav-item"
+              *ngFor="let filename of fileList('without-service')">
+            <a class="nav-link" (click)="withoutServiceFilename = filename"
+               [class.active]="withoutServiceFilename === filename">{{ filename }}</a>
           </li>
         </ul>
         <pre [class]="'language-' + files['without-service'][withoutServiceFilename]?.type"
@@ -102,9 +103,10 @@
         <h3>Code</h3>
         <ul class="nav nav-tabs">
           <li role="presentation"
-              *ngFor="let filename of fileList('window-control')"
-              [class.active]="windowControlFilename === filename">
-            <a (click)="windowControlFilename = filename">{{ filename }}</a>
+              class="nav-item"
+              *ngFor="let filename of fileList('window-control')">
+            <a class="nav-link" (click)="windowControlFilename = filename"
+               [class.active]="windowControlFilename === filename">{{ filename }}</a>
           </li>
         </ul>
         <pre [class]="'language-' + files['window-control'][windowControlFilename]?.type"
@@ -120,9 +122,10 @@
         <h3>Code</h3>
         <ul class="nav nav-tabs">
           <li role="presentation"
-              *ngFor="let filename of fileList('access-flow')"
-              [class.active]="accessFlowFilename === filename">
-            <a (click)="accessFlowFilename = filename">{{ filename }}</a>
+              class="nav-item"
+              *ngFor="let filename of fileList('access-flow')">
+            <a class="nav-link" (click)="accessFlowFilename = filename"
+               [class.active]="accessFlowFilename === filename">{{ filename }}</a>
           </li>
         </ul>
         <pre [class]="'language-' + files['access-flow'][accessFlowFilename]?.type"
@@ -138,9 +141,10 @@
         <h3>Code</h3>
         <ul class="nav nav-tabs">
           <li role="presentation"
-              *ngFor="let filename of fileList('multi-floating-window')"
-              [class.active]="MultiFloatingWindowFilename === filename">
-            <a (click)="MultiFloatingWindowFilename = filename">{{ filename }}</a>
+              class="nav-item"
+              *ngFor="let filename of fileList('multi-floating-window')">
+            <a class="nav-link" (click)="MultiFloatingWindowFilename = filename"
+               [class.active]="MultiFloatingWindowFilename === filename">{{ filename }}</a>
           </li>
         </ul>
         <pre [class]="'language-' + files['multi-floating-window']?.type"
@@ -183,9 +187,10 @@
         <h3>Code</h3>
         <ul class="nav nav-tabs">
           <li role="presentation"
-              *ngFor="let filename of fileList('confirm-dialog-usage')"
-              [class.active]="confirmDialogUsageFilename === filename">
-            <a (click)="confirmDialogUsageFilename = filename">{{ filename }}</a>
+              class="nav-item"
+              *ngFor="let filename of fileList('confirm-dialog-usage')">
+            <a class="nav-link" (click)="confirmDialogUsageFilename = filename"
+               [class.active]="confirmDialogUsageFilename === filename">{{ filename }}</a>
           </li>
         </ul>
         <pre [class]="'language-' + files['confirm-dialog-usage']?.type"

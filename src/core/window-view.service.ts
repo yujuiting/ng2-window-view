@@ -149,12 +149,12 @@ export class WindowViewService {
    * 
    */
   pushBareDynamicWindow<T>(componentType: Type<T>,
-                             options: {
-                               id?: string,
-                               declarations?: Array<Type<any> | any[]>,
-                               imports?: Array<Type<any> | ModuleWithProviders | any[]>,
-                               providers?: Provider[]
-                             } = {}): Promise<T> {
+                           options: {
+                             id?: string,
+                             declarations?: Array<Type<any> | any[]>,
+                             imports?: Array<Type<any> | ModuleWithProviders | any[]>,
+                             providers?: Provider[]
+                           } = {}): Promise<T> {
     let moduleMetadataParams = {
       id: options.id,
       declarations: options.declarations || [],

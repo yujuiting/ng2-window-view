@@ -1,0 +1,13 @@
+{
+  "name": "ng2-window-view",
+  "version": "0.1.2",
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "@angular/common": "*",
+    "@angular/compiler": "*",
+    "@angular/core": "*",
+    "@angular/forms": "*",
+    "bootstrap": "*"
+  }
+}
