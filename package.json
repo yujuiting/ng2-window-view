@@ -18,8 +18,12 @@
     "build": "ngm build -p src"
   },
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@angular/common": "^2.3.1",
+    "@angular/core": "^2.3.1"
+  },
   "devDependencies": {
+    "@angular/cli": "^1.0.0-rc.1",
     "@angular/common": "^2.3.1",
     "@angular/compiler": "^2.3.1",
     "@angular/compiler-cli": "^2.3.1",
@@ -32,26 +36,26 @@
     "@types/jasmine": "2.5.38",
     "@types/node": "^6.0.42",
     "@types/prismjs": "^1.4.18",
-    "angular-cli": "1.0.0-beta.24",
     "bootstrap": "^3.3.7",
-    "codelyzer": "~2.0.0-beta.1",
+    "codelyzer": "~2.0.0",
     "core-js": "^2.4.1",
     "cpy": "^5.0.0",
     "del": "^2.2.2",
-    "jasmine-core": "2.5.2",
-    "jasmine-spec-reporter": "2.5.0",
-    "karma": "1.2.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-cli": "^1.0.1",
-    "karma-jasmine": "^1.0.2",
-    "karma-remap-istanbul": "^0.2.1",
+    "jasmine-core": "~2.5.2",
+    "jasmine-spec-reporter": "~3.2.0",
+    "karma": "~1.4.1",
+    "karma-chrome-launcher": "~2.0.0",
+    "karma-cli": "~1.0.1",
+    "karma-coverage-istanbul-reporter": "^0.2.0",
+    "karma-jasmine": "~1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
     "ngm-cli": "^0.3.7",
     "prismjs": "^1.6.0",
     "protractor": "~4.0.13",
-    "rxjs": "^5.0.1",
+    "rxjs": "^5.1.0",
     "ts-node": "1.2.1",
     "tslint": "^4.0.2",
     "typescript": "~2.0.3",
-    "zone.js": "^0.7.2"
+    "zone.js": "^0.7.6"
   }
 }
